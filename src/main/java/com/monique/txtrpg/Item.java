@@ -1,4 +1,4 @@
-package com.txtrpg;
+package com.monique.txtrpg;
 
 public class Item {
     public String name;

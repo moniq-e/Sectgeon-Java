@@ -1,4 +1,4 @@
-package com.txtrpg;
+package com.monique.txtrpg;
 
 public class Tool extends Item {
     public float damage;
