@@ -1,4 +1,5 @@
 package com.monique.txtrpg.entities;
+
 import com.monique.txtrpg.Board;
 
 public class Player extends Entity {
