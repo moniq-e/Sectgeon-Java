@@ -6,7 +6,6 @@ public class Player extends Entity {
     public String name;
 
     public Player(Board board, String name) {
-        super(board, "player", 20);
-        this.name = name;
+        super(board, "player", name, 20, 9);
     }
 }

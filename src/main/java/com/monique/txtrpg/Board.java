@@ -8,17 +8,17 @@ import com.monique.txtrpg.entities.Player;
 */
 public class Board {
     public static Scanner tec = new Scanner(System.in);
-    public Player player;
-    public Cronologia cron = new Cronologia(this);
+    public final Player player;
+    public final Cronologia cron;
 
     public static void main(String[] args) {
-        String name;
-        Board board = new Board();
-
         print("Digite seu nome: ");
-        name = tec.nextLine();
+        new Board(tec.nextLine());
+    }
 
-        board.player = new Player(board, name);
+    Board(String name) {
+        player = new Player(this, name);
+        cron = new Cronologia(this);
     }
 
     public static void print(String txt) {
@@ -26,6 +26,10 @@ public class Board {
     }
 
     public static void print(String txt, Object... args) {
-        System.out.printf(txt, args);
+        System.out.printf(txt + "\n", args);
+    }
+
+    public static void diff() {
+        System.out.println("\n" + "-".repeat(30) + "\n");
     }
 }
