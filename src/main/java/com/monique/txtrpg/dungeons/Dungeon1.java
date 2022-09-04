@@ -12,8 +12,6 @@ public class Dungeon1 extends Dungeon {
     }
 
     public void start() {
-        Board.diff();
-        Board.print("Você entrou na dungeon 1.");
         cron.board.player.pos = new Point(width / 2, 0);
 
         for (int i = 1; i <= 3; i++) {
@@ -22,18 +20,8 @@ public class Dungeon1 extends Dungeon {
             entities.add(mob);
         }
 
-        Board.diff();
-        Board.print("Inimigos:");
         showEnemies();
-
-        Board.diff();
-        Board.print("Batalha");
-        Board.diff();
-
+        
         battleMode();
-
-        Board.diff();
-        Board.print("Você venceu a dungeon 1.");
-        Board.diff();
     }
 }

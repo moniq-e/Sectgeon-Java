@@ -16,7 +16,7 @@ public class Dungeon {
 
     public void showEnemies() {
         for (Entity entity : entities) {
-            Board.print("%s:\n  distância: %.1fm", entity.name, Util.distance(cron.board.player.pos, entity.pos));
+            //Board.print("%s:\n  distância: %.1fm", entity.name, Util.distance(cron.board.player.pos, entity.pos));
         }
     }
 
