@@ -38,7 +38,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     Board() {
         player = new Player(this, "default");
         cron = new Cronologia(this);
-        timer = new Timer(1, this);
+        timer = new Timer(32, this);
         timer.start();
     }
 
