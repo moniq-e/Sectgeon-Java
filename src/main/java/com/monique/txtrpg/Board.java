@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+//import de.gurkenlabs.litiengine.Game;
 
 import com.monique.txtrpg.entities.Entity;
 import com.monique.txtrpg.entities.Player;
@@ -37,6 +38,9 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
         janela.setSize(1280, 720);
         janela.setVisible(true);
         janela.setLocationRelativeTo(null);
+
+        //Game.init(args);
+        //Game.start();
     }
 
     Board() {
