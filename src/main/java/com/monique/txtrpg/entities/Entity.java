@@ -3,6 +3,7 @@ package com.monique.txtrpg.entities;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.awt.Point;
+import java.awt.Graphics;
 import com.monique.txtrpg.Board;
 import com.monique.txtrpg.Item;
 import com.monique.txtrpg.Tool;
@@ -34,5 +35,9 @@ public class Entity {
 
     public void takeDamage(float damage) {
         life -= damage - armor;
+    }
+
+    public void draw(Graphics g) {
+        
     }
 }

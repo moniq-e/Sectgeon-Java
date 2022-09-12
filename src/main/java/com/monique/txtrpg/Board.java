@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+
+import com.monique.txtrpg.entities.Entity;
 import com.monique.txtrpg.entities.Player;
 
 /*
@@ -20,6 +23,7 @@ import com.monique.txtrpg.entities.Player;
 public class Board extends JPanel implements ActionListener, KeyListener, MouseListener {
     public final Player player;
     public final Cronologia cron;
+    public ArrayList<Entity> entities;
     public Timer timer;
 
     public static void main(String[] args) {
@@ -67,7 +71,10 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
         int[] ytampo = { 315, 315, 398, 398 };
         g.fillPolygon(xtampo, ytampo, 4);
 
-        // player.draw(g);
+        for (Entity entity : entities) {
+            entity.draw(g);
+        }
+        player.draw(g);
 
         Toolkit.getDefaultToolkit().sync();
     }
