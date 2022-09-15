@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.awt.Point;
 import java.awt.Graphics;
+
 import com.monique.txtrpg.Board;
 import com.monique.txtrpg.Item;
 import com.monique.txtrpg.Tool;
@@ -17,15 +18,19 @@ public class Entity {
     public float life;
     public float armor;
     public final int walkDistance;
-    public Point pos;
+    public final int width;
+    public final int height;
+    public Point pos = new Point();
     public ArrayList<Item> inventory = new ArrayList<Item>();
 
-    Entity(Board board, String type, String name, float maxLife, int walkDistance) {
+    Entity(Board board, String type, String name, float maxLife, int walkDistance, int width, int height) {
         this.board = board;
         this.type = type;
         this.name = name;
         this.maxLife = maxLife;
         this.walkDistance = walkDistance;
+        this.width = width;
+        this.height = height;
         this.life = maxLife;
     }
 
@@ -37,7 +42,5 @@ public class Entity {
         life -= damage - armor;
     }
 
-    public void draw(Graphics g) {
-        
-    }
+    public void draw(Graphics g) { }
 }

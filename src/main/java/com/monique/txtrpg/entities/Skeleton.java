@@ -1,10 +1,21 @@
 package com.monique.txtrpg.entities;
 
-import com.monique.txtrpg.Board;
+import java.awt.Color;
+import java.awt.Graphics;
+
+import com.monique.txtrpg.*;
 
 public class Skeleton extends Entity {
 
     public Skeleton(Board board, String name) {
-        super(board, "skeleton", name, 10, 9);
+        super(board, "skeleton", name, 10, 10, 35, 35);
+
+        pos.move(Util.random(0, board.width - width), Util.random(0, board.height - height));
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        g.setColor(Color.yellow);
+        g.fillOval(pos.x, pos.y, width, height);
     }
 }

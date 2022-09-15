@@ -13,8 +13,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.util.ArrayList;
-//import de.gurkenlabs.litiengine.Game;
 
+import com.monique.txtrpg.dungeons.*;
 import com.monique.txtrpg.entities.Entity;
 import com.monique.txtrpg.entities.Player;
 
@@ -22,32 +22,32 @@ import com.monique.txtrpg.entities.Player;
     main class, onde o jogo vai rodar
 */
 public class Board extends JPanel implements ActionListener, KeyListener, MouseListener {
-    public final Player player;
-    public final Cronologia cron;
-    public ArrayList<Entity> entities;
+    public final int width = 1280;
+    public final int height = 720;
+    public final Player player = new Player(this, "default");
+    public ArrayList<Entity> entities = new ArrayList<Entity>();
     public Timer timer;
 
     public static void main(String[] args) {
-        JFrame janela = new JFrame("TXTRPG");
-        Board board = new Board();
+        new Board(new JFrame("TXTRPG"));
+    }
 
-        janela.add(board);
-        janela.addKeyListener(board);
+    Board(JFrame janela) {
+        janela.add(this);
+        janela.addKeyListener(this);
 
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        janela.setSize(1280, 720);
+        janela.setSize(width, height);
         janela.setVisible(true);
         janela.setLocationRelativeTo(null);
 
-        //Game.init(args);
-        //Game.start();
-    }
-
-    Board() {
-        player = new Player(this, "default");
-        cron = new Cronologia(this);
         timer = new Timer(33, this);
         timer.start();
+        cronologia();
+    }
+
+    public void cronologia() {
+        new Dungeon1(this);
     }
 
     @Override
@@ -65,18 +65,11 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
         // muda o background
         setBackground(Color.decode("#aeebe0"));
-        // desenha a janela
-        g.setColor(Color.decode("#2ebee6"));
-        g.fillRect(112, 112, 150, 150);
 
-        // desenha o tampo da mesa
-        g.setColor(Color.blue);
-        int[] xtampo = { 240, 620, 713, 150 };
-        int[] ytampo = { 315, 315, 398, 398 };
-        g.fillPolygon(xtampo, ytampo, 4);
-
-        for (Entity entity : entities) {
-            entity.draw(g);
+        if (entities.size() > 0) {
+            for (Entity entity : entities) {
+                entity.draw(g);
+            }
         }
         player.draw(g);
 
@@ -102,12 +95,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     // not using yet
     @Override
     public void keyPressed(KeyEvent e) {
-        // react to key down events
-        switch (e.getKeyChar()) {
-            default:
-                System.out.println(e.getKeyChar());
-                break;
-        }
+        player.move(e);
     }
     @Override
     public void keyTyped(KeyEvent e) {
