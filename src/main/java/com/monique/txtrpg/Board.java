@@ -29,7 +29,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     public Timer timer;
 
     public static void main(String[] args) {
-        new Board(new JFrame("TXTRPG"));
+        new Board(new JFrame("Terror"));
     }
 
     Board(JFrame janela) {
