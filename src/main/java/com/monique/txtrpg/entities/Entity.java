@@ -5,9 +5,8 @@ import java.util.UUID;
 import java.awt.Point;
 import java.awt.Graphics;
 
-import com.monique.txtrpg.Board;
+import com.monique.txtrpg.*;
 import com.monique.txtrpg.items.Item;
-import com.monique.txtrpg.items.Tool;
 
 public class Entity {
     public Board board;
@@ -34,8 +33,9 @@ public class Entity {
         this.life = maxLife;
     }
 
-    public void attack(Entity target, Tool tool) {
-        target.takeDamage(tool.damage);
+    public void attack(Entity target, Item item) {
+        if (item.type != "tool") return;
+        target.takeDamage(Util.d(item.dice));
     }
 
     public void takeDamage(float damage) {

@@ -15,6 +15,7 @@ public class Dungeon1 extends Dungeon {
             Skeleton mob = new Skeleton(this.board, "Esqueleto" + i);
             board.entities.add(mob);
         }
+        
         battleMode();
     }
 }

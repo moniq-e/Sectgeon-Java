@@ -1,6 +1,5 @@
 package com.monique.txtrpg.dungeons;
 
-import java.util.ArrayList;
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.entities.Entity;
 
@@ -20,6 +19,8 @@ public class Dungeon {
                 for (Entity entity : board.entities) {
                     if (Util.collides(entity, board.player.lastClick)) {
                         board.player.attack(entity, board.player.inventory.get(0));
+                        System.out.println(entity.life);
+                        board.player.lastClick.move(0, 0);
                     }
                 }
             } else {

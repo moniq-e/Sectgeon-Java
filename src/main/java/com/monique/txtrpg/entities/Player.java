@@ -11,19 +11,14 @@ import com.monique.txtrpg.items.*;
 
 public class Player extends Entity {
     public boolean canMove;
-    public Point lastClick;
+    public Point lastClick = new Point();
     public ArrayList<Item> inventory = new ArrayList<Item>(9);
 
     public Player(Board board, String name) {
         super(board, "player", name, 20, 10, 50, 50);
         this.canMove = false;
         
-        try {
-            inventory.add(new Sword());
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        
+        inventory.add(new Sword());
         pos.move(board.width / 2, board.height - height);
     }
 

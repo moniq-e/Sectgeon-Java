@@ -35,6 +35,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     Board(JFrame janela) {
         janela.add(this);
         janela.addKeyListener(this);
+        janela.addMouseListener(this);
 
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setSize(width, height);
@@ -43,6 +44,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
         timer = new Timer(33, this);
         timer.start();
+
         cronologia();
     }
 
@@ -68,7 +70,9 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
         if (entities.size() > 0) {
             for (Entity entity : entities) {
-                entity.draw(g);
+                if (entity.life <= 0) {
+                    entities.remove(entity);
+                } else entity.draw(g);
             }
         }
         player.draw(g);
