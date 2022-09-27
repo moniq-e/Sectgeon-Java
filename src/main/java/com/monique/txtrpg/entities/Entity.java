@@ -6,8 +6,8 @@ import java.awt.Point;
 import java.awt.Graphics;
 
 import com.monique.txtrpg.Board;
-import com.monique.txtrpg.Item;
-import com.monique.txtrpg.Tool;
+import com.monique.txtrpg.items.Item;
+import com.monique.txtrpg.items.Tool;
 
 public class Entity {
     public Board board;

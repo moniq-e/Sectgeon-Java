@@ -3,18 +3,32 @@ package com.monique.txtrpg.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.awt.Point;
 
-import com.monique.txtrpg.Board;
+import com.monique.txtrpg.*;
+import com.monique.txtrpg.items.*;
 
 public class Player extends Entity {
-    public String name;
+    public boolean canMove;
+    public Point lastClick;
+    public ArrayList<Item> inventory = new ArrayList<Item>(9);
 
     public Player(Board board, String name) {
         super(board, "player", name, 20, 10, 50, 50);
+        this.canMove = false;
+        
+        try {
+            inventory.add(new Sword());
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        
         pos.move(board.width / 2, board.height - height);
     }
 
     public void move(KeyEvent e) {
+        if (!canMove) return;
         switch (e.getKeyChar()) {
             case 'w':
                 pos.move(pos.x, pos.y -= walkDistance);

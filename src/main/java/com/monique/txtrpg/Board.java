@@ -29,7 +29,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     public Timer timer;
 
     public static void main(String[] args) {
-        new Board(new JFrame("Terror"));
+        new Board(new JFrame("TXTRPG"));
     }
 
     Board(JFrame janela) {
@@ -78,6 +78,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        player.lastClick = e.getPoint();
     }
     @Override
     public void mouseReleased(MouseEvent e) {

@@ -13,11 +13,8 @@ public class Dungeon1 extends Dungeon {
     public void start() {
         for (int i = 1; i <= 3; i++) {
             Skeleton mob = new Skeleton(this.board, "Esqueleto" + i);
-            entities.add(mob);
+            board.entities.add(mob);
         }
-
-        showEnemies();
-        
         battleMode();
     }
 }

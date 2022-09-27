@@ -6,24 +6,24 @@ import com.monique.txtrpg.entities.Entity;
 
 public class Dungeon {
     public Board board;
-    public ArrayList<Entity> entities = new ArrayList<Entity>();
 
     Dungeon(Board board) {
         this.board = board;
     }
 
-    public void showEnemies() {
-        board.entities = entities;
-    }
-
     public void battleMode() {
         boolean playerTurn = true;
         
-        while(entities.size() > 0) {
+        while(board.entities.size() > 0) {
             if (playerTurn) {
-
+                board.player.canMove = true;
+                for (Entity entity : board.entities) {
+                    if (Util.collides(entity, board.player.lastClick)) {
+                        board.player.attack(entity, board.player.inventory.get(0));
+                    }
+                }
             } else {
-
+                board.player.canMove = false;
             }
         }
     }

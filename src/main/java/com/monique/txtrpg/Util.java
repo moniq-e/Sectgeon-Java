@@ -2,9 +2,17 @@ package com.monique.txtrpg;
 
 import java.awt.Point;
 
+import com.monique.txtrpg.entities.Entity;
+
 public class Util {
     public static double distance(Point a, Point b) {
         return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+    }
+
+    public static boolean collides(Entity ent1, Point ent2) {
+        boolean colliding = false;
+        if (distance(ent1.pos, ent2) < ent1.width / 2) colliding = true;
+        return colliding;
     }
 
     public static double random(float min, float max) {
