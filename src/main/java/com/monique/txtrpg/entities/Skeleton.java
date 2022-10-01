@@ -10,12 +10,12 @@ public class Skeleton extends Entity {
     public Skeleton(Board board, String name) {
         super(board, "skeleton", name, 10, 10, 35, 35);
 
-        pos.move(Util.random(0, board.width - width), Util.random(0, board.height - height));
+        setPos(Util.random(0, board.width - width), Util.random(0, board.height - height));
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.yellow);
-        g.fillOval(pos.x, pos.y, width, height);
+        g.fillOval(getPos().x, getPos().y, width, height);
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.awt.Point;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.items.Item;
@@ -14,13 +15,15 @@ public class Entity {
     public final String type;
     public final String name;
     public final float maxLife;
-    public float life;
-    public float armor;
     public final int walkDistance;
     public final int width;
     public final int height;
-    public Point pos = new Point();
     public ArrayList<Item> inventory = new ArrayList<Item>();
+
+    private float life;
+    private float armor;
+    private Point pos = new Point();
+    private Rectangle rect;
 
     Entity(Board board, String type, String name, float maxLife, int walkDistance, int width, int height) {
         this.board = board;
@@ -30,6 +33,7 @@ public class Entity {
         this.walkDistance = walkDistance;
         this.width = width;
         this.height = height;
+        this.rect = new Rectangle(0, 0, width, height);
         this.life = maxLife;
     }
 
@@ -43,4 +47,24 @@ public class Entity {
     }
 
     public void draw(Graphics g) { }
+    
+    //getters
+    public float getLife() {
+        return life;
+    }
+    public float getArmor() {
+        return armor;
+    }
+    public Point getPos() {
+        return (Point) pos.clone();
+    }
+    public Rectangle getRect() {
+        return (Rectangle) rect.clone();
+    }
+
+    //setters
+    public void setPos(int x, int y) {
+        this.pos.move(x, y);
+        this.rect.setLocation(x, y);
+    }
 }

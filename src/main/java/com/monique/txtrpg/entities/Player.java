@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.awt.Point;
+import java.awt.Rectangle;
 
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.items.*;
 
 public class Player extends Entity {
     public boolean canMove;
-    public Point lastClick = new Point();
+    public Rectangle lastClick = new Rectangle(0, 0, 1, 1);
     public ArrayList<Item> inventory = new ArrayList<Item>(9);
 
     public Player(Board board, String name) {
@@ -19,23 +19,27 @@ public class Player extends Entity {
         this.canMove = false;
         
         inventory.add(new Sword());
-        pos.move(board.width / 2, board.height - height);
+        setPos(board.width / 2, board.height - height);
     }
 
     public void move(KeyEvent e) {
         if (!canMove) return;
         switch (e.getKeyChar()) {
             case 'w':
-                pos.move(pos.x, pos.y -= walkDistance);
+                if (getPos().y <= 0) return;
+                setPos(getPos().x, getPos().y -= walkDistance);
                 break;
             case 's':
-                pos.move(pos.x, pos.y += walkDistance);
+                if (getPos().y >= board.height - height) return;
+                setPos(getPos().x, getPos().y += walkDistance);
                 break;
             case 'a':
-                pos.move(pos.x -= walkDistance, pos.y);
+                if (getPos().x <= 0) return;
+                setPos(getPos().x -= walkDistance, getPos().y);
                 break;
             case 'd':
-                pos.move(pos.x += walkDistance, pos.y);
+                if (getPos().x >= board.width - width) return;
+                setPos(getPos().x += walkDistance, getPos().y);
                 break;
             default:
                 System.out.println(e.getKeyChar());
@@ -46,6 +50,6 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.decode("#2ebee6"));
-        g.fillRect(pos.x, pos.y, width, height);
+        g.fillRect(getPos().x, getPos().y, width, height);
     }
 }

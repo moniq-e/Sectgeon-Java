@@ -12,20 +12,22 @@ public class Dungeon {
 
     public void battleMode() {
         boolean playerTurn = true;
-        
-        while(board.entities.size() > 0) {
-            if (playerTurn) {
-                board.player.canMove = true;
-                for (Entity entity : board.entities) {
-                    if (Util.collides(entity, board.player.lastClick)) {
-                        board.player.attack(entity, board.player.inventory.get(0));
-                        System.out.println(entity.life);
-                        board.player.lastClick.move(0, 0);
-                    }
+        if (board.entities.size() <= 0) return;
+
+        if (playerTurn) {
+            board.player.canMove = true;
+
+            for (Entity entity : board.entities) {
+                if (Util.collides(entity.getRect(), board.player.lastClick)) {
+                    board.player.attack(entity, board.player.inventory.get(0));
+                    System.out.println(entity.getLife());
+                    board.player.lastClick.setLocation(0, 0);
+
+                    if (entity.getLife() <= 0) board.entities.remove(entity); break;
                 }
-            } else {
-                board.player.canMove = false;
             }
+        } else {
+            board.player.canMove = false;
         }
     }
 }

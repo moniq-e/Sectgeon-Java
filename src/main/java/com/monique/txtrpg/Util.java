@@ -1,17 +1,16 @@
 package com.monique.txtrpg;
 
 import java.awt.Point;
-
-import com.monique.txtrpg.entities.Entity;
+import java.awt.Rectangle;
 
 public class Util {
     public static double distance(Point a, Point b) {
         return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
     }
 
-    public static boolean collides(Entity ent1, Point ent2) {
+    public static boolean collides(Rectangle ent1, Rectangle ent2) {
         boolean colliding = false;
-        if (distance(ent1.pos, ent2) < ent1.width) colliding = true;
+        if (ent1.getLocation().distance(ent2.getLocation()) < ent1.width / 2) colliding = true;
         return colliding;
     }
 

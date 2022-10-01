@@ -15,16 +15,16 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import com.monique.txtrpg.dungeons.*;
-import com.monique.txtrpg.entities.Entity;
-import com.monique.txtrpg.entities.Player;
+import com.monique.txtrpg.entities.*;
 
 /*
     main class, onde o jogo vai rodar
 */
 public class Board extends JPanel implements ActionListener, KeyListener, MouseListener {
-    public final int width = 1280;
-    public final int height = 720;
+    public final int width = 640;
+    public final int height = 480;
     public final Player player = new Player(this, "default");
+    public Dungeon actualDungeon;
     public ArrayList<Entity> entities = new ArrayList<Entity>();
     public Timer timer;
 
@@ -49,7 +49,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     }
 
     public void cronologia() {
-        new Dungeon1(this);
+        actualDungeon = new Dungeon1(this);
     }
 
     @Override
@@ -58,7 +58,8 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
         // use this space to update the state of your game or animation
         // before the graphics are redrawn.
 
-        // player.tick();
+        if (actualDungeon != null) actualDungeon.battleMode();
+
         repaint();
     }
 
@@ -70,9 +71,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
         if (entities.size() > 0) {
             for (Entity entity : entities) {
-                if (entity.life <= 0) {
-                    entities.remove(entity);
-                } else entity.draw(g);
+                entity.draw(g);
             }
         }
         player.draw(g);
@@ -82,7 +81,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        player.lastClick = e.getPoint();
+        player.lastClick.setLocation(e.getPoint());
     }
     @Override
     public void mouseReleased(MouseEvent e) {
