@@ -20,14 +20,21 @@ public class Dungeon {
             for (Entity entity : board.entities) {
                 if (Util.collides(entity.getRect(), board.player.lastClick)) {
                     board.player.attack(entity, board.player.inventory.get(0));
-                    System.out.println(entity.getLife());
                     board.player.lastClick.setLocation(0, 0);
+
+                    playerTurn = false;
 
                     if (entity.getLife() <= 0) board.entities.remove(entity); break;
                 }
             }
         } else {
             board.player.canMove = false;
+
+            for (Entity entity : board.entities) {
+                entity.ai();
+            }
+
+            playerTurn = true;
         }
     }
 }

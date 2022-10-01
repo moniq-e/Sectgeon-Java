@@ -52,4 +52,7 @@ public class Player extends Entity {
         g.setColor(Color.decode("#2ebee6"));
         g.fillRect(getPos().x, getPos().y, width, height);
     }
+
+    @Override
+    public void ai() { }
 }
