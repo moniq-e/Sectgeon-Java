@@ -10,7 +10,7 @@ public class Util {
 
     public static boolean collides(Rectangle ent1, Rectangle ent2) {
         boolean colliding = false;
-        if (ent1.getLocation().distance(ent2.getLocation()) < ent1.width / 2) colliding = true;
+        if (ent1.intersects(ent2)) colliding = true;
         return colliding;
     }
 
