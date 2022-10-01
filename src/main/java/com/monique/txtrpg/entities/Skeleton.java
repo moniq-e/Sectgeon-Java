@@ -16,6 +16,6 @@ public class Skeleton extends Entity {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.yellow);
-        g.fillOval(getPos().x, getPos().y, width, height);
+        g.fillOval(getPos().x, getPos().y - height, width, height);
     }
 }
