@@ -21,18 +21,21 @@ import com.monique.txtrpg.entities.*;
     main class, onde o jogo vai rodar
 */
 public class Board extends JPanel implements ActionListener, KeyListener, MouseListener {
+    public JFrame janela;
     public final int width = 640;
     public final int height = 480;
     public final Player player = new Player(this, "default");
     public Dungeon actualDungeon;
     public ArrayList<Entity> entities = new ArrayList<Entity>();
-    public Timer timer;
+    public Timer timer = new Timer(33, this);
 
     public static void main(String[] args) {
         new Board(new JFrame("TXTRPG"));
     }
 
     Board(JFrame janela) {
+        this.janela = janela;
+
         janela.add(this);
         janela.addKeyListener(this);
         janela.addMouseListener(this);
@@ -42,7 +45,6 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
         janela.setVisible(true);
         janela.setLocationRelativeTo(null);
 
-        timer = new Timer(33, this);
         timer.start();
 
         cronologia();
@@ -57,7 +59,11 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
         // this method is called by the timer every DELAY ms.
         // use this space to update the state of your game or animation
         // before the graphics are redrawn.
-
+        
+        if (player.getLife() <= 0) {
+            janela.dispose();
+            timer.stop();
+        }
         if (actualDungeon != null) actualDungeon.battleMode();
 
         repaint();
@@ -82,24 +88,34 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     public void mouseClicked(MouseEvent e) {
         player.lastClick.setLocation(e.getPoint());
     }
+
     @Override
-    public void mouseReleased(MouseEvent e) { }
+    public void mouseReleased(MouseEvent e) {
+    }
+
     @Override
-    public void mousePressed(MouseEvent e) { }
+    public void mousePressed(MouseEvent e) {
+    }
+
     @Override
-    public void mouseEntered(MouseEvent e) { }
+    public void mouseEntered(MouseEvent e) {
+    }
+
     @Override
-    public void mouseExited(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) {
+    }
 
     // not using yet
     @Override
     public void keyPressed(KeyEvent e) {
         player.move(e);
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
         // this is not used but must be defined as part of the KeyListener interface
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
         // react to key up events
