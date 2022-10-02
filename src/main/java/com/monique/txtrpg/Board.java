@@ -66,7 +66,6 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // muda o background
         setBackground(Color.decode("#aeebe0"));
 
         if (entities.size() > 0) {
@@ -84,17 +83,13 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
         player.lastClick.setLocation(e.getPoint());
     }
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) { }
     @Override
-    public void mousePressed(MouseEvent e) {
-    }
+    public void mousePressed(MouseEvent e) { }
     @Override
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) { }
     @Override
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseExited(MouseEvent e) { }
 
     // not using yet
     @Override

@@ -8,7 +8,7 @@ import com.monique.txtrpg.*;
 public class Skeleton extends Entity {
 
     public Skeleton(Board board) {
-        super(board, "skeleton", 10, 10, 35, 35);
+        super(board, "skeleton", 10, 100, 35, 35);
 
         setPos(Util.random(0, board.width - width), Util.random(0, board.height - height));
     }
@@ -21,5 +21,9 @@ public class Skeleton extends Entity {
 
     @Override
     public void ai() {
+        followPlayer();
+        if (playerColliding()) {
+            attack(board.player, inventory.get(0));
+        }
     }
 }

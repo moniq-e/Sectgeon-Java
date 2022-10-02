@@ -5,13 +5,13 @@ import com.monique.txtrpg.entities.Entity;
 
 public class Dungeon {
     public Board board;
+    private boolean playerTurn = true;
 
     Dungeon(Board board) {
         this.board = board;
     }
 
     public void battleMode() {
-        boolean playerTurn = true;
         if (board.entities.size() <= 0) return;
 
         if (playerTurn) {

@@ -77,6 +77,22 @@ public abstract class Entity {
         life -= damage - armor;
     }
 
+    public void followPlayer() {
+        if (!Util.collides(board.player.getRect(), getRect())) {
+            double disObj = Util.distance(getPos(), board.player.getPos());
+
+            double pos = walkDistance / disObj;
+            int x = (int) (getPos().x - pos * (getPos().x - board.player.getPos().x));
+            int y = (int) (getPos().y - pos * (getPos().y - board.player.getPos().y));
+
+            setPos(x, y); 
+        }
+    }
+
+    public boolean playerColliding() {
+        return Util.collides(board.player.getRect(), getRect());
+    }
+
     //abstracts
     public abstract void draw(Graphics g);
     public abstract void ai();
