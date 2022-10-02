@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.monique.txtrpg.*;
+import com.monique.txtrpg.items.*;
 
 public class Skeleton extends Entity {
 
     public Skeleton(Board board) {
         super(board, "skeleton", 10, 100, 35, 35);
 
+        inventory.add(new Sword());
         setPos(Util.random(0, board.width - width), Util.random(0, board.height - height));
     }
 
