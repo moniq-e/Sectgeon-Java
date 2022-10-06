@@ -3,7 +3,6 @@ package com.monique.txtrpg;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
-import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 
@@ -21,13 +20,6 @@ public abstract class Board extends JPanel {
         this.janela = janela;
         this.player = new Player(this, "default");
     }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        paint(g);
-    }
-
-    public abstract void paint(Graphics g);
 
     //called by janela.listener events:
     public void mouseClicked(MouseEvent e) {

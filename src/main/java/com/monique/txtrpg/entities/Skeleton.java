@@ -8,6 +8,10 @@ import com.monique.txtrpg.items.*;
 
 public class Skeleton extends Entity {
 
+    /**
+     * Create a new Skeleton and adds it to the dungeon.board.entities
+     * @param board
+     */
     public Skeleton(Board board) {
         super(board, "skeleton", 10, 100, 35, 35);
 

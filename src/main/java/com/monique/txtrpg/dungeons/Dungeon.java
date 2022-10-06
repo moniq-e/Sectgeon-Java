@@ -19,10 +19,8 @@ public abstract class Dungeon extends Board {
 
     public void battleMode() {
         if (this.entities.size() <= 0) return;
-
         if (playerTurn) {
             this.player.canMove = true;
-
             for (Entity entity : this.entities) {
                 if (Util.collides(entity.getRect(), this.player.lastClick)) {
                     this.player.attack(entity, this.player.inventory.get(0));
@@ -44,8 +42,8 @@ public abstract class Dungeon extends Board {
         }
     }
 
-    @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         setBackground(Color.decode("#aeebe0"));
 
         if (entities.size() > 0) {
@@ -56,7 +54,6 @@ public abstract class Dungeon extends Board {
         player.draw(g);
 
         Toolkit.getDefaultToolkit().sync();
-        System.out.println("perf");
     }
 
     @Override
@@ -74,6 +71,9 @@ public abstract class Dungeon extends Board {
             janela.timer.stop();
         }
 
+        battleMode();
+
+        revalidate();
         repaint();
     }
 
