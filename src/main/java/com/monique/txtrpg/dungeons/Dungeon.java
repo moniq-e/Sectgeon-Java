@@ -1,40 +1,86 @@
 package com.monique.txtrpg.dungeons;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.entities.Entity;
 
-public class Dungeon {
-    public Board board;
+public abstract class Dungeon extends Board {
+    private boolean started = false;
     private boolean playerTurn = true;
 
-    Dungeon(Board board) {
-        this.board = board;
+    Dungeon(Frame janela) {
+        super(janela);
     }
 
     public void battleMode() {
-        if (board.entities.size() <= 0) return;
+        if (this.entities.size() <= 0) return;
 
         if (playerTurn) {
-            board.player.canMove = true;
+            this.player.canMove = true;
 
-            for (Entity entity : board.entities) {
-                if (Util.collides(entity.getRect(), board.player.lastClick)) {
-                    board.player.attack(entity, board.player.inventory.get(0));
-                    board.player.lastClick.setLocation(0, 0);
+            for (Entity entity : this.entities) {
+                if (Util.collides(entity.getRect(), this.player.lastClick)) {
+                    this.player.attack(entity, this.player.inventory.get(0));
+                    this.player.lastClick.setLocation(0, 0);
 
                     playerTurn = false;
 
-                    if (entity.getLife() <= 0) board.entities.remove(entity); break;
+                    if (entity.getLife() <= 0) this.entities.remove(entity); break;
                 }
             }
         } else {
-            board.player.canMove = false;
+            this.player.canMove = false;
 
-            for (Entity entity : board.entities) {
+            for (Entity entity : this.entities) {
                 entity.ai();
             }
 
             playerTurn = true;
         }
     }
+
+    @Override
+    public void paint(Graphics g) {
+        setBackground(Color.decode("#aeebe0"));
+
+        if (entities.size() > 0) {
+            for (Entity entity : entities) {
+                entity.draw(g);
+            }
+        }
+        player.draw(g);
+
+        Toolkit.getDefaultToolkit().sync();
+        System.out.println("perf");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // this method is called by the timer every DELAY ms.
+        // use this space to update the state of your game or animation
+        // before the graphics are redrawn.
+        if (!started) {
+            started = true;
+            this.start();
+        }
+        
+        if (player.getLife() <= 0) {
+            janela.dispose();
+            janela.timer.stop();
+        }
+
+        repaint();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        player.move(e);
+    }
+
+    public abstract void start();
 }

@@ -11,8 +11,9 @@ public class Skeleton extends Entity {
     public Skeleton(Board board) {
         super(board, "skeleton", 10, 100, 35, 35);
 
+        board.entities.add(this);
         inventory.add(new Sword());
-        setPos(Util.random(0, board.width - width), Util.random(0, board.height - height));
+        setPos(Util.random(0, board.janela.width - width), Util.random(0, board.janela.height - height));
     }
 
     @Override

@@ -16,54 +16,46 @@ public class Listener implements ActionListener, KeyListener, MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        janela.board.actionPerformed(e);
+        if (janela.board != null) janela.board.actionPerformed(e);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (janela.board != null) janela.board.keyPressed(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
+        if (janela.board != null) janela.board.mouseClicked(e);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        
     }
 }

@@ -5,15 +5,14 @@ import com.monique.txtrpg.entities.Skeleton;
 
 public class Dungeon1 extends Dungeon {
 
-    public Dungeon1(Board board) {
-        super(board);
-        start();
+    public Dungeon1(Frame janela) {
+        super(janela);
     }
 
+    @Override
     public void start() {
         for (int i = 1; i <= 3; i++) {
-            Skeleton mob = new Skeleton(this.board);
-            board.entities.add(mob);
+            new Skeleton(this.janela.board);
         }
     }
 }
