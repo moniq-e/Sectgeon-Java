@@ -8,25 +8,25 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class Listener implements ActionListener, KeyListener, MouseListener {
-    Frame janela;
+    Frame frame;
 
-    Listener(Frame janela) {
-        this.janela = janela;
+    Listener(Frame frame) {
+        this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (janela.board != null) janela.board.actionPerformed(e);
+        if (frame.board != null) frame.board.actionPerformed(e);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (janela.board != null) janela.board.keyPressed(e);
+        if (frame.board != null) frame.board.keyPressed(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (janela.board != null) janela.board.mouseClicked(e);
+        if (frame.board != null) frame.board.mouseClicked(e);
     }
 
     @Override

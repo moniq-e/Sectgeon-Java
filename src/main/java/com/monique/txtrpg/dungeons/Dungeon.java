@@ -13,8 +13,8 @@ public abstract class Dungeon extends Board {
     private boolean started = false;
     private boolean playerTurn = true;
 
-    Dungeon(Frame janela) {
-        super(janela);
+    Dungeon(Frame frame) {
+        super(frame);
     }
 
     public void battleMode() {
@@ -67,8 +67,8 @@ public abstract class Dungeon extends Board {
         }
         
         if (player.getLife() <= 0) {
-            janela.dispose();
-            janela.timer.stop();
+            frame.dispose();
+            frame.timer.stop();
         }
 
         battleMode();

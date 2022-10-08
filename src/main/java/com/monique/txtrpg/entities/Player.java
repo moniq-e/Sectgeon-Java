@@ -19,7 +19,7 @@ public class Player extends Entity {
         this.canMove = false;
         
         inventory.add(new Sword());
-        setPos(board.janela.width / 2, board.janela.height - height);
+        setPos(board.frame.width / 2, board.frame.height - height);
     }
 
     public void move(KeyEvent e) {
@@ -30,7 +30,7 @@ public class Player extends Entity {
                 setPos(getPos().x, getPos().y -= walkDistance);
                 break;
             case 's':
-                if (getPos().y >= board.janela.height - height) return;
+                if (getPos().y >= board.frame.height - height) return;
                 setPos(getPos().x, getPos().y += walkDistance);
                 break;
             case 'a':
@@ -38,7 +38,7 @@ public class Player extends Entity {
                 setPos(getPos().x -= walkDistance, getPos().y);
                 break;
             case 'd':
-                if (getPos().x >= board.janela.width - width) return;
+                if (getPos().x >= board.frame.width - width) return;
                 setPos(getPos().x += walkDistance, getPos().y);
                 break;
             default:

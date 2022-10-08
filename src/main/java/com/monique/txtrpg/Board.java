@@ -12,16 +12,16 @@ import com.monique.txtrpg.entities.*;
     main class, onde o jogo vai rodar
 */
 public abstract class Board extends JPanel {
-    public Frame janela;
+    public Frame frame;
     public final Player player;
     public ArrayList<Entity> entities = new ArrayList<Entity>();
 
-    public Board(Frame janela) {
-        this.janela = janela;
+    public Board(Frame frame) {
+        this.frame = frame;
         this.player = new Player(this, "default");
     }
 
-    //called by janela.listener events:
+    //called by frame.listener events:
     public void mouseClicked(MouseEvent e) {
         player.lastClick.setLocation(e.getPoint());
     }
