@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.entities.Entity;
@@ -12,6 +13,7 @@ import com.monique.txtrpg.entities.Entity;
 public abstract class Dungeon extends Board {
     private boolean started = false;
     private boolean playerTurn = true;
+    public ArrayList<Entity> entities = new ArrayList<Entity>();
 
     Dungeon(Frame frame) {
         super(frame);

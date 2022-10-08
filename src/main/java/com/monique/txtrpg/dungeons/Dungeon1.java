@@ -12,7 +12,7 @@ public class Dungeon1 extends Dungeon {
     @Override
     public void start() {
         for (int i = 1; i <= 3; i++) {
-            new Skeleton(this.frame.board);
+            new Skeleton(this);
         }
     }
 }

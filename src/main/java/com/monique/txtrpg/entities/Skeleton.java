@@ -4,20 +4,21 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.monique.txtrpg.*;
+import com.monique.txtrpg.dungeons.*;
 import com.monique.txtrpg.items.*;
 
 public class Skeleton extends Entity {
 
     /**
      * Create a new Skeleton and adds it to the dungeon.board.entities
-     * @param board
+     * @param dungeon
      */
-    public Skeleton(Board board) {
-        super(board, "skeleton", 10, 100, 35, 35);
+    public Skeleton(Dungeon dungeon) {
+        super(dungeon, "skeleton", 10, 100, 35, 35);
 
-        board.entities.add(this);
+        dungeon.entities.add(this);
         inventory.add(new Sword());
-        setPos(Util.random(0, board.frame.width - width), Util.random(0, board.frame.height - height));
+        setPos(Util.random(0, dungeon.frame.width - width), Util.random(0, dungeon.frame.height - height));
     }
 
     @Override
