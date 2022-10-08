@@ -1,2 +1,2 @@
 mvn package
-java -cp target/txtrpg-1.0.jar com.monique.txtrpg.Board
+java -cp target/txtrpg-1.0.jar com.monique.txtrpg.Frame
