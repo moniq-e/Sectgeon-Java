@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import com.monique.txtrpg.*;
-import com.monique.txtrpg.entities.Entity;
+import com.monique.txtrpg.entities.*;
 
 public abstract class Dungeon extends Board {
     private boolean started = false;
