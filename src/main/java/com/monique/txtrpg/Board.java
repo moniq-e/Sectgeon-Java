@@ -24,6 +24,10 @@ public abstract class Board extends JPanel {
         player.lastClick.setLocation(e.getPoint());
     }
 
+    /**
+     * This method is called by the timer every DELAY ms. Use this space to update the state of your game or animation before the graphics are redrawn.
+     * @param e
+     */
     public abstract void actionPerformed(ActionEvent e);
     
     public abstract void keyPressed(KeyEvent e);

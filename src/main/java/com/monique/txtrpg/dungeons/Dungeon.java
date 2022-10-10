@@ -14,9 +14,11 @@ public abstract class Dungeon extends Board {
     private boolean started = false;
     private boolean playerTurn = true;
     public ArrayList<Entity> entities = new ArrayList<Entity>();
+    public ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 
     Dungeon(Frame frame) {
         super(frame);
+        drawables.add(player);
     }
 
     public void battleMode() {
@@ -30,7 +32,7 @@ public abstract class Dungeon extends Board {
 
                     playerTurn = false;
 
-                    if (entity.getLife() <= 0) this.entities.remove(entity); break;
+                    if (entity.getLife() <= 0) entity.kill(); break;
                 }
             }
         } else {
@@ -48,21 +50,17 @@ public abstract class Dungeon extends Board {
         super.paintComponent(g);
         setBackground(Color.decode("#aeebe0"));
 
-        if (entities.size() > 0) {
-            for (Entity entity : entities) {
-                entity.draw(g);
+        if (drawables.size() > 0) {
+            for (Drawable drawable : drawables) {
+                drawable.draw(g);
             }
         }
-        player.draw(g);
 
         Toolkit.getDefaultToolkit().sync();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // this method is called by the timer every DELAY ms.
-        // use this space to update the state of your game or animation
-        // before the graphics are redrawn.
         if (!started) {
             started = true;
             this.start();

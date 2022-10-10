@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.awt.Rectangle;
 
 import com.monique.txtrpg.*;
+import com.monique.txtrpg.dungeons.Dungeon;
 import com.monique.txtrpg.items.*;
 
 public class Player extends Entity {
@@ -15,7 +16,7 @@ public class Player extends Entity {
     public ArrayList<Item> inventory = new ArrayList<Item>(9);
 
     public Player(Board board, String name) {
-        super(board, "player", name, 20, 10, 50, 50);
+        super((Dungeon) board, "player", name, 20, 10, 50, 50);
         this.canMove = false;
         
         inventory.add(new Sword());
@@ -30,7 +31,7 @@ public class Player extends Entity {
                 setPos(getPos().x, getPos().y -= walkDistance);
                 break;
             case 's':
-                if (getPos().y >= board.frame.height - height) return;
+                if (getPos().y >= dungeon.frame.height - height) return;
                 setPos(getPos().x, getPos().y += walkDistance);
                 break;
             case 'a':
@@ -38,7 +39,7 @@ public class Player extends Entity {
                 setPos(getPos().x -= walkDistance, getPos().y);
                 break;
             case 'd':
-                if (getPos().x >= board.frame.width - width) return;
+                if (getPos().x >= dungeon.frame.width - width) return;
                 setPos(getPos().x += walkDistance, getPos().y);
                 break;
             default:

@@ -3,14 +3,14 @@ package com.monique.txtrpg.entities;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.awt.Point;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.monique.txtrpg.*;
+import com.monique.txtrpg.dungeons.Dungeon;
 import com.monique.txtrpg.items.Item;
 
-public abstract class Entity {
-    public Board board;
+public abstract class Entity implements Drawable {
+    public Dungeon dungeon;
     public final String id = UUID.randomUUID().toString();
     public final String type;
     public final String name;
@@ -27,15 +27,15 @@ public abstract class Entity {
 
     /**
      * Default entitiy constructor, name is type
-     * @param board
+     * @param dungeon
      * @param type
      * @param maxLife
      * @param walkDistance
      * @param width
      * @param height
      */
-    Entity(Board board, String type, float maxLife, int walkDistance, int width, int height) {
-        this.board = board;
+    Entity(Dungeon dungeon, String type, float maxLife, int walkDistance, int width, int height) {
+        this.dungeon = dungeon;
         this.type = type;
         this.name = type;
         this.maxLife = maxLife;
@@ -48,7 +48,7 @@ public abstract class Entity {
 
     /**
      * Entity constructor with name
-     * @param board
+     * @param dungeon
      * @param type
      * @param name
      * @param maxLife
@@ -56,8 +56,8 @@ public abstract class Entity {
      * @param width
      * @param height
      */
-    Entity(Board board, String type, String name, float maxLife, int walkDistance, int width, int height) {
-        this.board = board;
+    Entity(Dungeon dungeon, String type, String name, float maxLife, int walkDistance, int width, int height) {
+        this.dungeon = dungeon;
         this.type = type;
         this.name = name;
         this.maxLife = maxLife;
@@ -78,23 +78,27 @@ public abstract class Entity {
     }
 
     public void followPlayer() {
-        if (!Util.collides(board.player.getRect(), getRect())) {
-            double disObj = Util.distance(getPos(), board.player.getPos());
+        if (!Util.collides(dungeon.player.getRect(), getRect())) {
+            double disObj = Util.distance(getPos(), dungeon.player.getPos());
 
             double pos = walkDistance / disObj;
-            int x = (int) (getPos().x - pos * (getPos().x - board.player.getPos().x));
-            int y = (int) (getPos().y - pos * (getPos().y - board.player.getPos().y));
+            int x = (int) (getPos().x - pos * (getPos().x - dungeon.player.getPos().x));
+            int y = (int) (getPos().y - pos * (getPos().y - dungeon.player.getPos().y));
 
             setPos(x, y); 
         }
     }
 
     public boolean playerColliding() {
-        return Util.collides(board.player.getRect(), getRect());
+        return Util.collides(dungeon.player.getRect(), getRect());
+    }
+
+    public void kill() {
+        if (type != "player") dungeon.entities.remove(this);
+        dungeon.drawables.remove(this);
     }
 
     //abstracts
-    public abstract void draw(Graphics g);
     public abstract void ai();
     
     //getters

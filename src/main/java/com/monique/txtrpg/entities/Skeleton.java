@@ -31,7 +31,7 @@ public class Skeleton extends Entity {
     public void ai() {
         followPlayer();
         if (playerColliding()) {
-            attack(board.player, inventory.get(0));
+            attack(dungeon.player, inventory.get(0));
         }
     }
 }
