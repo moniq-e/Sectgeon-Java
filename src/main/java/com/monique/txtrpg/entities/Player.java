@@ -20,7 +20,7 @@ public class Player extends Entity {
         this.canMove = false;
         
         inventory.add(new Sword());
-        setPos(board.frame.width / 2, board.frame.height - height);
+        setPos(board.frame.WIDTH / 2, board.frame.HEIGHT - HEIGHT);
     }
 
     public void move(KeyEvent e) {
@@ -28,19 +28,19 @@ public class Player extends Entity {
         switch (e.getKeyChar()) {
             case 'w':
                 if (getPos().y <= 0) return;
-                setPos(getPos().x, getPos().y -= walkDistance);
+                setPos(getPos().x, getPos().y -= WALKDISTANCE);
                 break;
             case 's':
-                if (getPos().y >= dungeon.frame.height - height) return;
-                setPos(getPos().x, getPos().y += walkDistance);
+                if (getPos().y >= dungeon.frame.HEIGHT - HEIGHT) return;
+                setPos(getPos().x, getPos().y += WALKDISTANCE);
                 break;
             case 'a':
                 if (getPos().x <= 0) return;
-                setPos(getPos().x -= walkDistance, getPos().y);
+                setPos(getPos().x -= WALKDISTANCE, getPos().y);
                 break;
             case 'd':
-                if (getPos().x >= dungeon.frame.width - width) return;
-                setPos(getPos().x += walkDistance, getPos().y);
+                if (getPos().x >= dungeon.frame.WIDTH - WIDTH) return;
+                setPos(getPos().x += WALKDISTANCE, getPos().y);
                 break;
             default:
                 System.out.println(e.getKeyChar());
@@ -51,7 +51,7 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.decode("#2ebee6"));
-        g.fillRect(getPos().x, getPos().y, width, height);
+        g.fillRect(getPos().x, getPos().y, WIDTH, HEIGHT);
     }
 
     @Override

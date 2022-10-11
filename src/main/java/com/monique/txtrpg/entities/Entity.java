@@ -11,13 +11,13 @@ import com.monique.txtrpg.items.Item;
 
 public abstract class Entity implements Drawable {
     public Dungeon dungeon;
-    public final String id = UUID.randomUUID().toString();
-    public final String type;
-    public final String name;
-    public final float maxLife;
-    public final int walkDistance;
-    public final int width;
-    public final int height;
+    public final String ID = UUID.randomUUID().toString();
+    public final String TYPE;
+    public final String NAME;
+    public final float MAXLIFE;
+    public final int WALKDISTANCE;
+    public final int WIDTH;
+    public final int HEIGHT;
     public ArrayList<Item> inventory = new ArrayList<Item>();
 
     private float life;
@@ -34,14 +34,14 @@ public abstract class Entity implements Drawable {
      * @param width
      * @param height
      */
-    Entity(Dungeon dungeon, String type, float maxLife, int walkDistance, int width, int height) {
+    public Entity(Dungeon dungeon, String type, float maxLife, int walkDistance, int width, int height) {
         this.dungeon = dungeon;
-        this.type = type;
-        this.name = type;
-        this.maxLife = maxLife;
-        this.walkDistance = walkDistance;
-        this.width = width;
-        this.height = height;
+        this.TYPE = type;
+        this.NAME = type;
+        this.MAXLIFE = maxLife;
+        this.WALKDISTANCE = walkDistance;
+        this.WIDTH = width;
+        this.HEIGHT = height;
         this.rect = new Rectangle(0, 0, width, height);
         this.life = maxLife;
     }
@@ -56,14 +56,14 @@ public abstract class Entity implements Drawable {
      * @param width
      * @param height
      */
-    Entity(Dungeon dungeon, String type, String name, float maxLife, int walkDistance, int width, int height) {
+    public Entity(Dungeon dungeon, String type, String name, float maxLife, int walkDistance, int width, int height) {
         this.dungeon = dungeon;
-        this.type = type;
-        this.name = name;
-        this.maxLife = maxLife;
-        this.walkDistance = walkDistance;
-        this.width = width;
-        this.height = height;
+        this.TYPE = type;
+        this.NAME = name;
+        this.MAXLIFE = maxLife;
+        this.WALKDISTANCE = walkDistance;
+        this.WIDTH = width;
+        this.HEIGHT = height;
         this.rect = new Rectangle(0, 0, width, height);
         this.life = maxLife;
     }
@@ -81,7 +81,7 @@ public abstract class Entity implements Drawable {
         if (!Util.collides(dungeon.player.getRect(), getRect())) {
             double disObj = Util.distance(getPos(), dungeon.player.getPos());
 
-            double pos = walkDistance / disObj;
+            double pos = WALKDISTANCE / disObj;
             int x = (int) (getPos().x - pos * (getPos().x - dungeon.player.getPos().x));
             int y = (int) (getPos().y - pos * (getPos().y - dungeon.player.getPos().y));
 
@@ -94,7 +94,7 @@ public abstract class Entity implements Drawable {
     }
 
     public void kill() {
-        if (type != "player") dungeon.entities.remove(this);
+        if (TYPE != "player") dungeon.entities.remove(this);
         dungeon.drawables.remove(this);
     }
 

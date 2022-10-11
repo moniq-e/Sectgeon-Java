@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import com.monique.txtrpg.dungeons.*;
 
 public class Frame extends JFrame {
-    public final int width = 640;
-    public final int height = 480;
+    public final int WIDTH = 640;
+    public final int HEIGHT = 480;
     public Board board;
     public Listener listener = new Listener(this);
     public Timer timer = new Timer(33, listener);
@@ -22,7 +22,7 @@ public class Frame extends JFrame {
         this.addMouseListener(listener);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(width, height);
+        this.setSize(WIDTH, HEIGHT);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
 

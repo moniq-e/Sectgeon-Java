@@ -15,16 +15,17 @@ public class Skeleton extends Entity {
      */
     public Skeleton(Dungeon dungeon) {
         super(dungeon, "skeleton", 10, 100, 35, 35);
-
-        dungeon.entities.add(this);
+        
+        this.dungeon.entities.add(this);
+        this.dungeon.drawables.add(this);
         inventory.add(new Sword());
-        setPos(Util.random(0, dungeon.frame.width - width), Util.random(0, dungeon.frame.height - height));
+        setPos(Util.random(0, dungeon.frame.WIDTH - WIDTH), Util.random(0, dungeon.frame.HEIGHT - HEIGHT));
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.yellow);
-        g.fillOval(getPos().x, getPos().y - height, width, height);
+        g.fillOval(getPos().x, getPos().y - HEIGHT, WIDTH, HEIGHT);
     }
 
     @Override

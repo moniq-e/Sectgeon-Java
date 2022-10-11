@@ -12,7 +12,7 @@ import com.monique.txtrpg.entities.*;
 */
 public abstract class Board extends JPanel {
     public Frame frame;
-    public final Player player;
+    public Player player;
 
     public Board(Frame frame) {
         this.frame = frame;
