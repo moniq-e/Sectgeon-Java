@@ -13,6 +13,7 @@ public class Button extends JButton {
 
     public Button(Dungeon dungeon, String txt, int x, int y, int width, int height, ActionListener actionListener) {
         super(txt);
+        setFocusable(false);
         this.dungeon = dungeon;
         rect = new Rectangle(x, y, width, height);
         setBounds(rect);
