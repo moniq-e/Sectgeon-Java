@@ -27,7 +27,7 @@ public abstract class Dungeon extends Board {
             this.player.canMove = true;
             for (Entity entity : this.entities) {
                 if (Util.collides(entity.getRect(), this.player.lastClick)) {
-                    this.player.attack(entity, this.player.inventory.get(0));
+                    //this.player.attack(entity, this.player.inventory.get(0));
                     this.player.lastClick.setLocation(0, 0);
 
                     playerTurn = false;

@@ -5,24 +5,24 @@ import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.Point;
 
-import com.monique.txtrpg.dungeons.Dungeon;
+import com.monique.txtrpg.*;
 
 public class Button extends JButton {
     private Rectangle rect;
-    private Dungeon dungeon;
+    private Board board;
 
-    public Button(Dungeon dungeon, String txt, int x, int y, int width, int height, ActionListener actionListener) {
+    public Button(Board board, String txt, int x, int y, int width, int height, ActionListener actionListener) {
         super(txt);
         setFocusable(false);
-        this.dungeon = dungeon;
+        this.board = board;
         rect = new Rectangle(x, y, width, height);
         setBounds(rect);
         addActionListener(actionListener);
-        this.dungeon.add(this);
+        this.board.add(this);
     }
 
     public void destroy() {
-        dungeon.remove(this);
+        board.remove(this);
     }
 
     //getters
