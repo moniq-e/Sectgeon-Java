@@ -74,7 +74,8 @@ public abstract class Entity implements Drawable {
     }
 
     public void takeDamage(float damage) {
-        life -= damage - armor;
+        life -= (damage - armor <= 0 ? 0 : damage - armor);
+        if (life <= 0) kill();
     }
 
     public void followPlayer() {

@@ -2,10 +2,8 @@ package com.monique.txtrpg.entities;
 
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Rectangle;
-import java.util.function.Consumer;
 
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.dungeons.Dungeon;
@@ -18,28 +16,23 @@ public abstract class Mob extends Entity {
         super(dungeon, type, maxlife, walkdistance, width, height);
 
         popup.setName(type.substring(0, 1).toUpperCase() + type.substring(1));
-        setPopup(this);
         setPopupItems();
-        setPopupConsumer(this);
+        setItemsInPopup();
+        setPopupConsumer();
     }
 
-    protected abstract void setPopup(Mob mob);
+    protected abstract void setPopupItems();
 
-    private void setPopupItems() {
+    private void setItemsInPopup() {
         for (JMenuItem item : items) {
             popup.add(item);
         }
     }
 
-    private void setPopupConsumer(Mob mob) {
-        dungeon.frame.listener.addMouseClickedConsumer(new Consumer<MouseEvent>() {
-            @Override
-            public void accept(MouseEvent e) {
-                if (Util.collides(mob.getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {
-                    popup.show(dungeon, e.getX(), e.getY());
-                } else {
-                    popup.setVisible(false);
-                }
+    private void setPopupConsumer() {
+        dungeon.frame.listener.addMouseClickedConsumer(e -> {
+            if (Util.collides(this.getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {
+                popup.show(dungeon, e.getX(), e.getY());
             }
         });
     }

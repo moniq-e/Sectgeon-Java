@@ -31,8 +31,6 @@ public abstract class Dungeon extends Board {
                     this.player.lastClick.setLocation(0, 0);
 
                     playerTurn = false;
-
-                    if (entity.getLife() <= 0) entity.kill(); break;
                 }
             }
         } else {

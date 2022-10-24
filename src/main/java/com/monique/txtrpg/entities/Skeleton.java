@@ -2,8 +2,6 @@ package com.monique.txtrpg.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 
 import com.monique.txtrpg.*;
@@ -40,13 +38,10 @@ public class Skeleton extends Mob {
     }
 
     @Override
-    protected void setPopup(Mob lixo) {
+    protected void setPopupItems() {
         JMenuItem attack = new JMenuItem("Attack");
-        attack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dungeon.player.attack(lixo, dungeon.player.inventory.get(0));
-            }
+        attack.addActionListener(e -> {
+            dungeon.player.attack(this, dungeon.player.inventory.get(0));
         });
         items.add(attack);
     }
