@@ -43,6 +43,6 @@ public class Skeleton extends Mob {
         attack.addActionListener(e -> {
             dungeon.player.attack(this, dungeon.player.inventory.get(0));
         });
-        items.add(attack);
+        popup.add(attack);
     }
 }

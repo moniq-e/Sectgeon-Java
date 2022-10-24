@@ -6,13 +6,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.util.HashMap;
 
 public class Listener implements ActionListener, KeyListener, MouseListener {
     Frame frame;
-    ArrayList<Consumer<MouseEvent>> mouseClickedConsumers = new ArrayList<Consumer<MouseEvent>>();
-    ArrayList<Consumer<KeyEvent>> keyPressedConsumers = new ArrayList<Consumer<KeyEvent>>();
+    HashMap<String, Consumer<MouseEvent>> mouseClickedConsumers = new HashMap<String, Consumer<MouseEvent>>();
+    HashMap<String, Consumer<KeyEvent>> keyPressedConsumers = new HashMap<String, Consumer<KeyEvent>>();
 
     Listener(Frame frame) {
         this.frame = frame;
@@ -26,25 +26,33 @@ public class Listener implements ActionListener, KeyListener, MouseListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (frame.board != null) frame.board.keyPressed(e);
-        for (Consumer<KeyEvent> consumer : keyPressedConsumers) {
+        for (Consumer<KeyEvent> consumer : keyPressedConsumers.values()) {
             consumer.accept(e);
         }
     }
 
-    public void addKeyPressedConsumer(Consumer<KeyEvent> consumer) {
-        keyPressedConsumers.add(consumer);
+    public void addKeyPressedConsumer(String id, Consumer<KeyEvent> consumer) {
+        keyPressedConsumers.put(id, consumer);
+    }
+
+    public void removeKeyPressedConsumer(String id) {
+        keyPressedConsumers.remove(id);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (frame.board != null) frame.board.mouseClicked(e);
-        for (Consumer<MouseEvent> consumer : mouseClickedConsumers) {
+        for (Consumer<MouseEvent> consumer : mouseClickedConsumers.values()) {
             consumer.accept(e);
         }
     }
 
-    public void addMouseClickedConsumer(Consumer<MouseEvent> consumer) {
-        mouseClickedConsumers.add(consumer);
+    public void addMouseClickedConsumer(String id, Consumer<MouseEvent> consumer) {
+        mouseClickedConsumers.put(id, consumer);
+    }
+
+    public void removeMouseClickedConsumer(String id) {
+        mouseClickedConsumers.remove(id);
     }
 
     @Override
