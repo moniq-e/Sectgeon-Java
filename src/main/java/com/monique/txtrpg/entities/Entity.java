@@ -94,13 +94,8 @@ public abstract class Entity implements Drawable {
         return Util.collides(dungeon.player.getRect(), getRect());
     }
 
-    public void kill() {
-        if (TYPE != "player") dungeon.entities.remove(this);
-        dungeon.drawables.remove(this);
-    }
-
     //abstracts
-    public abstract void ai();
+    public abstract void kill();
     
     //getters
     public float getLife() {

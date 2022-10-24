@@ -4,23 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.awt.Rectangle;
 
-import com.monique.txtrpg.*;
 import com.monique.txtrpg.dungeons.Dungeon;
 import com.monique.txtrpg.items.*;
 
 public class Player extends Entity {
-    public boolean canMove;
-    public Rectangle lastClick = new Rectangle(0, 0, 1, 1);
+    public boolean canMove = true;
     public ArrayList<Item> inventory = new ArrayList<Item>(9);
 
-    public Player(Board board, String name) {
-        super((Dungeon) board, "player", name, 20, 10, 50, 50);
-        this.canMove = false;
+    public Player(Dungeon dungeon, String name) {
+        super(dungeon, "player", name, 20, 10, 50, 50);
         
+        dungeon.frame.listener.addKeyPressedConsumer(ID, this::move);
         inventory.add(new Sword());
-        setPos(board.frame.WIDTH / 2, board.frame.HEIGHT - HEIGHT);
+        setPos(dungeon.frame.WIDTH / 2, dungeon.frame.HEIGHT - HEIGHT);
     }
 
     public void move(KeyEvent e) {
@@ -55,5 +52,8 @@ public class Player extends Entity {
     }
 
     @Override
-    public void ai() { }
+    public void kill() {
+        dungeon.drawables.remove(this);
+        dungeon.finish(false);
+    }
 }

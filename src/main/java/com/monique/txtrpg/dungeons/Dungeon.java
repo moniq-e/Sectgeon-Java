@@ -3,7 +3,6 @@ package com.monique.txtrpg.dungeons;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
@@ -13,7 +12,8 @@ import com.monique.txtrpg.entities.*;
 public abstract class Dungeon extends Board {
     private boolean started = false;
     private boolean playerTurn = true;
-    public ArrayList<Entity> entities = new ArrayList<Entity>();
+    public Player player = new Player(this, "default");
+    public ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
     public ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 
     Dungeon(Frame frame) {
@@ -21,27 +21,14 @@ public abstract class Dungeon extends Board {
         drawables.add(player);
     }
 
-    public void battleMode() {
-        if (this.entities.size() <= 0) return;
-        if (playerTurn) {
-            this.player.canMove = true;
-            for (Entity entity : this.entities) {
-                if (Util.collides(entity.getRect(), this.player.lastClick)) {
-                    //this.player.attack(entity, this.player.inventory.get(0));
-                    this.player.lastClick.setLocation(0, 0);
+    private void entitiesAction() {
+        if (livingEntities.size() <= 0) finish(true);
 
-                    playerTurn = false;
-                }
-            }
-        } else {
-            this.player.canMove = false;
-
-            for (Entity entity : this.entities) {
-                entity.ai();
-            }
-
-            playerTurn = true;
+        for (LivingEntity livingEntity : livingEntities) {
+            livingEntity.ai();
         }
+
+        setPlayerTurn(true);
     }
 
     public void paintComponent(Graphics g) {
@@ -61,23 +48,29 @@ public abstract class Dungeon extends Board {
     public void actionPerformed(ActionEvent e) {
         if (!started) {
             started = true;
-            this.start();
-        }
-        
-        if (player.getLife() <= 0) {
-            frame.dispose();
-            frame.timer.stop();
+            start();
         }
 
-        battleMode();
+        if (!getPlayerTurn()) entitiesAction();
 
         revalidate();
         repaint();
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        player.move(e);
+    /**
+     * @param winOrLos false == lost, true == win.
+     */
+    public void finish(boolean winOrLos) {
+        frame.finishDungeon(winOrLos);
+    }
+
+    public boolean getPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(boolean turn) {
+        playerTurn = turn;
+        player.canMove = turn;
     }
 
     public abstract void start();

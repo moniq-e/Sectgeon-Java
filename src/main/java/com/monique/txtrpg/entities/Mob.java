@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.dungeons.Dungeon;
 
-public abstract class Mob extends Entity {
+public abstract class Mob extends Entity implements LivingEntity {
     JPopupMenu popup = new JPopupMenu();
 
     Mob(Dungeon dungeon, String type, int maxlife, int walkdistance, int width, int height) {
@@ -29,7 +29,7 @@ public abstract class Mob extends Entity {
 
     @Override
     public void kill() {
-        dungeon.entities.remove(this);
+        dungeon.livingEntities.remove(this);
         dungeon.drawables.remove(this);
         dungeon.frame.listener.removeMouseClickedConsumer(ID);
     }

@@ -25,7 +25,6 @@ public class Listener implements ActionListener, KeyListener, MouseListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (frame.board != null) frame.board.keyPressed(e);
         for (Consumer<KeyEvent> consumer : keyPressedConsumers.values()) {
             consumer.accept(e);
         }
@@ -41,7 +40,6 @@ public class Listener implements ActionListener, KeyListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (frame.board != null) frame.board.mouseClicked(e);
         for (Consumer<MouseEvent> consumer : mouseClickedConsumers.values()) {
             consumer.accept(e);
         }

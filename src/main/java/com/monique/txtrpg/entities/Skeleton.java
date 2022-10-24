@@ -17,7 +17,7 @@ public class Skeleton extends Mob {
     public Skeleton(Dungeon dungeon) {
         super(dungeon, "skeleton", 10, 100, 35, 35);
         
-        this.dungeon.entities.add(this);
+        this.dungeon.livingEntities.add(this);
         this.dungeon.drawables.add(this);
         inventory.add(new Sword());
         setPos(Util.random(0, dungeon.frame.WIDTH - WIDTH), Util.random(0, dungeon.frame.HEIGHT - HEIGHT));
@@ -42,6 +42,7 @@ public class Skeleton extends Mob {
         JMenuItem attack = new JMenuItem("Attack");
         attack.addActionListener(e -> {
             dungeon.player.attack(this, dungeon.player.inventory.get(0));
+            dungeon.setPlayerTurn(false);
         });
         popup.add(attack);
     }
