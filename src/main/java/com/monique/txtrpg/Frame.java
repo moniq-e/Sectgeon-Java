@@ -5,12 +5,13 @@ import javax.swing.JFrame;
 import java.util.ArrayList;
 
 import com.monique.txtrpg.dungeons.*;
+import com.monique.txtrpg.listeners.DefaultListener;
 
 public class Frame extends JFrame {
     public final int WIDTH = 640;
     public final int HEIGHT = 480;
     public Board board;
-    public Listener listener = new Listener(this);
+    public DefaultListener listener = new DefaultListener(this);
     public Timer timer = new Timer(33, listener);
     private ArrayList<Dungeon> cronologia = new ArrayList<Dungeon>();
 
