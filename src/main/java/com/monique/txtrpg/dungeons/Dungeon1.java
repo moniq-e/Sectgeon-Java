@@ -16,9 +16,8 @@ public class Dungeon1 extends Dungeon {
             new Skeleton(this);
         }
 
-        //teste
-        new Button(this, "oi", 100, 100, 100, 100, e -> {
+        /*new Button(this, "oi", 100, 100, 100, 100, e -> {
             System.out.println("oi");
-        });
+        });*/
     }
 }

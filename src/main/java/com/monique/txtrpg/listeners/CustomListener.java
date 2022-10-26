@@ -7,21 +7,18 @@ import com.monique.txtrpg.events.CustomEvent;
 
 public class CustomListener {
     private static HashMap<String, HashMap<String, Consumer<CustomEvent>>> consumers = new HashMap<String, HashMap<String, Consumer<CustomEvent>>>();
-    
-    public static void addConsumer(String id, Consumer<CustomEvent> consumer) {
-        if (consumers.get(consumer.getClass().getGenericSuperclass().getTypeName()) == null) {
-            createCustomEventType(consumer.getClass().getTypeName());
-        } else {
-            consumers.get(consumer.getClass().getTypeName()).put(id, consumer);
-        }
+
+    public static void addConsumer(String type, String id, Consumer<CustomEvent> consumer) {
+        if (consumers.get(type) == null) createCustomEventType(type);
+        consumers.get(type).put(id, consumer);
     }
 
     public static void removeConsumer(String type, String id) {
         consumers.get(type).remove(id);
     }
 
-    public static void dispatchEvent(CustomEvent e) {
-        for (Consumer<CustomEvent> consumer : consumers.get(e.getClass().getName()).values()) {
+    public static void dispatchEvent(String type, CustomEvent e) {
+        for (Consumer<CustomEvent> consumer : consumers.get(type).values()) {
             consumer.accept(e);
         }
     }

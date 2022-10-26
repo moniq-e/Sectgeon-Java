@@ -68,17 +68,13 @@ public abstract class Entity implements Drawable {
         this.HEIGHT = height;
         this.rect = new Rectangle(0, 0, width, height);
         this.life = maxLife;
-
-        CustomListener.addConsumer(ID, e -> {
-            System.out.println(e);
-        });
     }
 
     public void attack(Entity target, Item item) {
         if (item.type != "tool") return;
         int dmg = Util.d(item.dice);
         target.takeDamage(dmg);
-        CustomListener.dispatchEvent(new AttackEvent(this, target, dmg));
+        CustomListener.dispatchEvent("attack", new AttackEvent(this, target, dmg));
     }
 
     public void takeDamage(float damage) {

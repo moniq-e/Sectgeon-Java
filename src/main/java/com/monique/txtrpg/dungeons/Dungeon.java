@@ -34,6 +34,7 @@ public abstract class Dungeon extends Board {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.decode("#aeebe0"));
+        drawHUD(g);
 
         if (drawables.size() > 0) {
             for (Drawable drawable : drawables) {
@@ -62,6 +63,7 @@ public abstract class Dungeon extends Board {
      */
     public void finish(boolean winOrLos) {
         frame.finishDungeon(winOrLos);
+        System.out.println(winOrLos);
     }
 
     public boolean getPlayerTurn() {
@@ -73,5 +75,10 @@ public abstract class Dungeon extends Board {
         player.canMove = turn;
     }
 
-    public abstract void start();
+    private void drawHUD(Graphics g) {
+        String lifeString = String.valueOf(player.getLife());
+        g.drawString(lifeString, frame.WIDTH/2 - lifeString.length(), 30);
+    }
+
+    protected abstract void start();
 }

@@ -32,5 +32,6 @@ public abstract class Mob extends Entity implements LivingEntity {
         dungeon.livingEntities.remove(this);
         dungeon.drawables.remove(this);
         dungeon.frame.listener.removeMouseClickedConsumer(ID);
+        dungeon.remove(popup);
     }
 }
