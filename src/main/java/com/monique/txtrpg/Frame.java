@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import java.util.ArrayList;
 
 import com.monique.txtrpg.dungeons.*;
+import com.monique.txtrpg.gui.Board;
+import com.monique.txtrpg.gui.InitialMenu;
 import com.monique.txtrpg.listeners.DefaultListener;
 
 public class Frame extends JFrame {
@@ -13,7 +15,7 @@ public class Frame extends JFrame {
     public Board board;
     public DefaultListener listener = new DefaultListener(this);
     public Timer timer = new Timer(33, listener);
-    private ArrayList<Dungeon> cronologia = new ArrayList<Dungeon>();
+    private ArrayList<Board> cronologia = new ArrayList<Board>();
 
     public static void main(String[] args) {
         new Frame();
@@ -21,17 +23,16 @@ public class Frame extends JFrame {
 
     Frame() {
         super("TXTRPG");
-        this.addKeyListener(listener);
-        this.addMouseListener(listener);
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(WIDTH, HEIGHT);
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
+        addKeyListener(listener);
+        addMouseListener(listener);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(WIDTH, HEIGHT);
+        setVisible(true);
+        setLocationRelativeTo(null);
 
         timer.start();
         setCronologia();
-        finishDungeon(true);
+        setBoard(new InitialMenu(this));
     }
 
     public void setCronologia() {

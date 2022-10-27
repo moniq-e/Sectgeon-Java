@@ -5,8 +5,6 @@ import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.Point;
 
-import com.monique.txtrpg.*;
-
 public class Button extends JButton {
     private Rectangle rect;
     private Board board;
@@ -17,6 +15,7 @@ public class Button extends JButton {
         this.board = board;
         rect = new Rectangle(x, y, width, height);
         setBounds(rect);
+        setLocation(rect.getLocation());
         addActionListener(actionListener);
         this.board.add(this);
     }

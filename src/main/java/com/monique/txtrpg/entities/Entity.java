@@ -29,12 +29,6 @@ public abstract class Entity implements Drawable {
 
     /**
      * Default entitiy constructor, name is type
-     * @param dungeon
-     * @param type
-     * @param maxLife
-     * @param walkDistance
-     * @param width
-     * @param height
      */
     public Entity(Dungeon dungeon, String type, float maxLife, int walkDistance, int width, int height) {
         this.dungeon = dungeon;
@@ -50,13 +44,6 @@ public abstract class Entity implements Drawable {
 
     /**
      * Entity constructor with name
-     * @param dungeon
-     * @param type
-     * @param name
-     * @param maxLife
-     * @param walkDistance
-     * @param width
-     * @param height
      */
     public Entity(Dungeon dungeon, String type, String name, float maxLife, int walkDistance, int width, int height) {
         this.dungeon = dungeon;
@@ -74,7 +61,7 @@ public abstract class Entity implements Drawable {
         if (item.type != "tool") return;
         int dmg = Util.d(item.dice);
         target.takeDamage(dmg);
-        CustomListener.dispatchEvent("attack", new AttackEvent(this, target, dmg));
+        CustomListener.dispatchEvent(new AttackEvent(this, target, dmg));
     }
 
     public void takeDamage(float damage) {
@@ -122,6 +109,13 @@ public abstract class Entity implements Drawable {
     public void setPos(int x, int y) {
         pos.move(x, y);
         rect.setLocation(x, y);
+    }
+    /**
+     * Sets the entity pos
+     */
+    public void setPos(Point pos) {
+        pos.setLocation(pos);
+        rect.setLocation(pos);
     }
     /**
      * Makes the entity move adding pos

@@ -17,8 +17,9 @@ public class CustomListener {
         consumers.get(type).remove(id);
     }
 
-    public static void dispatchEvent(String type, CustomEvent e) {
-        for (Consumer<CustomEvent> consumer : consumers.get(type).values()) {
+    public static void dispatchEvent(CustomEvent e) {
+        if (consumers.isEmpty()) return;
+        for (Consumer<CustomEvent> consumer : consumers.get(e.TYPE).values()) {
             consumer.accept(e);
         }
     }

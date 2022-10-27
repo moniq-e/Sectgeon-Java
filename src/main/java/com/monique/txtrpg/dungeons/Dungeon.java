@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.entities.*;
+import com.monique.txtrpg.gui.Board;
 
 public abstract class Dungeon extends Board {
     private boolean started = false;
@@ -72,7 +73,7 @@ public abstract class Dungeon extends Board {
 
     public void setPlayerTurn(boolean turn) {
         playerTurn = turn;
-        player.canMove = turn;
+        player.setCanMove(turn);
     }
 
     private void drawHUD(Graphics g) {
