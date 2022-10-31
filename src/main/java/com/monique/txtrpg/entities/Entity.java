@@ -113,9 +113,9 @@ public abstract class Entity implements Drawable {
     /**
      * Sets the entity pos
      */
-    public void setPos(Point pos) {
-        pos.setLocation(pos);
-        rect.setLocation(pos);
+    public void setPos(Point position) {
+        pos.setLocation(position);
+        rect.setLocation(position);
     }
     /**
      * Makes the entity move adding pos

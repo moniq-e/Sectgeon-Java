@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.awt.Point;
 
-import com.monique.txtrpg.Util;
 import com.monique.txtrpg.dungeons.Dungeon;
 import com.monique.txtrpg.items.*;
 
@@ -20,7 +19,8 @@ public class Player extends Entity {
         
         dungeon.frame.listener.addKeyPressedConsumer(ID, this::move);
         inventory.add(new Sword());
-        setPos(dungeon.frame.WIDTH / 2, dungeon.frame.HEIGHT - HEIGHT);
+        initialPos = new Point(dungeon.frame.WIDTH / 2, dungeon.frame.HEIGHT - HEIGHT);
+        setPos(initialPos);
     }
 
     public void move(KeyEvent e) {
@@ -30,22 +30,22 @@ public class Player extends Entity {
             case 'w':
                 if (getPos().y <= 0) return;
                 newPos = new Point(getPos().x, getPos().y -= WALKDISTANCE);
-                if (canWalk(initialPos, newPos)) setPos(newPos);
+                if (canWalk(initialPos.y, newPos.y)) setPos(newPos);
                 break;
             case 's':
                 if (getPos().y >= dungeon.frame.HEIGHT - HEIGHT) return;
                 newPos = new Point(getPos().x, getPos().y += WALKDISTANCE);
-                if (canWalk(initialPos, newPos)) setPos(newPos);
+                if (canWalk(initialPos.y, newPos.y)) setPos(newPos);
                 break;
             case 'a':
                 if (getPos().x <= 0) return;
                 newPos = new Point(getPos().x -= WALKDISTANCE, getPos().y);
-                if (canWalk(initialPos, newPos)) setPos(newPos);
+                if (canWalk(initialPos.x, newPos.x)) setPos(newPos);
                 break;
             case 'd':
                 if (getPos().x >= dungeon.frame.WIDTH - WIDTH) return;
                 newPos = new Point(getPos().x += WALKDISTANCE, getPos().y);
-                if (canWalk(initialPos, newPos)) setPos(newPos);
+                if (canWalk(initialPos.x, newPos.x)) setPos(newPos);
                 break;
             default:
                 System.out.println(e.getKeyChar());
@@ -53,9 +53,8 @@ public class Player extends Entity {
         }
     }
 
-    private boolean canWalk(Point initialPos, Point newPos) {
-        System.out.println(Util.distance(initialPos, newPos));
-        if (Util.distance(initialPos, newPos) <= WALKDISTANCE * 10) return true; else return false;
+    private boolean canWalk(int initialPos, int newPos) {
+        return (Math.abs(initialPos - newPos) <= WALKDISTANCE * 15) ? true : false;
     }
 
     public boolean getCanMove() {
