@@ -9,6 +9,7 @@ import com.monique.txtrpg.*;
 import com.monique.txtrpg.dungeons.Dungeon;
 import com.monique.txtrpg.events.AttackEvent;
 import com.monique.txtrpg.items.Item;
+import com.monique.txtrpg.items.Tool;
 import com.monique.txtrpg.listeners.CustomListener;
 
 public abstract class Entity implements Drawable {
@@ -20,12 +21,13 @@ public abstract class Entity implements Drawable {
     public final int WALKDISTANCE;
     public final int WIDTH;
     public final int HEIGHT;
-    public ArrayList<Item> inventory = new ArrayList<Item>();
+    public ArrayList<Item> inventory = new ArrayList<Item>(9);
 
     private float life;
     private float armor;
     private Point pos = new Point();
     private Rectangle rect;
+    private Item heldItem;
 
     /**
      * Default entitiy constructor, name is type
@@ -57,16 +59,22 @@ public abstract class Entity implements Drawable {
         this.life = maxLife;
     }
 
-    public void attack(Entity target, Item item) {
-        if (item.type != "tool") return;
-        int dmg = Util.d(item.dice);
+    public void attack(Entity target, Tool item) {
+        int dmg = item.rollDice();
         target.takeDamage(dmg);
         CustomListener.dispatchEvent(new AttackEvent(this, target, dmg));
     }
 
+    public void tryAttack(Entity target) {
+        if (getHeldItem() instanceof Tool) {
+            attack(target, (Tool) getHeldItem());
+        }
+    }
+
     public void takeDamage(float damage) {
         life -= (damage - armor <= 0 ? 0 : damage - armor);
-        if (life <= 0) kill();
+        if (life <= 0)
+            kill();
     }
 
     public void followPlayer() {
@@ -77,7 +85,7 @@ public abstract class Entity implements Drawable {
             int x = (int) (getPos().x - pos * (getPos().x - dungeon.player.getPos().x));
             int y = (int) (getPos().y - pos * (getPos().y - dungeon.player.getPos().y));
 
-            setPos(x, y); 
+            setPos(x, y);
         }
     }
 
@@ -85,24 +93,31 @@ public abstract class Entity implements Drawable {
         return Util.collides(dungeon.player.getRect(), getRect());
     }
 
-    //abstracts
+    // abstracts
     public abstract void kill();
-    
-    //getters
+
+    // getters
     public float getLife() {
         return life;
     }
+
     public float getArmor() {
         return armor;
     }
+
     public Point getPos() {
         return (Point) pos.clone();
     }
+
     public Rectangle getRect() {
         return (Rectangle) rect.clone();
     }
 
-    //setters
+    public Item getHeldItem() {
+        return heldItem;
+    }
+
+    // setters
     /**
      * Sets the entity pos
      */
@@ -110,6 +125,7 @@ public abstract class Entity implements Drawable {
         pos.move(x, y);
         rect.setLocation(x, y);
     }
+
     /**
      * Sets the entity pos
      */
@@ -117,11 +133,16 @@ public abstract class Entity implements Drawable {
         pos.setLocation(position);
         rect.setLocation(position);
     }
+
     /**
      * Makes the entity move adding pos
      */
     public void move(int x, int y) {
         pos.move(pos.x + x, pos.y + y);
         rect.setLocation(pos.x + x, pos.y + y);
+    }
+
+    public void setHeldItem(Item heldItem) {
+        this.heldItem = heldItem;
     }
 }

@@ -17,10 +17,11 @@ public class Skeleton extends Mob {
     public Skeleton(Dungeon dungeon) {
         super(dungeon, "skeleton", 10, 100, 35, 35);
         
-        this.dungeon.livingEntities.add(this);
-        this.dungeon.drawables.add(this);
+        dungeon.livingEntities.add(this);
+        dungeon.drawables.add(this);
         inventory.add(new Sword());
-        setPos(Util.random(0, dungeon.frame.WIDTH - WIDTH), Util.random(0, dungeon.frame.HEIGHT - HEIGHT));
+        setHeldItem(inventory.get(0));
+        setPos(Util.random(0, dungeon.getWidth() - WIDTH), Util.random(0, dungeon.getHeight() - HEIGHT));
     }
 
     @Override
@@ -33,7 +34,7 @@ public class Skeleton extends Mob {
     public void ai() {
         followPlayer();
         if (playerColliding()) {
-            attack(dungeon.player, inventory.get(0));
+            tryAttack(dungeon.player);
         }
     }
 
@@ -41,7 +42,7 @@ public class Skeleton extends Mob {
     protected void setPopupItems() {
         JMenuItem attack = new JMenuItem("Attack");
         attack.addActionListener(e -> {
-            dungeon.player.attack(this, dungeon.player.inventory.get(0));
+            dungeon.player.tryAttack(this);
             dungeon.setPlayerTurn(false);
         });
         popup.add(attack);

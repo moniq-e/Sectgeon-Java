@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import com.monique.txtrpg.*;
 import com.monique.txtrpg.entities.*;
 import com.monique.txtrpg.gui.Board;
+import com.monique.txtrpg.gui.DungeonHUD;
 
 public abstract class Dungeon extends Board {
     private boolean started = false;
     private boolean playerTurn = true;
+    private DungeonHUD hud = new DungeonHUD(this);
     public Player player = new Player(this, "default");
     public ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
     public ArrayList<Drawable> drawables = new ArrayList<Drawable>();
@@ -20,6 +22,7 @@ public abstract class Dungeon extends Board {
     Dungeon(Frame frame) {
         super(frame);
         drawables.add(player);
+        drawables.add(hud);
     }
 
     private void entitiesAction() {
@@ -78,7 +81,7 @@ public abstract class Dungeon extends Board {
 
     private void drawHUD(Graphics g) {
         String lifeString = String.valueOf(player.getLife());
-        g.drawString(lifeString, frame.WIDTH/2 - lifeString.length(), 30);
+        g.drawString(lifeString, getWidth()/2 - lifeString.length(), 30);
     }
 
     protected abstract void start();

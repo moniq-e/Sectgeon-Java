@@ -14,7 +14,5 @@ public class Dungeon1 extends Dungeon {
         for (int i = 1; i <= 3; i++) {
             new Skeleton(this);
         }
-
-        
     }
 }

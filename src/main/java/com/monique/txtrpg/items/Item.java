@@ -1,18 +1,17 @@
 package com.monique.txtrpg.items;
 
-public class Item {
-    public String name;
-    public String type;
-    public int dice;
-    
-    Item(String name, String type) {
+import java.awt.Graphics;
+
+public abstract class Item {
+    protected String name;
+
+    Item(String name) {
         this.name = name;
-        this.type = type;
     }
 
-    Item(String name, String type, int dice) {
-        this.name = name;
-        this.type = type;
-        this.dice = dice;
+    public abstract void display(Graphics g, int x, int y);
+
+    public String getName() {
+        return name;
     }
 }

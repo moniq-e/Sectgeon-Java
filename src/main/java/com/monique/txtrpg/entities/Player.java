@@ -19,7 +19,8 @@ public class Player extends Entity {
         
         dungeon.frame.listener.addKeyPressedConsumer(ID, this::move);
         inventory.add(new Sword());
-        initialPos = new Point(dungeon.frame.WIDTH / 2, dungeon.frame.HEIGHT - HEIGHT);
+        setHeldItem(inventory.get(0));
+        initialPos = new Point(dungeon.getWidth() / 2, dungeon.getHeight() - HEIGHT);
         setPos(initialPos);
     }
 
@@ -33,7 +34,7 @@ public class Player extends Entity {
                 if (canWalk(initialPos.y, newPos.y)) setPos(newPos);
                 break;
             case 's':
-                if (getPos().y >= dungeon.frame.HEIGHT - HEIGHT) return;
+                if (getPos().y >= dungeon.getHeight() - HEIGHT) return;
                 newPos = new Point(getPos().x, getPos().y += WALKDISTANCE);
                 if (canWalk(initialPos.y, newPos.y)) setPos(newPos);
                 break;
@@ -43,7 +44,7 @@ public class Player extends Entity {
                 if (canWalk(initialPos.x, newPos.x)) setPos(newPos);
                 break;
             case 'd':
-                if (getPos().x >= dungeon.frame.WIDTH - WIDTH) return;
+                if (getPos().x >= dungeon.getWidth() - WIDTH) return;
                 newPos = new Point(getPos().x += WALKDISTANCE, getPos().y);
                 if (canWalk(initialPos.x, newPos.x)) setPos(newPos);
                 break;

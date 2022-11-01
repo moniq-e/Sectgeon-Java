@@ -10,7 +10,7 @@ import com.monique.txtrpg.gui.InitialMenu;
 import com.monique.txtrpg.listeners.DefaultListener;
 
 public class Frame extends JFrame {
-    public final int WIDTH = 640;
+    public final int WIDTH = 720;
     public final int HEIGHT = 480;
     public Board board;
     public DefaultListener listener = new DefaultListener(this);
@@ -26,7 +26,7 @@ public class Frame extends JFrame {
         addKeyListener(listener);
         addMouseListener(listener);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(WIDTH, HEIGHT);
+        setSize(this.WIDTH, this.HEIGHT);
         setVisible(true);
         setLocationRelativeTo(null);
 

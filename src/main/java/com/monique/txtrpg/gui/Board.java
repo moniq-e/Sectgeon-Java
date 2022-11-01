@@ -13,6 +13,7 @@ public abstract class Board extends JPanel {
 
     public Board(Frame frame) {
         this.frame = frame;
+        setSize(frame.WIDTH, frame.HEIGHT);
         setLayout(null);
     }
 
