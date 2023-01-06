@@ -12,6 +12,7 @@ public class Button extends JButton {
     public Button(Board board, String txt, int x, int y, int width, int height, ActionListener actionListener) {
         super(txt);
         setFocusable(false);
+        setFocusPainted(false);
         this.board = board;
         rect = new Rectangle(x, y, width, height);
         setBounds(rect);

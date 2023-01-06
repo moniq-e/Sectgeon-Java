@@ -73,8 +73,7 @@ public abstract class Entity implements Drawable {
 
     public void takeDamage(float damage) {
         life -= (damage - armor <= 0 ? 0 : damage - armor);
-        if (life <= 0)
-            kill();
+        if (life <= 0) kill();
     }
 
     public void followPlayer() {
@@ -142,7 +141,7 @@ public abstract class Entity implements Drawable {
         rect.setLocation(pos.x + x, pos.y + y);
     }
 
-    public void setHeldItem(Item heldItem) {
-        this.heldItem = heldItem;
+    public void setHeldItem(Item item) {
+        this.heldItem = item;
     }
 }

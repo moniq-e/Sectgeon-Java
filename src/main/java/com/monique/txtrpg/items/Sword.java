@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Sword extends Item implements Tool {
-    private int dice = 6;
+    private int dice = 8;
 
     public Sword() {
         super("sword");
@@ -17,7 +17,7 @@ public class Sword extends Item implements Tool {
 
     @Override
     public void display(Graphics g, int x, int y) {
-        g.setColor(Color.BLACK);
-        g.drawRect(x, y, 20, 20);
+        g.setColor(Color.orange);
+        g.fillRect(x, y, 20, 20);
     }
 }

@@ -19,6 +19,7 @@ public class Player extends Entity {
         
         dungeon.frame.listener.addKeyPressedConsumer(ID, this::move);
         inventory.add(new Sword());
+        inventory.add(new Bow());
         setHeldItem(inventory.get(0));
         initialPos = new Point(dungeon.getWidth() / 2, dungeon.getHeight() - HEIGHT);
         setPos(initialPos);
@@ -71,6 +72,7 @@ public class Player extends Entity {
     public void draw(Graphics g) {
         g.setColor(Color.red);
         g.fillRect(getPos().x, getPos().y, WIDTH, HEIGHT);
+        getHeldItem().display(g, getPos().x, getPos().y);
     }
 
     @Override
