@@ -56,7 +56,7 @@ public class Player extends Entity {
     }
 
     private boolean canWalk(int initialPos, int newPos) {
-        return (Math.abs(initialPos - newPos) <= WALKDISTANCE * 15) ? true : false;
+        return Math.abs(initialPos - newPos) <= WALKDISTANCE * 15;
     }
 
     public boolean getCanMove() {
