@@ -3,14 +3,15 @@ package com.monique.txtrpg.events;
 import com.monique.txtrpg.entities.Entity;
 
 public class AttackEvent extends CustomEvent {
+    protected Entity targetEntity;
 
-    /**
-     * @fields float damage;
-     */
     public AttackEvent(Entity sourceEntity, Entity targetEntity, float damage) {
-        super("attack");
+        super(EventType.ATTACK);
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
-        setFloatAttribute("damage", damage);
+    }
+
+    public Entity getTargetEntity() {
+        return targetEntity;
     }
 }

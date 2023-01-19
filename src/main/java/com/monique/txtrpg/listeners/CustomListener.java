@@ -4,16 +4,17 @@ import java.util.function.Consumer;
 import java.util.HashMap;
 
 import com.monique.txtrpg.events.CustomEvent;
+import com.monique.txtrpg.events.EventType;
 
 public class CustomListener {
-    private static HashMap<String, HashMap<String, Consumer<CustomEvent>>> consumers = new HashMap<String, HashMap<String, Consumer<CustomEvent>>>();
+    private static HashMap<EventType, HashMap<String, Consumer<CustomEvent>>> consumers = new HashMap<EventType, HashMap<String, Consumer<CustomEvent>>>();
 
-    public static void addConsumer(String type, String id, Consumer<CustomEvent> consumer) {
+    public static void addConsumer(EventType type, String id, Consumer<CustomEvent> consumer) {
         if (consumers.get(type) == null) createCustomEventType(type);
         consumers.get(type).put(id, consumer);
     }
 
-    public static void removeConsumer(String type, String id) {
+    public static void removeConsumer(EventType type, String id) {
         consumers.get(type).remove(id);
     }
 
@@ -24,7 +25,7 @@ public class CustomListener {
         }
     }
 
-    public static void createCustomEventType(String name) {
-        consumers.put(name, new HashMap<String, Consumer<CustomEvent>>());
+    public static void createCustomEventType(EventType type) {
+        consumers.put(type, new HashMap<String, Consumer<CustomEvent>>());
     }
 }
