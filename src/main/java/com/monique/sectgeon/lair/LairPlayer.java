@@ -1,10 +1,15 @@
 package com.monique.sectgeon.lair;
 
-import com.monique.sectgeon.events.*;
+import java.util.ArrayList;
+
+import com.monique.sectgeon.events.lairplayer.*;
+import com.monique.sectgeon.lair.cards.Card;
 
 public class LairPlayer {
     public final String NAME;
     public Lair lair;
+    public ArrayList<Card> cemetery = new ArrayList<Card>();
+    public ArrayList<Card> deck = new ArrayList<Card>();
     private int life;
 
     public LairPlayer(Lair lair, String name, int maxLife) {
@@ -16,19 +21,22 @@ public class LairPlayer {
     /**
      * @param source who attacked
      */
-    public int takeDamage(LairPlayer source, int damage) {
+    public int takeDamage(Card source, int damage) {
         if (damage > 0) {
-            HurtEvent<LairPlayer> e = (HurtEvent<LairPlayer>) lair.playerListener.dispatchEvent(new HurtEvent<LairPlayer>(source, this, damage));
+            LPHurtEvent e = (LPHurtEvent) lair.listener.dispatchEvent(new LPHurtEvent(source, this, damage));
 
-            life -= e.getDamage();
-            if (life <= 0) death();
+            e.getTarget().life -= e.getDamage();
+            if (e.getTarget().life <= 0) e.getTarget().death();
             return Math.abs(life);
         } else return 0;
     }
 
-    public void heal(int value) {
+    /**
+     * @param source who healed
+     */
+    public void heal(Card source, int value) {
         if (value > 0) {
-            HealEvent<LairPlayer> e = (HealEvent<LairPlayer>) lair.playerListener.dispatchEvent(new HealEvent<LairPlayer>(this, value));
+            LPHealEvent e = (LPHealEvent) lair.listener.dispatchEvent(new LPHealEvent(source, this, value));
 
             life += e.getValue();
         }
@@ -36,5 +44,9 @@ public class LairPlayer {
 
     public void death() {
         //TODO
+    }
+
+    public int getLife() {
+        return life;
     }
 }

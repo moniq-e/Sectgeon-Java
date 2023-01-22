@@ -1,11 +1,21 @@
 package com.monique.sectgeon.events;
 
 public class HealEvent<T> extends CustomEvent<T> {
+    private T target;
     private int value;
 
-    public HealEvent(T source, int value) {
-        super(Triggers.HEAL, source);
+    /**
+     * @param source who attacked
+     * @param target who suffered the attack
+     */
+    public HealEvent(T source, T target, int value) {
+        super(Triggers.Heal, source);
+        this.target = target;
         this.value = value;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     public int getValue() {

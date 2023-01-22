@@ -5,7 +5,7 @@ public class AttackEvent<T> extends CustomEvent<T> {
     private int damage;
 
     public AttackEvent(T source, T target, int damage) {
-        super(Triggers.ATTACK, source);
+        super(Triggers.Attack, source);
         this.target = target;
         this.damage = damage;
     }

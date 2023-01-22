@@ -9,7 +9,7 @@ public class HurtEvent<T> extends CustomEvent<T> {
      * @param target who suffered the attack
      */
     public HurtEvent(T source, T target, int damage) {
-        super(Triggers.HURT, source);
+        super(Triggers.Hurt, source);
         this.target = target;
         this.damage = damage;
     }
