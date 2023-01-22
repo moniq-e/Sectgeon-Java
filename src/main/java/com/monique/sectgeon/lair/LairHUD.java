@@ -13,5 +13,6 @@ public class LairHUD implements Drawable {
 
     @Override
     public void draw(Graphics g) {
+        //TODO
     }
 }

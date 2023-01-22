@@ -5,6 +5,7 @@ public enum Triggers {
     BEFORE_ATTACK,
     ATTACK,
     HURT,
+    HEAL,
     PLAYER_HURT,
     DEATH,
     SUMMON;
