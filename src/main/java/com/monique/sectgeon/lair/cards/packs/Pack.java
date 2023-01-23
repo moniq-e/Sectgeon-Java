@@ -2,7 +2,7 @@ package com.monique.sectgeon.lair.cards.packs;
 
 import java.util.HashMap;
 
-import com.monique.sectgeon.lair.LairPlayer;
+import com.monique.sectgeon.lair.LPlayer;
 import com.monique.sectgeon.lair.cards.Card;
 
 public abstract class Pack {
@@ -20,7 +20,7 @@ public abstract class Pack {
 
     protected abstract void troops();
 
-    public Card instanceateCard(String cardName, LairPlayer player) {
+    public Card instanceateCard(String cardName, LPlayer player) {
         return new Card(CARDS.get(cardName), player);
     }
 }

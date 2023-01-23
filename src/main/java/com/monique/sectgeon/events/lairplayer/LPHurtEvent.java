@@ -1,24 +1,24 @@
 package com.monique.sectgeon.events.lairplayer;
 
 import com.monique.sectgeon.events.*;
-import com.monique.sectgeon.lair.LairPlayer;
+import com.monique.sectgeon.lair.LPlayer;
 import com.monique.sectgeon.lair.cards.Card;
 
 public class LPHurtEvent extends CustomEvent<Card> {
-    private LairPlayer target;
+    private LPlayer target;
     private int damage;
 
-    public LPHurtEvent(Card source, LairPlayer target, int damage) {
+    public LPHurtEvent(Card source, LPlayer target, int damage) {
         super(Triggers.PlayerHurt, source);
         this.target = target;
         this.damage = damage;
     }
 
-    public LairPlayer getTarget() {
+    public LPlayer getTarget() {
         return target;
     }
 
-    public void setTarget(LairPlayer target) {
+    public void setTarget(LPlayer target) {
         this.target = target;
     }
 

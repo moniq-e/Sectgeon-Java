@@ -14,7 +14,7 @@ public class Card implements Drawable {
     public final CardTypes TYPE;
     public final String NAME;
     public final Lair LAIR;
-    public final LairPlayer PLAYER;
+    public final LPlayer PLAYER;
     private int attack;
     private int life;
     private int speed;
@@ -37,7 +37,7 @@ public class Card implements Drawable {
         this.skill = skill;
     }
 
-    public Card(Card card, LairPlayer player) {
+    public Card(Card card, LPlayer player) {
         ID = UUID.randomUUID();
         TYPE = card.TYPE;
         NAME = new String(card.NAME);

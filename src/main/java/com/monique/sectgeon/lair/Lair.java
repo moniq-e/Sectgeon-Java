@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import com.monique.sectgeon.Frame;
-import com.monique.sectgeon.events.SummonEvent;
+import com.monique.sectgeon.events.*;
 import com.monique.sectgeon.gui.*;
 import com.monique.sectgeon.lair.cards.Card;
 import com.monique.sectgeon.listeners.CustomListener;
@@ -17,7 +17,8 @@ public class Lair extends Board {
     private LairHUD hud = new LairHUD(this);
     private int turn = 1;
     public CustomListener<Card> listener = new CustomListener<Card>();
-    public LairPlayer player = new LairPlayer(this, "default", 20);
+    public LPlayer player = new LPlayer(this, "player", 20);
+    public LEnemy enemy = new LEnemy(this, "enemy", 20);
     public HashMap<UUID, Card> tableCards = new HashMap<UUID, Card>();
 
     public Lair(Frame frame) {
@@ -42,8 +43,15 @@ public class Lair extends Board {
         repaint();
     }
 
-    public void placeCard(Card card) {
-        //TODO
+    public void placeCard(Card card, int pos) {
+        PlaceCardEvent e = (PlaceCardEvent) listener.dispatchEvent(new PlaceCardEvent(card, pos));
+
+        if (e.getSource() != null && checkSlot(e.getPos())) {
+            if (e.getPos() != -1) {
+                e.getSource().setPos(e.getPos());
+                tableCards.put(e.getSource().ID, e.getSource());
+            }
+        }
     }
 
     public void summon(Card source, Card summoned, int pos) {
@@ -51,6 +59,24 @@ public class Lair extends Board {
 
         if (e.getSummoned() != null) {
             tableCards.put(e.getSummoned().ID, e.getSummoned());
+        }
+    }
+
+    public boolean checkSlot(int pos) {
+        for (Card card : tableCards.values()) {
+            if (card.getPos() == pos) return false;
+        }
+        return true;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void ready(LPlayer player) {
+        player.ready = true;
+        if (this.player.ready && enemy.ready) {
+            turn++;
         }
     }
 }

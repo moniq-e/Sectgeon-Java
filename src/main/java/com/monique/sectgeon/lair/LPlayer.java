@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import com.monique.sectgeon.events.lairplayer.*;
 import com.monique.sectgeon.lair.cards.Card;
 
-public class LairPlayer {
+public class LPlayer {
     public final String NAME;
     public Lair lair;
+    public boolean ready;
     public ArrayList<Card> cemetery = new ArrayList<Card>();
     public ArrayList<Card> deck = new ArrayList<Card>();
     private int life;
 
-    public LairPlayer(Lair lair, String name, int maxLife) {
+    public LPlayer(Lair lair, String name, int maxLife) {
         this.lair = lair;
         this.NAME = name;
         this.life = maxLife;
