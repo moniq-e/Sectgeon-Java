@@ -2,53 +2,23 @@ package com.monique.sectgeon.lair.cards;
 
 import java.awt.Graphics;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.LPHurtEvent;
 import com.monique.sectgeon.lair.*;
 import com.monique.sectgeon.main.entities.Drawable;
 
-public class Card implements Drawable {
+public class Card extends CardRegistry implements Drawable {
     public final UUID ID;
-    public final CardTypes TYPE;
-    public final String NAME;
     public final Lair LAIR;
     public final LPlayer PLAYER;
-    private int attack;
-    private int life;
-    private int speed;
-    private int sacrifices;
-    private int pos;
-    private Triggers[] triggers;
-    private Consumer<CustomEvent<Card>> skill;
 
-    public Card(String name, CardTypes type, int attk, int life, int speed, int sacr, Consumer<CustomEvent<Card>> skill, Triggers... triggers) {
-        ID = null;
-        TYPE = type;
-        NAME = name;
-        LAIR = null;
-        PLAYER = null;
-        this.attack = attk;
-        this.life = life;
-        this.speed = speed;
-        this.sacrifices = sacr;
-        this.triggers = triggers;
-        this.skill = skill;
-    }
+    public Card(CardRegistry card, LPlayer player) {
+        super(new String(card.NAME), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
 
-    public Card(Card card, LPlayer player) {
         ID = UUID.randomUUID();
-        TYPE = card.TYPE;
-        NAME = new String(card.NAME);
         LAIR = player.lair;
         PLAYER = player;
-        this.attack = card.attack;
-        this.life = card.life;
-        this.speed = card.speed;
-        this.sacrifices = card.sacrifices;
-        this.triggers = card.triggers;
-        this.skill = card.skill;
 
         if (card.triggers != null && card.skill != null) {
             for (Triggers trigger : triggers) {
@@ -109,44 +79,12 @@ public class Card implements Drawable {
         LAIR.listener.dispatchEvent(new DeathEvent<Card>(this));
     }
 
-    public boolean isOnTable() {
-        return LAIR.tableCards.get(ID) != null;
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getSacrifices() {
-        return sacrifices;
-    }
-
-    public void setSacrifices(int sacrifices) {
-        this.sacrifices = sacrifices;
-    }
-
-    public int getPos() {
-        return pos;
-    }
-
-    public void setPos(int pos) {
-        this.pos = pos;
-    }
-
     @Override
     public void draw(Graphics g) {
         //TODO
+    }
+
+    public boolean isOnTable() {
+        return LAIR.tableCards.get(ID) != null;
     }
 }

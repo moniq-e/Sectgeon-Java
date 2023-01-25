@@ -4,9 +4,10 @@ import java.util.HashMap;
 
 import com.monique.sectgeon.lair.LPlayer;
 import com.monique.sectgeon.lair.cards.Card;
+import com.monique.sectgeon.lair.cards.CardRegistry;
 
 public abstract class Pack {
-    protected final HashMap<String, Card> CARDS = new HashMap<String, Card>();
+    protected final HashMap<String, CardRegistry> CARDS = new HashMap<String, CardRegistry>();
 
     public Pack() {
         buildings();

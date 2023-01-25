@@ -11,7 +11,7 @@ public class Macabre extends Pack {
 
     @Override
     protected void buildings() {
-        CARDS.put("Lápide", new Card("Lápide", CardTypes.Building, 0, 3, 1, 0, e -> {
+        CARDS.put("Lápide", new CardRegistry("Lápide", CardTypes.Building, 0, 3, 1, 0, e -> {
             DeathEvent<Card> de = (DeathEvent<Card>) e;
 
             if (de.getSkillID().equals(de.getSource().ID)) {
@@ -29,7 +29,7 @@ public class Macabre extends Pack {
 
     @Override
     protected void spells() {
-        CARDS.put("Livro Sagrado", new Card("Livro Sagrado", CardTypes.Spell, 0, 3, 1, 0, e -> {
+        CARDS.put("Livro Sagrado", new CardRegistry("Livro Sagrado", CardTypes.Spell, 0, 3, 1, 0, e -> {
             LPHurtEvent he = (LPHurtEvent) e;
 
             he.setDamage(0);
@@ -38,7 +38,7 @@ public class Macabre extends Pack {
 
     @Override
     protected void troops() {
-        CARDS.put("Rainha Zumbi", new Card("Rainha Zumbi", CardTypes.Troop, 3, 2, 3, 2, e -> {
+        CARDS.put("Rainha Zumbi", new CardRegistry("Rainha Zumbi", CardTypes.Troop, 3, 2, 3, 2, e -> {
             DeathEvent<Card> de = (DeathEvent<Card>) e;
 
             if (!de.getSkillID().equals(de.getSource().ID) && de.getSource().isOnTable()) {
