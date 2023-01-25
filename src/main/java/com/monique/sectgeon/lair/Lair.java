@@ -7,11 +7,13 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.UUID;
 
-import com.monique.sectgeon.Frame;
-import com.monique.sectgeon.events.*;
-import com.monique.sectgeon.gui.*;
+import com.monique.sectgeon.common.Frame;
+import com.monique.sectgeon.common.events.*;
+import com.monique.sectgeon.common.events.lair.PlaceCardEvent;
+import com.monique.sectgeon.common.gui.*;
+import com.monique.sectgeon.common.listeners.CustomListener;
 import com.monique.sectgeon.lair.cards.Card;
-import com.monique.sectgeon.listeners.CustomListener;
+import com.monique.sectgeon.lair.gui.LairHUD;
 
 public class Lair extends Board {
     private LairHUD hud = new LairHUD(this);

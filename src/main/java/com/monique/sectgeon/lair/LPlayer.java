@@ -2,7 +2,7 @@ package com.monique.sectgeon.lair;
 
 import java.util.ArrayList;
 
-import com.monique.sectgeon.events.lairplayer.*;
+import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.lair.cards.Card;
 
 public class LPlayer {

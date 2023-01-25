@@ -2,9 +2,9 @@ package com.monique.sectgeon.lair.cards.packs;
 
 import java.util.ArrayList;
 
-import com.monique.sectgeon.Util;
-import com.monique.sectgeon.events.*;
-import com.monique.sectgeon.events.lairplayer.*;
+import com.monique.sectgeon.common.Util;
+import com.monique.sectgeon.common.events.*;
+import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.lair.cards.*;
 
 public class Macabre extends Pack {

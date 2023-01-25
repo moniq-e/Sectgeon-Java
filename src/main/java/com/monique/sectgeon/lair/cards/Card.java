@@ -4,10 +4,10 @@ import java.awt.Graphics;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import com.monique.sectgeon.entities.Drawable;
-import com.monique.sectgeon.events.*;
-import com.monique.sectgeon.events.lairplayer.LPHurtEvent;
+import com.monique.sectgeon.common.events.*;
+import com.monique.sectgeon.common.events.lair.LPHurtEvent;
 import com.monique.sectgeon.lair.*;
+import com.monique.sectgeon.main.entities.Drawable;
 
 public class Card implements Drawable {
     public final UUID ID;
