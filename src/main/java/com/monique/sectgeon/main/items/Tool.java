@@ -33,4 +33,8 @@ public abstract class Tool extends Item {
     public int getTicks() {
         return ticks;
     }
+
+    public void resetTicks() {
+        ticks = 0;
+    }
 }

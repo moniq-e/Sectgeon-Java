@@ -9,9 +9,7 @@ public class Util {
     }
 
     public static boolean collides(Rectangle ent1, Rectangle ent2) {
-        boolean colliding = false;
-        if (ent1.intersects(ent2)) colliding = true;
-        return colliding;
+        return ent1.intersects(ent2);
     }
 
     public static double random(float min, float max) {

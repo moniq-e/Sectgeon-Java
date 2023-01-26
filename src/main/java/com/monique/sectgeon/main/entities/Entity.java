@@ -67,7 +67,11 @@ public abstract class Entity implements Drawable {
 
     public void tryAttack(Entity target) {
         if (getHeldItem() instanceof Tool) {
-            attack(target, (Tool) getHeldItem());
+            Tool tool = (Tool) getHeldItem();
+            if (tool.getTicks() >= tool.getSpeed()) {
+                tool.resetTicks();
+                attack(target, tool);
+            }
         }
     }
 
@@ -105,11 +109,11 @@ public abstract class Entity implements Drawable {
     }
 
     public Point getPos() {
-        return (Point) pos;
+        return pos;
     }
 
     public Rectangle getRect() {
-        return (Rectangle) rect;
+        return rect;
     }
 
     public Item getHeldItem() {

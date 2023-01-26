@@ -17,8 +17,6 @@ public abstract class Board extends JPanel {
         this.frame = frame;
         setSize(frame.WIDTH, frame.HEIGHT);
         setLayout(null);
-
-        Frame.listener.addBoardListener(this::tick);
     }
 
     /**

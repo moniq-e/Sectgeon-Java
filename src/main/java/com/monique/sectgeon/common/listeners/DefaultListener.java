@@ -8,13 +8,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 
-import java.util.ArrayList;
+import com.monique.sectgeon.common.Frame;
+
 import java.util.HashMap;
 import java.util.UUID;
 
 public class DefaultListener implements ActionListener, KeyListener, MouseListener {
     private HashMap<DefaultEvents, HashMap<UUID, Consumer<Object>>> listeners = new HashMap<DefaultEvents, HashMap<UUID, Consumer<Object>>>();
-    private ArrayList<Consumer<Object>> boards = new ArrayList<Consumer<Object>>();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -24,7 +24,9 @@ public class DefaultListener implements ActionListener, KeyListener, MouseListen
             }
         }
 
-        if (!boards.isEmpty()) boards.get(0).accept(e);
+        if (Frame.board != null) {
+            Frame.board.tick(e);
+        }
     }
 
     @Override
@@ -60,14 +62,6 @@ public class DefaultListener implements ActionListener, KeyListener, MouseListen
 
     public void clear() {
         listeners.clear();
-    }
-
-    public void addBoardListener(Consumer<Object> consumer) {
-        boards.add(consumer);
-    }
-
-    public void removeBoardListener() {
-        boards.remove(0);
     }
 
     @Override

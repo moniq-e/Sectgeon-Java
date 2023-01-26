@@ -17,7 +17,7 @@ public class Player extends Entity {
     private Point initialPos;
 
     public Player(Dungeon dungeon, String name) {
-        super(dungeon, "player", name, 20, 5, 50, 50);
+        super(dungeon, "player", name, 200, 5, 32, 32);
 
         Frame.listener.addListener(DefaultEvents.Key, ID, this::move);
         inventory.add(new Sword());
@@ -55,7 +55,7 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect(getPos().x, getPos().y, WIDTH, HEIGHT);
+        g.fillOval(getPos().x, getPos().y - HEIGHT, WIDTH, HEIGHT);
         getHeldItem().display(g, getPos().x, getPos().y);
     }
 

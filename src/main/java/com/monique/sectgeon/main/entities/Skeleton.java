@@ -15,9 +15,9 @@ public class Skeleton extends Mob {
      * @param dungeon
      */
     public Skeleton(Dungeon dungeon) {
-        super(dungeon, "skeleton", 10, 3, 35, 35);
+        super(dungeon, "skeleton", 10, 3, 32, 32);
 
-        inventory.add(new Sword());
+        inventory.add(new Bow());
         setHeldItem(inventory.get(0));
         setPos(Util.random(0, dungeon.getWidth() - WIDTH), Util.random(0, dungeon.getHeight() - HEIGHT));
     }
