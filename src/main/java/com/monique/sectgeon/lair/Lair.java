@@ -3,7 +3,6 @@ package com.monique.sectgeon.lair;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -40,7 +39,7 @@ public class Lair extends Board {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void tick(Object e) {
         revalidate();
         repaint();
     }

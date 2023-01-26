@@ -1,7 +1,5 @@
 package com.monique.sectgeon.common.gui;
 
-import java.awt.event.ActionEvent;
-
 import com.monique.sectgeon.common.Frame;
 
 import java.awt.Color;
@@ -29,7 +27,7 @@ public class InitialMenu extends Board {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void tick(Object e) {
         revalidate();
         repaint();
     }

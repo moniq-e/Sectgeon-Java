@@ -3,7 +3,6 @@ package com.monique.sectgeon.main.dungeons;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import com.monique.sectgeon.common.Frame;
@@ -14,7 +13,6 @@ import com.monique.sectgeon.main.gui.DungeonHUD;
 
 public abstract class Dungeon extends Board {
     private boolean started = false;
-    private boolean playerTurn = true;
     private DungeonHUD hud = new DungeonHUD(this);
     public CustomListener<Entity> listener = new CustomListener<Entity>();
     public Player player = new Player(this, "default");
@@ -27,18 +25,9 @@ public abstract class Dungeon extends Board {
         drawables.add(hud);
     }
 
-    private void entitiesAction() {
-        if (livingEntities.size() <= 0) finish(true);
-
-        for (LivingEntity livingEntity : livingEntities) {
-            livingEntity.ai();
-        }
-
-        setPlayerTurn(true);
-    }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         setBackground(Color.decode("#aeebe0"));
         drawHUD(g);
 
@@ -52,13 +41,16 @@ public abstract class Dungeon extends Board {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void tick(Object e) {
         if (!started) {
             started = true;
             start();
         }
 
-        if (!getPlayerTurn()) entitiesAction();
+        if (livingEntities.size() <= 0) finish(true);
+        for (LivingEntity livingEntity : livingEntities) {
+            livingEntity.ai();
+        }
 
         revalidate();
         repaint();
@@ -70,15 +62,6 @@ public abstract class Dungeon extends Board {
     public void finish(boolean winOrLos) {
         frame.finishDungeon(winOrLos);
         System.out.println(winOrLos);
-    }
-
-    public boolean getPlayerTurn() {
-        return playerTurn;
-    }
-
-    public void setPlayerTurn(boolean turn) {
-        playerTurn = turn;
-        player.setCanMove(turn);
     }
 
     private void drawHUD(Graphics g) {

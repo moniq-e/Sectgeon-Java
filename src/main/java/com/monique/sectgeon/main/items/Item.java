@@ -1,8 +1,10 @@
-package com.monique.sectgeon.common.items;
+package com.monique.sectgeon.main.items;
 
 import java.awt.Graphics;
+import java.util.UUID;
 
 public abstract class Item {
+    public final UUID ID = UUID.randomUUID();
     protected String name;
 
     Item(String name) {

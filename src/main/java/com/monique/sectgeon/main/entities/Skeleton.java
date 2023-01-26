@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JMenuItem;
 
 import com.monique.sectgeon.common.Util;
-import com.monique.sectgeon.common.items.*;
+import com.monique.sectgeon.main.items.*;
 import com.monique.sectgeon.main.dungeons.*;
 
 public class Skeleton extends Mob {
@@ -15,10 +15,8 @@ public class Skeleton extends Mob {
      * @param dungeon
      */
     public Skeleton(Dungeon dungeon) {
-        super(dungeon, "skeleton", 10, 100, 35, 35);
-        
-        dungeon.livingEntities.add(this);
-        dungeon.drawables.add(this);
+        super(dungeon, "skeleton", 10, 3, 35, 35);
+
         inventory.add(new Sword());
         setHeldItem(inventory.get(0));
         setPos(Util.random(0, dungeon.getWidth() - WIDTH), Util.random(0, dungeon.getHeight() - HEIGHT));
@@ -43,7 +41,6 @@ public class Skeleton extends Mob {
         JMenuItem attack = new JMenuItem("Attack");
         attack.addActionListener(e -> {
             dungeon.player.tryAttack(this);
-            dungeon.setPlayerTurn(false);
         });
         popup.add(attack);
     }

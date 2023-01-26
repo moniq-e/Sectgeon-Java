@@ -5,20 +5,21 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import com.monique.sectgeon.common.items.*;
+import com.monique.sectgeon.common.Frame;
+import com.monique.sectgeon.common.listeners.DefaultEvents;
 import com.monique.sectgeon.main.dungeons.Dungeon;
+import com.monique.sectgeon.main.items.*;
 
 import java.awt.Point;
 
 public class Player extends Entity {
-    private boolean canMove = true;
     public ArrayList<Item> inventory = new ArrayList<Item>(9);
     private Point initialPos;
 
     public Player(Dungeon dungeon, String name) {
-        super(dungeon, "player", name, 20, 10, 50, 50);
-        
-        dungeon.frame.listener.addKeyPressedConsumer(ID, this::move);
+        super(dungeon, "player", name, 20, 5, 50, 50);
+
+        Frame.listener.addListener(DefaultEvents.Key, ID, this::move);
         inventory.add(new Sword());
         inventory.add(new Bow());
         setHeldItem(inventory.get(0));
@@ -26,47 +27,29 @@ public class Player extends Entity {
         setPos(initialPos);
     }
 
-    public void move(KeyEvent e) {
-        if (!canMove) return;
-        Point newPos;
+    public void move(Object note) {
+        KeyEvent e = (KeyEvent) note;
         switch (e.getKeyChar()) {
             case 'w':
                 if (getPos().y <= 0) return;
-                newPos = new Point(getPos().x, getPos().y -= WALKDISTANCE);
-                if (canWalk(initialPos.y, newPos.y)) setPos(newPos);
+                setPos(getPos().x, getPos().y -= WALKDISTANCE);
                 break;
             case 's':
                 if (getPos().y >= dungeon.getHeight() - HEIGHT) return;
-                newPos = new Point(getPos().x, getPos().y += WALKDISTANCE);
-                if (canWalk(initialPos.y, newPos.y)) setPos(newPos);
+                setPos(getPos().x, getPos().y += WALKDISTANCE);
                 break;
             case 'a':
                 if (getPos().x <= 0) return;
-                newPos = new Point(getPos().x -= WALKDISTANCE, getPos().y);
-                if (canWalk(initialPos.x, newPos.x)) setPos(newPos);
+                setPos(getPos().x -= WALKDISTANCE, getPos().y);
                 break;
             case 'd':
                 if (getPos().x >= dungeon.getWidth() - WIDTH) return;
-                newPos = new Point(getPos().x += WALKDISTANCE, getPos().y);
-                if (canWalk(initialPos.x, newPos.x)) setPos(newPos);
+                setPos(getPos().x += WALKDISTANCE, getPos().y);
                 break;
             default:
                 System.out.println(e.getKeyChar());
                 break;
         }
-    }
-
-    private boolean canWalk(int initialPos, int newPos) {
-        return Math.abs(initialPos - newPos) <= WALKDISTANCE * 15;
-    }
-
-    public boolean getCanMove() {
-        return canMove;
-    }
-
-    public void setCanMove(boolean canMove) {
-        this.canMove = canMove;
-        initialPos = getPos();
     }
 
     @Override

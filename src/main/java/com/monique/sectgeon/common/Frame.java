@@ -14,9 +14,9 @@ public class Frame extends JFrame {
     public final int WIDTH = 720;
     public final int HEIGHT = 480;
     public Board board;
-    public DefaultListener listener = new DefaultListener(this);
+    public static DefaultListener listener = new DefaultListener();
     public Timer timer = new Timer(33, listener);
-    private ArrayList<Board> cronologia = new ArrayList<Board>();
+    public ArrayList<Board> cronologia = new ArrayList<Board>();
 
     public static void main(String[] args) {
         new Frame();
@@ -41,7 +41,10 @@ public class Frame extends JFrame {
     }
 
     private void setBoard(Board board) {
-        if (this.board != null) remove(this.board);
+        if (this.board != null) {
+            remove(this.board);
+            listener.removeBoardListener();
+        }
         this.board = board;
         add(this.board);
     }

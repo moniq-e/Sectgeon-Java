@@ -1,18 +1,12 @@
-package com.monique.sectgeon.common.items;
+package com.monique.sectgeon.main.items;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Sword extends Item implements Tool {
-    private int dice = 8;
+public class Sword extends Tool {
 
     public Sword() {
-        super("sword");
-    }
-
-    @Override
-    public int getDice() {
-        return dice;
+        super("sword", 8, 15);
     }
 
     @Override

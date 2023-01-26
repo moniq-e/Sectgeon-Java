@@ -5,16 +5,16 @@ import java.util.UUID;
 
 import com.monique.sectgeon.common.Util;
 import com.monique.sectgeon.common.events.AttackEvent;
-import com.monique.sectgeon.common.items.Item;
-import com.monique.sectgeon.common.items.Tool;
 import com.monique.sectgeon.main.dungeons.Dungeon;
+import com.monique.sectgeon.main.items.Item;
+import com.monique.sectgeon.main.items.Tool;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 
 public abstract class Entity implements Drawable {
     public Dungeon dungeon;
-    public final String ID = UUID.randomUUID().toString();
+    public final UUID ID = UUID.randomUUID();
     public final String TYPE;
     public final String NAME;
     public final float MAXLIFE;
@@ -105,11 +105,11 @@ public abstract class Entity implements Drawable {
     }
 
     public Point getPos() {
-        return (Point) pos.clone();
+        return (Point) pos;
     }
 
     public Rectangle getRect() {
-        return (Rectangle) rect.clone();
+        return (Rectangle) rect;
     }
 
     public Item getHeldItem() {
