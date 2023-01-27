@@ -1,7 +1,11 @@
 package com.monique.sectgeon.common;
 
+import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Util {
     public static double distance(Point a, Point b) {
@@ -22,5 +26,13 @@ public class Util {
 
     public static int d(int dice) {
         return random(1, dice);
+    }
+
+    public static BufferedImage getImage(String location) {
+        try {
+            return ImageIO.read(new File("./src/main/resources/" + location));
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

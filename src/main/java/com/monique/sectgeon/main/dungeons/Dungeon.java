@@ -47,7 +47,6 @@ public abstract class Dungeon extends Board {
             start();
         }
 
-        if (livingEntities.size() <= 0) finish(true);
         for (LivingEntity livingEntity : livingEntities) {
             livingEntity.ai();
         }

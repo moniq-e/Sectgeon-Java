@@ -3,20 +3,20 @@ package com.monique.sectgeon.lair.cards;
 import java.awt.Graphics;
 import java.util.UUID;
 
+import com.monique.sectgeon.common.Util;
 import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.LPHurtEvent;
+import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.lair.*;
-import com.monique.sectgeon.main.entities.Drawable;
 
 public class Card extends CardRegistry implements Drawable {
-    public final UUID ID;
+    public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
     public final LPlayer PLAYER;
 
     public Card(CardRegistry card, LPlayer player) {
         super(new String(card.NAME), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
 
-        ID = UUID.randomUUID();
         LAIR = player.lair;
         PLAYER = player;
 
@@ -50,6 +50,7 @@ public class Card extends CardRegistry implements Drawable {
     }
 
     /**
+
      * @param source who healed
      */
     public void heal(Card source, int value) {
@@ -81,7 +82,7 @@ public class Card extends CardRegistry implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        //TODO
+        g.drawImage(Util.getImage("cards:carta_vazia.png"), 0, 0, LAIR);
     }
 
     public boolean isOnTable() {

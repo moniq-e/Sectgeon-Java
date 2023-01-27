@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities;
+package com.monique.sectgeon.common.gui;
 
 import java.awt.Graphics;
 

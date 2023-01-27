@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.monique.sectgeon.common.Util;
 import com.monique.sectgeon.common.events.AttackEvent;
+import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.main.dungeons.Dungeon;
 import com.monique.sectgeon.main.items.Item;
 import com.monique.sectgeon.main.items.Tool;

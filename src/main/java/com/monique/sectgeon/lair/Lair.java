@@ -6,15 +6,16 @@ import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.UUID;
 
-import com.monique.sectgeon.common.Frame;
 import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.PlaceCardEvent;
 import com.monique.sectgeon.common.gui.*;
 import com.monique.sectgeon.common.listeners.CustomListener;
 import com.monique.sectgeon.lair.cards.Card;
 import com.monique.sectgeon.lair.gui.LairHUD;
+import com.monique.sectgeon.main.dungeons.Dungeon;
 
 public class Lair extends Board {
+    private Dungeon dungeon;
     private LairHUD hud = new LairHUD(this);
     private int turn = 1;
     public CustomListener<Card> listener = new CustomListener<Card>();
@@ -22,8 +23,9 @@ public class Lair extends Board {
     public LEnemy enemy = new LEnemy(this, "enemy", 20);
     public HashMap<UUID, Card> tableCards = new HashMap<UUID, Card>();
 
-    public Lair(Frame frame) {
-        super(frame);
+    public Lair(Dungeon dungeon) {
+        super(dungeon.frame);
+        this.dungeon = dungeon;
     }
 
     public void paintComponent(Graphics g) {
@@ -79,5 +81,9 @@ public class Lair extends Board {
         if (this.player.ready && enemy.ready) {
             turn++;
         }
+    }
+
+    public void finish(boolean winOrLoss) {
+        frame.finishLair(winOrLoss, dungeon);
     }
 }

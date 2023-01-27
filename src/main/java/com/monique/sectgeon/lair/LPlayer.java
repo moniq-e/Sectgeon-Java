@@ -44,7 +44,7 @@ public class LPlayer {
     }
 
     public void death() {
-        //TODO
+        lair.finish(false);
     }
 
     public int getLife() {

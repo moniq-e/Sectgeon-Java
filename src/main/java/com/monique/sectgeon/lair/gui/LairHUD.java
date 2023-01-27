@@ -2,8 +2,9 @@ package com.monique.sectgeon.lair.gui;
 
 import java.awt.Graphics;
 
+import com.monique.sectgeon.common.Util;
+import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.lair.Lair;
-import com.monique.sectgeon.main.entities.Drawable;
 
 public class LairHUD implements Drawable {
     public final Lair LAIR;
@@ -14,6 +15,6 @@ public class LairHUD implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        //TODO
+        g.drawImage(Util.getImage("lair/mesa.png"), 0, 0, LAIR);
     }
 }

@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities;
+package com.monique.sectgeon.main.entities.monsters;
 
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseEvent;
@@ -6,11 +6,13 @@ import java.awt.event.MouseEvent;
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.main.dungeons.Dungeon;
+import com.monique.sectgeon.main.entities.Entity;
+import com.monique.sectgeon.main.entities.LivingEntity;
 
 import java.awt.Rectangle;
 
 public abstract class Mob extends Entity implements LivingEntity {
-    JPopupMenu popup = new JPopupMenu();
+    protected JPopupMenu popup = new JPopupMenu();
 
     Mob(Dungeon dungeon, String type, int maxlife, int walkdistance, int width, int height) {
         super(dungeon, type, maxlife, walkdistance, width, height);
@@ -24,7 +26,7 @@ public abstract class Mob extends Entity implements LivingEntity {
 
     protected abstract void setPopupItems();
 
-    private void setPopupConsumer() {
+    protected void setPopupConsumer() {
         Frame.listener.addListener(Events.Mouse, ID, note -> {
             MouseEvent e = (MouseEvent) note;
             if (Util.collides(this.getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {

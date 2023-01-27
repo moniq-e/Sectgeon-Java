@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities;
+package com.monique.sectgeon.main.entities.monsters;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -26,6 +26,7 @@ public class Skeleton extends Mob {
     public void draw(Graphics g) {
         g.setColor(Color.yellow);
         g.fillOval(getPos().x, getPos().y - HEIGHT, WIDTH, HEIGHT);
+        getHeldItem().display(g, getPos().x, getPos().y);
     }
 
     @Override

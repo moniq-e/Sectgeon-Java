@@ -40,7 +40,7 @@ public class Frame extends JFrame {
         phasis.add(new Dungeon1(this));
     }
 
-    private void setBoard(Board board) {
+    public void setBoard(Board board) {
         if (Frame.board != null) {
             remove(Frame.board);
         }
@@ -57,6 +57,14 @@ public class Frame extends JFrame {
             } catch (IndexOutOfBoundsException e) {
                 finish();
             }
+        } else {
+            finish();
+        }
+    }
+
+    public void finishLair(boolean winOrLos, Board board) {
+        if (winOrLos) {
+            setBoard(board);
         } else {
             finish();
         }

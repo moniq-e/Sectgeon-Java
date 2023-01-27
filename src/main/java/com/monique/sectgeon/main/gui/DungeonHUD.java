@@ -3,8 +3,8 @@ package com.monique.sectgeon.main.gui;
 import java.awt.Graphics;
 
 import com.monique.sectgeon.common.gui.Button;
+import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.main.dungeons.Dungeon;
-import com.monique.sectgeon.main.entities.Drawable;
 import com.monique.sectgeon.main.items.Item;
 
 import java.awt.Color;

@@ -1,7 +1,8 @@
 package com.monique.sectgeon.main.dungeons;
 
 import com.monique.sectgeon.common.Frame;
-import com.monique.sectgeon.main.entities.Skeleton;
+import com.monique.sectgeon.main.entities.monsters.Skeleton;
+import com.monique.sectgeon.main.entities.npcs.NPCs;
 
 public class Dungeon1 extends Dungeon {
 
@@ -11,8 +12,7 @@ public class Dungeon1 extends Dungeon {
 
     @Override
     public void start() {
-        for (int i = 1; i <= 3; i++) {
-            new Skeleton(this);
-        }
+        new Skeleton(this);
+        NPCs.instanceateNPC("John", this);
     }
 }

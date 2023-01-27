@@ -9,8 +9,13 @@ import com.monique.sectgeon.lair.cards.*;
 
 public class Macabre extends Pack {
 
-    @Override
-    protected void buildings() {
+    static {
+        buildings();
+        spells();
+        troops();
+    }
+
+    private static void buildings() {
         CARDS.put("Lápide", new CardRegistry("Lápide", CardTypes.Building, 0, 3, 1, 0, e -> {
             DeathEvent<Card> de = (DeathEvent<Card>) e;
 
@@ -18,17 +23,16 @@ public class Macabre extends Pack {
 
                 Card self = de.getSource().LAIR.tableCards.get(de.getSkillID());
                 ArrayList<Card> cm = de.getSource().PLAYER.cemetery;
-    
+
                 Card rn = cm.get(Util.random(0, cm.size() - 1));
                 Card newCard = instanceateCard(rn.NAME, self.PLAYER);
-    
+
                 self.LAIR.summon(self, newCard, self.getPos());
             }
         }, Triggers.Death));
     }
 
-    @Override
-    protected void spells() {
+    private static void spells() {
         CARDS.put("Livro Sagrado", new CardRegistry("Livro Sagrado", CardTypes.Spell, 0, 3, 1, 0, e -> {
             LPHurtEvent he = (LPHurtEvent) e;
 
@@ -36,8 +40,7 @@ public class Macabre extends Pack {
         }, Triggers.PlayerHurt));
     }
 
-    @Override
-    protected void troops() {
+    private static void troops() {
         CARDS.put("Rainha Zumbi", new CardRegistry("Rainha Zumbi", CardTypes.Troop, 3, 2, 3, 2, e -> {
             DeathEvent<Card> de = (DeathEvent<Card>) e;
 
