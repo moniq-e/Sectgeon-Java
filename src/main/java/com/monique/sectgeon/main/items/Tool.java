@@ -2,7 +2,7 @@ package com.monique.sectgeon.main.items;
 
 import com.monique.sectgeon.common.Frame;
 import com.monique.sectgeon.common.Util;
-import com.monique.sectgeon.common.listeners.DefaultEvents;
+import com.monique.sectgeon.common.listeners.Events;
 
 public abstract class Tool extends Item {
     private int dice;
@@ -13,7 +13,7 @@ public abstract class Tool extends Item {
         super(name);
         this.dice = dice;
         this.speed = speed;
-        Frame.listener.addListener(DefaultEvents.Action, ID, e -> {
+        Frame.listener.addListener(Events.Action, ID, e -> {
             ticks++;
         });
     }

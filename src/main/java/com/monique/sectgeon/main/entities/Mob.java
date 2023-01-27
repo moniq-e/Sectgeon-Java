@@ -4,7 +4,7 @@ import javax.swing.JPopupMenu;
 import java.awt.event.MouseEvent;
 
 import com.monique.sectgeon.common.*;
-import com.monique.sectgeon.common.listeners.DefaultEvents;
+import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.main.dungeons.Dungeon;
 
 import java.awt.Rectangle;
@@ -25,7 +25,7 @@ public abstract class Mob extends Entity implements LivingEntity {
     protected abstract void setPopupItems();
 
     private void setPopupConsumer() {
-        Frame.listener.addListener(DefaultEvents.Mouse, ID, note -> {
+        Frame.listener.addListener(Events.Mouse, ID, note -> {
             MouseEvent e = (MouseEvent) note;
             if (Util.collides(this.getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {
                 popup.show(dungeon, e.getX(), e.getY());
@@ -37,7 +37,7 @@ public abstract class Mob extends Entity implements LivingEntity {
     public void kill() {
         dungeon.livingEntities.remove(this);
         dungeon.drawables.remove(this);
-        Frame.listener.removeListener(DefaultEvents.Mouse, ID);
+        Frame.listener.removeListener(Events.Mouse, ID);
         dungeon.remove(popup);
     }
 }

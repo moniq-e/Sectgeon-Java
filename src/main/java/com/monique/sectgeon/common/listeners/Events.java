@@ -1,6 +1,6 @@
 package com.monique.sectgeon.common.listeners;
 
-public enum DefaultEvents {
+public enum Events {
     Action,
     Key,
     Mouse;
