@@ -15,6 +15,6 @@ public class LairHUD implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(Util.getImage("lair/mesa.png"), 0, 0, LAIR);
+        g.drawImage(Util.getImage("lair/mesa.png"), 0, 0, LAIR.frame.getWidth(), LAIR.frame.getHeight(), LAIR);
     }
 }

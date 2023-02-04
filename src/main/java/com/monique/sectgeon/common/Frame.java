@@ -4,17 +4,17 @@ import javax.swing.Timer;
 
 import com.monique.sectgeon.common.gui.Board;
 import com.monique.sectgeon.common.gui.InitialMenu;
-import com.monique.sectgeon.common.listeners.DefaultListener;
+import com.monique.sectgeon.common.listeners.Listener;
 import com.monique.sectgeon.main.dungeons.*;
 
 import javax.swing.JFrame;
 import java.util.ArrayList;
 
 public class Frame extends JFrame {
-    public final int WIDTH = 720;
-    public final int HEIGHT = 480;
+    public static final int WIDTH = 720;
+    public static final int HEIGHT = 480;
     public static Board board;
-    public static DefaultListener listener = new DefaultListener();
+    public static Listener listener = new Listener();
     public Timer timer = new Timer(33, listener);
     public ArrayList<Board> phasis = new ArrayList<Board>();
 
@@ -27,7 +27,7 @@ public class Frame extends JFrame {
         addKeyListener(listener);
         addMouseListener(listener);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(this.WIDTH, this.HEIGHT);
+        setSize(Frame.WIDTH, Frame.HEIGHT);
         setVisible(true);
         setLocationRelativeTo(null);
 

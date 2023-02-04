@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class DefaultListener extends MouseAdapter implements ActionListener, KeyListener {
+public class Listener extends MouseAdapter implements ActionListener, KeyListener {
     private HashMap<Events, HashMap<UUID, Consumer<Object>>> listeners = new HashMap<Events, HashMap<UUID, Consumer<Object>>>();
     private HashSet<Character> pressedKeys = new HashSet<Character>();
 
