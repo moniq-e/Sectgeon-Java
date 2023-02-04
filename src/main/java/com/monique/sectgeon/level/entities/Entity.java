@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities;
+package com.monique.sectgeon.level.entities;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -6,9 +6,9 @@ import java.util.UUID;
 import com.monique.sectgeon.common.Util;
 import com.monique.sectgeon.common.events.AttackEvent;
 import com.monique.sectgeon.common.gui.Drawable;
-import com.monique.sectgeon.main.dungeons.Dungeon;
-import com.monique.sectgeon.main.items.Item;
-import com.monique.sectgeon.main.items.Tool;
+import com.monique.sectgeon.level.dungeons.Dungeon;
+import com.monique.sectgeon.level.items.Item;
+import com.monique.sectgeon.level.items.Tool;
 
 import java.awt.Point;
 import java.awt.Rectangle;

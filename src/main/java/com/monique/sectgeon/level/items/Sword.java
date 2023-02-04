@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.items;
+package com.monique.sectgeon.level.items;
 
 import java.awt.Color;
 import java.awt.Graphics;

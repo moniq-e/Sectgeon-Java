@@ -1,8 +1,8 @@
-package com.monique.sectgeon.main.entities.npcs;
+package com.monique.sectgeon.level.entities.npcs;
 
 import java.util.HashMap;
 
-import com.monique.sectgeon.main.dungeons.Dungeon;
+import com.monique.sectgeon.level.dungeons.Dungeon;
 
 public class NPCs {
     private static final HashMap<String, NPCRegistry> NPCS = new HashMap<String, NPCRegistry>();

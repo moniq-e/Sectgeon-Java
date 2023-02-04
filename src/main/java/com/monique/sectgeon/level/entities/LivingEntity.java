@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities;
+package com.monique.sectgeon.level.entities;
 
 public interface LivingEntity {
     /**

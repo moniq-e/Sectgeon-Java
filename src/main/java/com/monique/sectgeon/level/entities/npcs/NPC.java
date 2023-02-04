@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities.npcs;
+package com.monique.sectgeon.level.entities.npcs;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,7 +11,7 @@ import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.lair.Lair;
-import com.monique.sectgeon.main.dungeons.Dungeon;
+import com.monique.sectgeon.level.dungeons.Dungeon;
 
 public class NPC extends NPCRegistry implements Drawable {
     public final UUID ID = UUID.randomUUID();

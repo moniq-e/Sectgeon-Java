@@ -1,8 +1,8 @@
-package com.monique.sectgeon.main.dungeons;
+package com.monique.sectgeon.level.dungeons;
 
 import com.monique.sectgeon.common.Frame;
-import com.monique.sectgeon.main.entities.monsters.Skeleton;
-import com.monique.sectgeon.main.entities.npcs.NPCs;
+import com.monique.sectgeon.level.entities.monsters.Skeleton;
+import com.monique.sectgeon.level.entities.npcs.NPCs;
 
 public class Dungeon1 extends Dungeon {
 

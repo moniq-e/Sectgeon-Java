@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities;
+package com.monique.sectgeon.level.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,8 +8,8 @@ import java.util.HashSet;
 
 import com.monique.sectgeon.common.Frame;
 import com.monique.sectgeon.common.listeners.Events;
-import com.monique.sectgeon.main.dungeons.Dungeon;
-import com.monique.sectgeon.main.items.*;
+import com.monique.sectgeon.level.dungeons.Dungeon;
+import com.monique.sectgeon.level.items.*;
 
 public class Player extends Entity {
     public ArrayList<Item> inventory = new ArrayList<Item>(9);

@@ -12,7 +12,7 @@ import com.monique.sectgeon.common.gui.*;
 import com.monique.sectgeon.common.listeners.CustomListener;
 import com.monique.sectgeon.lair.cards.Card;
 import com.monique.sectgeon.lair.gui.LairHUD;
-import com.monique.sectgeon.main.dungeons.Dungeon;
+import com.monique.sectgeon.level.dungeons.Dungeon;
 
 public class Lair extends Board {
     private Dungeon dungeon;

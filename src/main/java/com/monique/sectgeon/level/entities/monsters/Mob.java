@@ -1,13 +1,13 @@
-package com.monique.sectgeon.main.entities.monsters;
+package com.monique.sectgeon.level.entities.monsters;
 
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseEvent;
 
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.listeners.Events;
-import com.monique.sectgeon.main.dungeons.Dungeon;
-import com.monique.sectgeon.main.entities.Entity;
-import com.monique.sectgeon.main.entities.LivingEntity;
+import com.monique.sectgeon.level.dungeons.Dungeon;
+import com.monique.sectgeon.level.entities.Entity;
+import com.monique.sectgeon.level.entities.LivingEntity;
 
 import java.awt.Rectangle;
 

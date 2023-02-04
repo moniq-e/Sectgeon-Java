@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.items;
+package com.monique.sectgeon.level.items;
 
 import com.monique.sectgeon.common.Frame;
 import com.monique.sectgeon.common.Util;

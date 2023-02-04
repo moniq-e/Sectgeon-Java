@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.dungeons;
+package com.monique.sectgeon.level.dungeons;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import com.monique.sectgeon.common.Frame;
 import com.monique.sectgeon.common.gui.*;
 import com.monique.sectgeon.common.listeners.CustomListener;
-import com.monique.sectgeon.main.entities.*;
-import com.monique.sectgeon.main.gui.DungeonHUD;
+import com.monique.sectgeon.level.entities.*;
+import com.monique.sectgeon.level.gui.DungeonHUD;
 
 public abstract class Dungeon extends Board {
     private boolean started = false;

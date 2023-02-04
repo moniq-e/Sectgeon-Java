@@ -1,4 +1,4 @@
-package com.monique.sectgeon.main.entities.npcs;
+package com.monique.sectgeon.level.entities.npcs;
 
 import java.awt.Point;
 import java.awt.Rectangle;

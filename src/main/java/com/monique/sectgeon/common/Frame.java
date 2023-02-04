@@ -5,7 +5,7 @@ import javax.swing.Timer;
 import com.monique.sectgeon.common.gui.Board;
 import com.monique.sectgeon.common.gui.InitialMenu;
 import com.monique.sectgeon.common.listeners.Listener;
-import com.monique.sectgeon.main.dungeons.*;
+import com.monique.sectgeon.level.dungeons.*;
 
 import javax.swing.JFrame;
 import java.util.ArrayList;

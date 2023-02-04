@@ -1,12 +1,12 @@
-package com.monique.sectgeon.main.entities.monsters;
+package com.monique.sectgeon.level.entities.monsters;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JMenuItem;
 
 import com.monique.sectgeon.common.Util;
-import com.monique.sectgeon.main.items.*;
-import com.monique.sectgeon.main.dungeons.*;
+import com.monique.sectgeon.level.dungeons.*;
+import com.monique.sectgeon.level.items.*;
 
 public class Skeleton extends Mob {
 
