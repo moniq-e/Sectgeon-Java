@@ -1,7 +1,7 @@
 package com.monique.sectgeon.common.gui;
 
 import java.util.UUID;
-
+import java.awt.Dimension;
 import javax.swing.JPanel;
 
 import com.monique.sectgeon.common.Frame;
@@ -17,6 +17,11 @@ public abstract class Board extends JPanel {
         this.frame = frame;
         setSize(Frame.WIDTH, Frame.HEIGHT);
         setLayout(null);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return getSize();
     }
 
     /**

@@ -56,8 +56,7 @@ public class Listener extends MouseAdapter implements ActionListener, KeyListene
     }
 
     public void addListener(Events type, UUID id, Consumer<Object> consumer) {
-        if (listeners.get(type) == null)
-            createCustomEventType(type);
+        if (listeners.get(type) == null) createCustomEventType(type);
         listeners.get(type).put(id, consumer);
     }
 

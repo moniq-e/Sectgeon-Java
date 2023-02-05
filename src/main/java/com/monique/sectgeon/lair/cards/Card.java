@@ -7,11 +7,12 @@ import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.LPHurtEvent;
 import com.monique.sectgeon.common.gui.Drawable;
+//import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.lair.*;
 
 public class Card extends CardRegistry implements Drawable {
     public static final int WIDTH = Frame.board.getHeight() / 10;
-    public static final int HEIGHT = Frame.board.getHeight() / 5;
+    public static final int HEIGHT = Frame.board.getHeight() / 6;
     public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
     public final LPlayer PLAYER;
@@ -27,6 +28,8 @@ public class Card extends CardRegistry implements Drawable {
                 LAIR.listener.addListener(trigger, ID, card.skill);   
             }
         }
+
+        //Frame.listener.addListener(Events.Mouse, ID, null);
     }
 
     public void attack(Card card) {
@@ -52,7 +55,6 @@ public class Card extends CardRegistry implements Drawable {
     }
 
     /**
-
      * @param source who healed
      */
     public void heal(Card source, int value) {

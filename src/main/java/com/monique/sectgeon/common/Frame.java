@@ -46,6 +46,7 @@ public class Frame extends JFrame {
         }
         Frame.board = board;
         add(Frame.board);
+        pack();
     }
 
     public void finishDungeon(boolean winOrLos) {

@@ -11,6 +11,7 @@ public class LPlayer {
     public boolean ready;
     public ArrayList<Card> cemetery = new ArrayList<Card>();
     public ArrayList<Card> deck = new ArrayList<Card>();
+    public ArrayList<Card> hand = new ArrayList<Card>();
     private int life;
 
     public LPlayer(Lair lair, String name, int maxLife) {
