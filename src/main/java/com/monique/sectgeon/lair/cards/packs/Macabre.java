@@ -50,4 +50,10 @@ public class Macabre extends Pack {
             }
         }, Triggers.PlayerHurt));
     }
+
+    public static ArrayList<CardRegistry> getCards() {
+        ArrayList<CardRegistry> array = new ArrayList<CardRegistry>();
+        array.addAll(CARDS.values());
+        return array;
+    }
 }

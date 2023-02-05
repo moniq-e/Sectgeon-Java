@@ -3,14 +3,15 @@ package com.monique.sectgeon.lair;
 import java.util.ArrayList;
 
 import com.monique.sectgeon.common.events.lair.*;
-import com.monique.sectgeon.lair.cards.Card;
+import com.monique.sectgeon.lair.cards.*;
+import com.monique.sectgeon.lair.cards.packs.Macabre;
 
 public class LPlayer {
     public final String NAME;
     public Lair lair;
     public boolean ready;
     public ArrayList<Card> cemetery = new ArrayList<Card>();
-    public ArrayList<Card> deck = new ArrayList<Card>();
+    public ArrayList<CardRegistry> deck = Macabre.getCards();
     public ArrayList<Card> hand = new ArrayList<Card>();
     private int life;
 

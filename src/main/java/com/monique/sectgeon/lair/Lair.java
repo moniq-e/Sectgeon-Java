@@ -21,13 +21,15 @@ public class Lair extends Board {
     public LPlayer player = new LPlayer(this, "player", 20);
     public LEnemy enemy = new LEnemy(this, "enemy", 20);
     public HashMap<UUID, Card> tableCards = new HashMap<UUID, Card>();
+    public LairHUD hud = new LairHUD(this);
     private Dungeon dungeon;
-    private LairHUD hud = new LairHUD(this);
     private int turn = 1;
 
     public Lair(Dungeon dungeon) {
         super(dungeon.frame);
         this.dungeon = dungeon;
+        addKeyListener(defaultListener);
+        addMouseListener(defaultListener);
     }
 
     public void paintComponent(Graphics g) {

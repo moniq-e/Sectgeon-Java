@@ -1,6 +1,8 @@
 package com.monique.sectgeon.lair.cards;
 
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.UUID;
 
 import com.monique.sectgeon.common.*;
@@ -11,14 +13,15 @@ import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.lair.*;
 
 public class Card extends CardRegistry implements Drawable {
-    public static final int WIDTH = Frame.board.getHeight() / 10;
-    public static final int HEIGHT = Frame.board.getHeight() / 6;
+    public static int width;
+    public static int height;
     public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
     public final LPlayer PLAYER;
 
     public Card(CardRegistry card, LPlayer player) {
         super(new String(card.NAME), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
+        pos = -1;
 
         LAIR = player.lair;
         PLAYER = player;
@@ -86,7 +89,23 @@ public class Card extends CardRegistry implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(Util.getImage("cards:carta_vazia.png"), 0, 0, Card.WIDTH, Card.HEIGHT, LAIR);
+        Point pos;
+        if (PLAYER instanceof LEnemy) {
+            pos = LAIR.hud.EnemyTablePos[this.pos];
+        } else {
+            pos = LAIR.hud.PlayerTablePos[this.pos];
+        }
+        g.drawImage(Util.getImage("cards/carta_vazia.png"), pos.x, pos.y, Card.width, Card.height, LAIR);
+    }
+
+    public void draw(Graphics g, int x, int y) {
+        Point mouse = LAIR.getMousePosition();
+        if (mouse != null) {
+            if (Util.collides(new Rectangle(x, y, width, height), new Rectangle(mouse.x, mouse.y, 1, 1))) {
+                y -= height;
+            }
+        }
+        g.drawImage(Util.getImage("cards/carta_vazia.png"), x, y, Card.width, Card.height, LAIR);
     }
 
     public boolean isOnTable() {

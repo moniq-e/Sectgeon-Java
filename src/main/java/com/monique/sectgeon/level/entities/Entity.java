@@ -34,13 +34,13 @@ public abstract class Entity implements Drawable {
      * Default entitiy constructor, name is type
      */
     public Entity(Dungeon dungeon, String type, float maxLife, int walkDistance, int width, int height) {
+        TYPE = type;
+        NAME = type;
+        MAXLIFE = maxLife;
+        WALKDISTANCE = walkDistance;
+        WIDTH = width;
+        HEIGHT = height;
         this.dungeon = dungeon;
-        this.TYPE = type;
-        this.NAME = type;
-        this.MAXLIFE = maxLife;
-        this.WALKDISTANCE = walkDistance;
-        this.WIDTH = width;
-        this.HEIGHT = height;
         this.rect = new Rectangle(0, 0, width, height);
         this.life = maxLife;
     }
