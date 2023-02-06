@@ -120,10 +120,10 @@ public class Card extends CardRegistry implements Drawable {
         g.drawImage(Util.getImage("cards/carta_vazia.png"), x, y, getWidth(), getHeight(), LAIR);
 
         String attkString = String.valueOf(attack);
-        g.drawString(String.valueOf(attkString), x + getWidth() * 22 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
+        g.drawString(String.valueOf(attkString), x + getWidth() * 20 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
 
         String lifeString = String.valueOf(life);
-        g.drawString(String.valueOf(lifeString), x + getWidth() * 81 / 100 - metrics.stringWidth(lifeString) / 2, y + getHeight() - fontSize);
+        g.drawString(String.valueOf(lifeString), x + getWidth() * 80 / 100 - metrics.stringWidth(lifeString) / 2, y + getHeight() - fontSize);
     }
 
     public boolean isOnTable() {

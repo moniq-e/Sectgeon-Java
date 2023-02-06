@@ -1,0 +1,13 @@
+{
+    "platform": "windows64",
+    "jdk": "/home/otvioschimith/.sdkman/candidates/java/18.0.2-oracle",
+    "executable": "sectgeon",
+    "classpath": [
+        "target/sectgeon.jar"
+    ],
+    "mainclass": "com.monique.sectgeon.common.Frame",
+    "vmargs": [
+       "Xmx1G"
+    ],
+    "output": "packr/build/windows64"
+}
