@@ -26,7 +26,7 @@ public class LPlayer {
      */
     public int takeDamage(Card source, int damage) {
         if (damage > 0) {
-            LPHurtEvent e = (LPHurtEvent) lair.listener.dispatchEvent(new LPHurtEvent(source, this, damage));
+            LPHurtEvent e = (LPHurtEvent) lair.listener.dispatch(new LPHurtEvent(source, this, damage));
 
             e.getTarget().life -= e.getDamage();
             if (e.getTarget().life <= 0) e.getTarget().death();
@@ -39,7 +39,7 @@ public class LPlayer {
      */
     public void heal(Card source, int value) {
         if (value > 0) {
-            LPHealEvent e = (LPHealEvent) lair.listener.dispatchEvent(new LPHealEvent(source, this, value));
+            LPHealEvent e = (LPHealEvent) lair.listener.dispatch(new LPHealEvent(source, this, value));
 
             life += e.getValue();
         }

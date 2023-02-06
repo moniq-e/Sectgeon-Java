@@ -30,6 +30,7 @@ public class Lair extends Board {
         this.dungeon = dungeon;
         addKeyListener(defaultListener);
         addMouseListener(defaultListener);
+        addMouseMotionListener(defaultListener);
     }
 
     public void paintComponent(Graphics g) {
@@ -51,7 +52,7 @@ public class Lair extends Board {
     }
 
     public void placeCard(Card card, int pos) {
-        PlaceCardEvent e = (PlaceCardEvent) listener.dispatchEvent(new PlaceCardEvent(card, pos));
+        PlaceCardEvent e = (PlaceCardEvent) listener.dispatch(new PlaceCardEvent(card, pos));
 
         if (e.getSource() != null && checkSlot(e.getPos())) {
             if (e.getPos() != -1) {
@@ -62,7 +63,7 @@ public class Lair extends Board {
     }
 
     public void summon(Card source, Card summoned, int pos) {
-        SummonEvent<Card> e = (SummonEvent<Card>) listener.dispatchEvent(new SummonEvent<Card>(source, summoned, pos));
+        SummonEvent<Card> e = (SummonEvent<Card>) listener.dispatch(new SummonEvent<Card>(source, summoned, pos));
 
         if (e.getSummoned() != null) {
             tableCards.put(e.getSummoned().ID, e.getSummoned());

@@ -63,7 +63,7 @@ public abstract class Entity implements Drawable {
     public void attack(Entity target, Tool item) {
         int dmg = item.rollDice();
         target.takeDamage(dmg);
-        dungeon.listener.dispatchEvent(new AttackEvent<Entity>(this, target, dmg));
+        dungeon.listener.dispatch(new AttackEvent<Entity>(this, target, dmg));
     }
 
     public void tryAttack(Entity target) {

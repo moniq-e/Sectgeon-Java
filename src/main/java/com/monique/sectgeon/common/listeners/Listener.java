@@ -8,8 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 
-import com.monique.sectgeon.common.Frame;
-
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.UUID;
@@ -21,13 +19,12 @@ public class Listener extends MouseAdapter implements ActionListener, KeyListene
     @Override
     public void actionPerformed(ActionEvent e) {
         if (listeners.get(Events.Action) != null) {
-            for (Consumer<Object> listener : listeners.get(Events.Action).values()) {
-                listener.accept(e);
+            //ConcurrentModificationException
+            for (int i = 0; i < listeners.get(Events.Action).size(); i++) {
+                @SuppressWarnings("unchecked")
+                Consumer<Object> l = (Consumer<Object>) listeners.get(Events.Action).values().toArray()[i];
+                l.accept(e);
             }
-        }
-
-        if (Frame.board != null) {
-            Frame.board.tick(e);
         }
     }
 
@@ -48,8 +45,17 @@ public class Listener extends MouseAdapter implements ActionListener, KeyListene
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (listeners.get(Events.Mouse) != null) {
-            for (Consumer<Object> listener : listeners.get(Events.Mouse).values()) {
+        if (listeners.get(Events.Click) != null) {
+            for (Consumer<Object> listener : listeners.get(Events.Click).values()) {
+                listener.accept(e);
+            }
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        if (listeners.get(Events.Move) != null) {
+            for (Consumer<Object> listener : listeners.get(Events.Move).values()) {
                 listener.accept(e);
             }
         }

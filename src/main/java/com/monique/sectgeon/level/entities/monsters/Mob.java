@@ -27,7 +27,7 @@ public abstract class Mob extends Entity implements LivingEntity {
     protected abstract void setPopupItems();
 
     protected void setPopupConsumer() {
-        Frame.listener.addListener(Events.Mouse, ID, note -> {
+        Frame.listener.addListener(Events.Click, ID, note -> {
             MouseEvent e = (MouseEvent) note;
             if (Util.collides(this.getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {
                 popup.show(dungeon, e.getX(), e.getY());
@@ -39,7 +39,7 @@ public abstract class Mob extends Entity implements LivingEntity {
     public void kill() {
         dungeon.livingEntities.remove(this);
         dungeon.drawables.remove(this);
-        Frame.listener.removeListener(Events.Mouse, ID);
+        Frame.listener.removeListener(Events.Click, ID);
         dungeon.remove(popup);
     }
 }

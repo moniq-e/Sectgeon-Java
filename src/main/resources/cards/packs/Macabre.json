@@ -1,0 +1,32 @@
+{
+    "buildings": [
+        {
+            "type": "Building",
+            "name": "Lápide",
+            "attack": 0,
+            "life": 3,
+            "speed": 0,
+            "sacrifices": 0
+        }
+    ],
+    "spells": [
+        {
+            "type": "Spell",
+            "name": "Livro Sagrado",
+            "attack": 0,
+            "life": 0,
+            "speed": 0,
+            "sacrifices": 0
+        }
+    ],
+    "troops": [
+        {
+            "type": "Troop",
+            "name": "Rainha Zumbi",
+            "attack": 3,
+            "life": 2,
+            "speed": 3,
+            "sacrifices": 2
+        }
+    ]
+}

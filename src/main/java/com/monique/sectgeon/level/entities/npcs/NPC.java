@@ -37,7 +37,7 @@ public class NPC extends NPCRegistry implements Drawable {
     }
 
     private void setPopupConsumer() {
-        Frame.listener.addListener(Events.Mouse, ID, note -> {
+        Frame.listener.addListener(Events.Click, ID, note -> {
             MouseEvent e = (MouseEvent) note;
             if (Util.collides(getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {
                 POP.show(dungeon, e.getX(), e.getY());

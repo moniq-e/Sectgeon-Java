@@ -21,7 +21,7 @@ public class Util {
     }
 
     public static int random(int min, int max) {
-        return (int) (Math.random() * max) + min;
+        return (int) (Math.random() * (max + 1)) + min;
     }
 
     public static int d(int dice) {

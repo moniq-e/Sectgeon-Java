@@ -18,7 +18,7 @@ public class CustomListener<T> {
         listeners.get(type).remove(id);
     }
 
-    public CustomEvent<T> dispatchEvent(CustomEvent<T> e) {
+    public CustomEvent<T> dispatch(CustomEvent<T> e) {
         if (!listeners.isEmpty()) {
 
             listeners.get(e.TYPE).forEach((id, listener) -> {

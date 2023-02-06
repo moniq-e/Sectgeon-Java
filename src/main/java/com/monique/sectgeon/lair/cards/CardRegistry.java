@@ -2,11 +2,14 @@ package com.monique.sectgeon.lair.cards;
 
 import java.util.function.Consumer;
 
+import org.json.JSONObject;
+
 import com.monique.sectgeon.common.events.*;
 
 public class CardRegistry {
     public final CardTypes TYPE;
     public final String NAME;
+    protected JSONObject json;
     protected Triggers[] triggers;
     protected Consumer<CustomEvent<Card>> skill;
     protected int life;
@@ -14,6 +17,15 @@ public class CardRegistry {
     protected int speed;
     protected int sacrifices;
     protected int pos;
+
+    public CardRegistry(JSONObject json) {
+        TYPE = CardTypes.valueOf(json.getString("type"));
+        NAME = json.getString("name");
+        this.attack = json.getInt("attack");
+        this.life = json.getInt("life");
+        this.speed = json.getInt("speed");
+        this.sacrifices = json.getInt("sacrifices");
+    }
 
     public CardRegistry(String name, CardTypes type, int attk, int life, int speed, int sacr, Consumer<CustomEvent<Card>> skill, Triggers... triggers) {
         TYPE = type;
@@ -26,12 +38,25 @@ public class CardRegistry {
         this.skill = skill;
     }
 
+    public void setSkill(Consumer<CustomEvent<Card>> skill, Triggers... triggers) {
+        this.triggers = triggers;
+        this.skill = skill;
+    }
+
     public int getAttack() {
         return attack;
     }
 
     public void setAttack(int attack) {
         this.attack = attack;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
     }
 
     public int getSpeed() {
