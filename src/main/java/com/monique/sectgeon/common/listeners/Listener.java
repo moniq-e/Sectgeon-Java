@@ -31,7 +31,7 @@ public class Listener extends MouseAdapter implements ActionListener, KeyListene
     @Override
     public synchronized void keyPressed(KeyEvent e) {
         if (listeners.get(Events.Key) != null) {
-            if (!pressedKeys.contains(e.getKeyChar())) pressedKeys.add(e.getKeyChar());
+            pressedKeys.add(e.getKeyChar());
             for (Consumer<Object> listener : listeners.get(Events.Key).values()) {
                 listener.accept(pressedKeys);
             }

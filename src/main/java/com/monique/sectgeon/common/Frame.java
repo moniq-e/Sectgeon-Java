@@ -22,11 +22,12 @@ public class Frame extends JFrame {
     }
 
     Frame() {
-        super("TXTRPG");
+        super("Sectgeon");
         addKeyListener(listener);
         addMouseListener(listener);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(720, 480);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
         setVisible(true);
         setLocationRelativeTo(null);
 
@@ -77,5 +78,10 @@ public class Frame extends JFrame {
     private void finish() {
         timer.stop();
         dispose();
+    }
+
+    public static void crash(Exception e) {
+        System.err.println(e);
+        Frame.board.frame.dispose();
     }
 }

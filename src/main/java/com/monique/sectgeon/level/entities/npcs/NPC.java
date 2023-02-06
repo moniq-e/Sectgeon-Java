@@ -48,6 +48,6 @@ public class NPC extends NPCRegistry implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.green);
-        g.fillOval(getPos().x, getPos().y - HEIGHT, WIDTH, HEIGHT);
+        g.fillOval(getPos().x, getPos().y, WIDTH, HEIGHT);
     }
 }

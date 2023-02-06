@@ -1,2 +1,2 @@
-mvn package
-java -cp target/txtrpg-1.0.jar com.monique.txtrpg.Frame
+mvn package assembly:single
+java -cp target/sectgeon-1.0.jar com.monique.sectgeon.common.Frame

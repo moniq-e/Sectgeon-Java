@@ -25,7 +25,7 @@ public class Skeleton extends Mob {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.yellow);
-        g.fillOval(getPos().x, getPos().y - HEIGHT, WIDTH, HEIGHT);
+        g.fillOval(getPos().x, getPos().y, WIDTH, HEIGHT);
         getHeldItem().display(g, getPos().x, getPos().y);
     }
 

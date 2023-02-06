@@ -2,6 +2,7 @@ package com.monique.sectgeon.lair.cards;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.UUID;
@@ -104,22 +105,25 @@ public class Card extends CardRegistry implements Drawable {
     public void draw(Graphics g, int x, int y) {
         this.x = x;
         this.y = y;
+        g.setColor(Color.yellow);
+        g.setFont(new Font("Monospaced", Font.PLAIN, getHeight() * 15 / 100));
 
         Point mouse = LAIR.getMousePosition();
-        g.setColor(Color.white);
+        int fontSize = g.getFont().getSize();
+        FontMetrics metrics = g.getFontMetrics();
 
         if (mouse != null && LairHUD.up == ID) {
             y -= getHeight();
-            g.drawString(NAME, x, y - g.getFont().getSize());
+            g.drawString(NAME, x + Card.getWidth() / 2 - metrics.stringWidth(NAME) / 2, y - fontSize);
         }
 
         g.drawImage(Util.getImage("cards/carta_vazia.png"), x, y, getWidth(), getHeight(), LAIR);
 
-        g.setFont(new Font("Arial", Font.PLAIN, getHeight() / 5));
+        String attkString = String.valueOf(attack);
+        g.drawString(String.valueOf(attkString), x + getWidth() * 22 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
 
-        g.drawString(String.valueOf(attack), x + getWidth() * 15 / 100 - 1, y + getHeight() - g.getFont().getSize() * 65 / 100);
-
-        g.drawString(String.valueOf(life), x + getWidth() * 75 / 100 - 1, y + getHeight() - g.getFont().getSize() * 65 / 100);
+        String lifeString = String.valueOf(life);
+        g.drawString(String.valueOf(lifeString), x + getWidth() * 81 / 100 - metrics.stringWidth(lifeString) / 2, y + getHeight() - fontSize);
     }
 
     public boolean isOnTable() {

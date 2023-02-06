@@ -1,16 +1,14 @@
 package com.monique.sectgeon.lair.cards.packs;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.monique.sectgeon.common.Util;
+import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.lair.LPlayer;
@@ -18,30 +16,23 @@ import com.monique.sectgeon.lair.cards.*;
 
 public class Macabre {
     protected static final HashMap<String, CardRegistry> CARDS = new HashMap<String, CardRegistry>();
-    private static JSONObject json;
 
     static {
-        try (Scanner file = new Scanner(new File("./src/main/resources/cards/packs/Macabre.json"))) {
+        try {
+            Scanner file = new Scanner(new File("./src/main/resources/cards/packs/Macabre.json"));
             String txt = "";
+
             while (file.hasNextLine()) {
                 txt += file.nextLine();
             }
-            json = new JSONObject(txt);
-        } catch (FileNotFoundException | JSONException e) {}
+            setUpCardInfos(new JSONObject(txt));
 
-        JSONArray array = new JSONArray();
-        array.putAll(json.getJSONArray("buildings"));
-        array.putAll(json.getJSONArray("spells"));
-        array.putAll(json.getJSONArray("troops"));
-
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject obj = array.getJSONObject(i);
-            CARDS.put(obj.getString("name"), new CardRegistry(obj));
+            buildings();
+            spells();
+            troops();
+        } catch (Exception e) {
+            Frame.crash(e);
         }
-
-        buildings();
-        spells();
-        troops();
     }
 
     private static void buildings() {
@@ -88,5 +79,31 @@ public class Macabre {
 
     public static Card instanceateCard(String cardName, LPlayer player) {
         return new Card(CARDS.get(cardName), player);
+    }
+
+    private static void setUpCardInfos(JSONObject json) {
+        JSONArray array = new JSONArray();
+        JSONArray buildings = json.getJSONArray("buildings");
+        JSONArray spells = json.getJSONArray("spells");
+        JSONArray troops = json.getJSONArray("troops");
+
+        for (int i = 0; i < buildings.length(); i++) {
+            buildings.getJSONObject(i).put("type", "Building");
+        }
+        for (int i = 0; i < spells.length(); i++) {
+            spells.getJSONObject(i).put("type", "Spell");
+        }
+        for (int i = 0; i < troops.length(); i++) {
+            troops.getJSONObject(i).put("type", "Troop");
+        }
+
+        array.putAll(buildings);
+        array.putAll(spells);
+        array.putAll(troops);
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            CARDS.put(obj.getString("name"), new CardRegistry(obj));
+        }
     }
 }
