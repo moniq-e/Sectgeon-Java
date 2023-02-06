@@ -1,6 +1,5 @@
 package com.monique.sectgeon.lair.cards.packs;
 
-import java.io.File;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class Macabre {
 
     static {
         try {
-            Scanner file = new Scanner(new File("./src/main/resources/cards/packs/Macabre.json"));
+            Scanner file = new Scanner(Macabre.class.getResourceAsStream("/data/packs/Macabre.json"));
             String txt = "";
 
             while (file.hasNextLine()) {
