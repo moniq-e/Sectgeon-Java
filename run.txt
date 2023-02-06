@@ -1,2 +1,2 @@
 mvn package assembly:single
-java -cp target/sectgeon-1.0.jar com.monique.sectgeon.common.Frame
+java -cp target/sectgeon.jar com.monique.sectgeon.common.Frame

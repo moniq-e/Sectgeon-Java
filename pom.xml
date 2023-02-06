@@ -5,7 +5,7 @@
 
   <groupId>com.monique</groupId>
   <artifactId>sectgeon</artifactId>
-  <version>1.0</version>
+  <version>1.0.0</version>
 
   <name>sectgeon</name>
   <url>https://github.com/moniq-e/Sectgeon</url>
@@ -33,6 +33,7 @@
   </distributionManagement>
 
   <build>
+  <finalName>${project.artifactId}</finalName>
     <pluginManagement>
       <plugins>
         <plugin>
