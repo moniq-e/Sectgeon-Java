@@ -1,0 +1,30 @@
+name: Automatic Releases
+
+on: push
+
+jobs:
+  pre-release:
+
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Build"
+        run: |
+          mvn package assembly:single
+          java -jar packr/packr-all-4.0.0.jar packr/linux.json
+          java -jar packr/packr-all-4.0.0.jar packr/win.json
+          cd packr/build/linux64
+          zip -m -r linux64 *
+          cd ../windows64
+          zip -m -r windows64 *
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            packr/build/linux64/linux64.zip
+            packr/build/windows64/windows64.zip
