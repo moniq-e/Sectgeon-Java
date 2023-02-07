@@ -23,7 +23,7 @@ jobs:
       - name: Build with Maven
         run: mvn package assembly:single
 
-      - name: "Create Release Files"
+      - name: Create Release Files
         run: |
           java -jar .github/packr/packr-all-4.0.0.jar .github/packr/linux.json
           java -jar .github/packr/packr-all-4.0.0.jar .github/packr/win.json
@@ -32,12 +32,13 @@ jobs:
           cd ../windows64
           zip -m -r windows64 *
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Publish release files
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
           prerelease: true
-          title: "Development Build"
+          title: Development Build
           files: |
             .github/packr/build/linux64/linux64.zip
             .github/packr/build/windows64/windows64.zip
