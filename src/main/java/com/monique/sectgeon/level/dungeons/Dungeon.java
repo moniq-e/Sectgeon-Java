@@ -9,11 +9,11 @@ import com.monique.sectgeon.common.Frame;
 import com.monique.sectgeon.common.gui.*;
 import com.monique.sectgeon.common.listeners.CustomListener;
 import com.monique.sectgeon.level.entities.*;
-import com.monique.sectgeon.level.gui.DungeonHUD;
+import com.monique.sectgeon.level.gui.DungeonGUI;
 
 public abstract class Dungeon extends Board {
     private boolean started = false;
-    private DungeonHUD hud = new DungeonHUD(this);
+    private DungeonGUI hud = new DungeonGUI(this);
     public CustomListener<Entity> listener = new CustomListener<Entity>();
     public Player player = new Player(this, "default");
     public ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();

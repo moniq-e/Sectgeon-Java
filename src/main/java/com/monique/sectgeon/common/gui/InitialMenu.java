@@ -11,10 +11,10 @@ public class InitialMenu extends Board {
     public InitialMenu(Frame frame) {
         super(frame);
 
-        new Button(this, "Começar", getWidth()/2 - 50, getHeight()/2 - 10, 100, 15, e -> {
+        new Button<InitialMenu>(this, "Começar", getWidth()/2 - 50, getHeight()/2 - 10, 100, 15, e -> {
             frame.finishDungeon(true);
         });
-        new Button(this, "Sair", getWidth()/2 - 50, getHeight()/2 + 15, 100, 15, e -> {
+        new Button<InitialMenu>(this, "Sair", getWidth()/2 - 50, getHeight()/2 + 15, 100, 15, e -> {
             frame.finishDungeon(false);
         });
     }

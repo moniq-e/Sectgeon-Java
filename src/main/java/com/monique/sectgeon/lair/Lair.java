@@ -10,7 +10,8 @@ import com.monique.sectgeon.common.events.lair.PlaceCardEvent;
 import com.monique.sectgeon.common.gui.*;
 import com.monique.sectgeon.common.listeners.*;
 import com.monique.sectgeon.lair.cards.*;
-import com.monique.sectgeon.lair.gui.LairHUD;
+import com.monique.sectgeon.lair.gui.CardPile;
+import com.monique.sectgeon.lair.gui.LairGUI;
 import com.monique.sectgeon.level.dungeons.Dungeon;
 
 public class Lair extends Board {
@@ -20,7 +21,7 @@ public class Lair extends Board {
     public LPlayer player = new LPlayer(this, "player", 20);
     public LEnemy enemy = new LEnemy(this, "enemy", 20);
     public HashMap<UUID, Card> tableCards = new HashMap<UUID, Card>();
-    public LairHUD hud = new LairHUD(this);
+    public LairGUI hud = new LairGUI(this);
     private Dungeon dungeon;
     private int turn = 1;
 

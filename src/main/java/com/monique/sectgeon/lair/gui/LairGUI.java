@@ -15,14 +15,14 @@ import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.lair.Lair;
 import com.monique.sectgeon.lair.cards.Card;
 
-public class LairHUD implements Drawable {
+public class LairGUI implements Drawable {
     public static UUID cardHovered;
     public static UUID cardDragged;
     public final Lair LAIR;
     public final Point[] PlayerTablePos = new Point[3];
     public final Point[] EnemyTablePos = new Point[3];
 
-    public LairHUD(Lair lair) {
+    public LairGUI(Lair lair) {
         LAIR = lair;
 
         lair.defaultListener.addListener(Events.Move, null, note -> {

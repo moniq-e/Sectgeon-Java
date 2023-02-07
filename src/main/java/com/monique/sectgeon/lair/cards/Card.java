@@ -12,7 +12,7 @@ import com.monique.sectgeon.common.events.Triggers;
 import com.monique.sectgeon.common.events.lair.LPHurtEvent;
 import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.lair.*;
-import com.monique.sectgeon.lair.gui.LairHUD;
+import com.monique.sectgeon.lair.gui.LairGUI;
 
 public class Card extends CardRegistry implements Drawable {
     public final UUID ID = UUID.randomUUID();
@@ -104,10 +104,10 @@ public class Card extends CardRegistry implements Drawable {
         Point mouse = LAIR.getMousePosition();
 
         if (mouse != null) {
-            if (LairHUD.cardDragged == ID) {
+            if (LairGUI.cardDragged == ID) {
                 x = (int) (mouse.getX()) - getWidth() / 2;
                 y = (int) (mouse.getY()) - getHeight() / 2;
-            } else if (LairHUD.cardHovered == ID && LairHUD.cardDragged == null) {
+            } else if (LairGUI.cardHovered == ID && LairGUI.cardDragged == null) {
                 y -= getHeight();
                 g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y - g.getFont().getSize());
             }

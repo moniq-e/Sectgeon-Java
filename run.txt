@@ -1,4 +1,4 @@
 mvn package assembly:single
 java -cp target/sectgeon.jar com.monique.sectgeon.common.Frame
 
-java -jar packr/packr-all-4.0.0.jar packr/linux.json
+java -jar .github/packr/packr-all-4.0.0.jar .github/packr/linux.json

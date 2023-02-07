@@ -9,10 +9,10 @@ import com.monique.sectgeon.level.items.Item;
 
 import java.awt.Color;
 
-public class DungeonHUD implements Drawable {
+public class DungeonGUI implements Drawable {
     private Dungeon dungeon;
 
-    public DungeonHUD(Dungeon dungeon) {
+    public DungeonGUI(Dungeon dungeon) {
         this.dungeon = dungeon;
     }
 
@@ -26,7 +26,7 @@ public class DungeonHUD implements Drawable {
         int y = dungeon.getHeight() - 23;
         for (Item item : dungeon.player.inventory) {
 
-            Button b = new Button(dungeon, null, x, y, 22, 22, e -> {
+            Button<Dungeon> b = new Button<Dungeon>(dungeon, x, y, 22, 22, e -> {
                 dungeon.player.setHeldItem(item);
             });
 
