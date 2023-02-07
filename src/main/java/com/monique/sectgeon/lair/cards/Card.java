@@ -1,7 +1,5 @@
 package com.monique.sectgeon.lair.cards;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -13,7 +11,6 @@ import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.Triggers;
 import com.monique.sectgeon.common.events.lair.LPHurtEvent;
 import com.monique.sectgeon.common.gui.Drawable;
-//import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.lair.*;
 import com.monique.sectgeon.lair.gui.LairHUD;
 
@@ -35,8 +32,6 @@ public class Card extends CardRegistry implements Drawable {
                 LAIR.listener.addListener(trigger, ID, card.skill);
             }
         }
-
-        // Frame.listener.addListener(Events.Mouse, ID, null);
     }
 
     public void attack(Card card) {
@@ -99,31 +94,39 @@ public class Card extends CardRegistry implements Drawable {
         } else {
             pos = LAIR.hud.PlayerTablePos[this.pos];
         }
-        g.drawImage(Util.getImage("cards/carta_vazia.png"), pos.x, pos.y, getWidth(), getHeight(), LAIR);
+        drawCard(g, pos.x, pos.y);
     }
 
-    public void draw(Graphics g, int x, int y) {
+    public void drawInHand(Graphics g, int x, int y) {
         this.x = x;
         this.y = y;
-        g.setColor(Color.yellow);
-        g.setFont(new Font("Monospaced", Font.PLAIN, getHeight() * 15 / 100));
 
         Point mouse = LAIR.getMousePosition();
+
+        if (mouse != null) {
+            if (LairHUD.cardDragged == ID) {
+                x = (int) (mouse.getX()) - getWidth() / 2;
+                y = (int) (mouse.getY()) - getHeight() / 2;
+            } else if (LairHUD.cardHovered == ID && LairHUD.cardDragged == null) {
+                y -= getHeight();
+                g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y - g.getFont().getSize());
+            }
+        }
+
+        drawCard(g, x, y);
+    }
+
+    public void drawCard(Graphics g, int x, int y) {
         int fontSize = g.getFont().getSize();
         FontMetrics metrics = g.getFontMetrics();
-
-        if (mouse != null && LairHUD.up == ID) {
-            y -= getHeight();
-            g.drawString(NAME, x + Card.getWidth() / 2 - metrics.stringWidth(NAME) / 2, y - fontSize);
-        }
 
         g.drawImage(Util.getImage("cards/carta_vazia.png"), x, y, getWidth(), getHeight(), LAIR);
 
         String attkString = String.valueOf(attack);
-        g.drawString(String.valueOf(attkString), x + getWidth() * 20 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
+        g.drawString(attkString, x + getWidth() * 20 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
 
         String lifeString = String.valueOf(life);
-        g.drawString(String.valueOf(lifeString), x + getWidth() * 80 / 100 - metrics.stringWidth(lifeString) / 2, y + getHeight() - fontSize);
+        g.drawString(lifeString, x + getWidth() * 80 / 100 - metrics.stringWidth(lifeString) / 2, y + getHeight() - fontSize);
     }
 
     public boolean isOnTable() {

@@ -20,10 +20,12 @@ public class CustomListener<T> {
 
     public CustomEvent<T> dispatch(CustomEvent<T> e) {
         if (!listeners.isEmpty()) {
+            if (listeners.get(e.TYPE) != null) {
 
-            listeners.get(e.TYPE).forEach((id, listener) -> {
-                listener.accept(e.setSkillID(id));
-            });
+                listeners.get(e.TYPE).forEach((id, listener) -> {
+                    listener.accept(e.setSkillID(id));
+                });
+            }
         }
         return e;
     }

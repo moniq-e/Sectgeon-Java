@@ -1,6 +1,7 @@
 package com.monique.sectgeon.lair;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.lair.cards.*;
@@ -43,6 +44,13 @@ public class LPlayer {
 
             life += e.getValue();
         }
+    }
+
+    public Card getHandCard(UUID id) {
+        for (Card card : hand) {
+            if (card.ID == id) return card;
+        }
+        return null;
     }
 
     public void death() {

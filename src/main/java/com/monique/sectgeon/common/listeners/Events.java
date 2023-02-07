@@ -4,5 +4,7 @@ public enum Events {
     Action,
     Key,
     Click,
-    Move;
+    Released,
+    Move,
+    Dragged;
 }

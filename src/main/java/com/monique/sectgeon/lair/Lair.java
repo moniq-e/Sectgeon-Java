@@ -1,6 +1,5 @@
 package com.monique.sectgeon.lair;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.util.HashMap;
@@ -35,13 +34,7 @@ public class Lair extends Board {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setBackground(Color.decode("#aeebe0"));
-
         hud.draw(g);
-        for (Card card : tableCards.values()) {
-            card.draw(g);
-        }
-
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -54,10 +47,11 @@ public class Lair extends Board {
     public void placeCard(Card card, int pos) {
         PlaceCardEvent e = (PlaceCardEvent) listener.dispatch(new PlaceCardEvent(card, pos));
 
-        if (e.getSource() != null && checkSlot(e.getPos())) {
+        if (checkSlot(e.getPos())) {
             if (e.getPos() != -1) {
-                e.getSource().setPos(e.getPos());
-                tableCards.put(e.getSource().ID, e.getSource());
+                card.PLAYER.hand.remove(card);
+                card.setPos(e.getPos());
+                tableCards.put(card.ID, card);
             }
         }
     }

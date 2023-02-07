@@ -61,6 +61,27 @@ public class Listener extends MouseAdapter implements ActionListener, KeyListene
         }
     }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (listeners.get(Events.Dragged) != null) {
+            for (Consumer<Object> listener : listeners.get(Events.Dragged).values()) {
+                listener.accept(e);
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (listeners.get(Events.Released) != null) {
+            //ConcurrentModificationException
+            for (int i = 0; i < listeners.get(Events.Released).size(); i++) {
+                @SuppressWarnings("unchecked")
+                Consumer<Object> l = (Consumer<Object>) listeners.get(Events.Released).values().toArray()[i];
+                l.accept(e);
+            }
+        }
+    }
+
     public void addListener(Events type, UUID id, Consumer<Object> consumer) {
         if (listeners.get(type) == null) createCustomEventType(type);
         listeners.get(type).put(id, consumer);
