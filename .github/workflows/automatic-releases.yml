@@ -9,9 +9,19 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      - name: "Build"
+      - uses: actions/checkout@v3
+      - name: Set up JDK 18
+        uses: actions/setup-java@v3
+        with:
+          java-version: '18'
+          distribution: 'temurin'
+          server-id: github
+
+      - name: Build with Maven
+        run: mvn package assembly:single
+
+      - name: "Create Release Files"
         run: |
-          mvn package assembly:single
           java -jar packr/packr-all-4.0.0.jar packr/linux.json
           java -jar packr/packr-all-4.0.0.jar packr/win.json
           cd packr/build/linux64
@@ -28,3 +38,10 @@ jobs:
           files: |
             packr/build/linux64/linux64.zip
             packr/build/windows64/windows64.zip
+
+      - name: Publish to GitHub Packages Apache Maven
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "<settings><servers><server><id>github</id><username>moniq-e</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        mvn deploy
