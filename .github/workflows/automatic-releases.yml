@@ -43,9 +43,12 @@ jobs:
             .github/packr/build/windows64/windows64.zip
 
       - name: Delete Package
-        uses: WyriHaximus/github-action-delete-package@master
-        with:
-          packageVersionId: 25988635
+        run: |
+          curl --request DELETE \
+          --url https://api.github.com/user/packages/maven/com.monique.sectgeon \
+          --header 'Accept: application/vnd.github+json' \
+          --header 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'X-GitHub-Api-Version: 2022-11-28'
 
       - name: Publish to GitHub Packages Apache Maven
         env:
