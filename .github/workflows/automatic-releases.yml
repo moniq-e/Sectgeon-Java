@@ -42,11 +42,10 @@ jobs:
             .github/packr/build/linux64/linux64.zip
             .github/packr/build/windows64/windows64.zip
 
-      - uses: actions/delete-package-versions@v4
+      - name: Delete Package
+        uses: WyriHaximus/github-action-delete-package@master
         with:
-          package-version-ids: "25988635"
-          package-name: "com.monique.sectgeon"
-          package-type: "maven"
+          packageVersionId: 25988635
 
       - name: Publish to GitHub Packages Apache Maven
         env:
