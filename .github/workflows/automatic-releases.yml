@@ -44,7 +44,7 @@ jobs:
 
       - uses: actions/delete-package-versions@v4
         with:
-          package-version-ids: "1786406"
+          package-version-ids: "25988635"
           package-name: "com.monique.sectgeon"
           package-type: "maven"
 
