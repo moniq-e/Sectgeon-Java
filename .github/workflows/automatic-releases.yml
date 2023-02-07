@@ -25,9 +25,9 @@ jobs:
 
       - name: "Create Release Files"
         run: |
-          java -jar packr/packr-all-4.0.0.jar packr/linux.json
-          java -jar packr/packr-all-4.0.0.jar packr/win.json
-          cd packr/build/linux64
+          java -jar .github/packr/packr-all-4.0.0.jar .github/packr/linux.json
+          java -jar .github/packr/packr-all-4.0.0.jar .github/packr/win.json
+          cd .github/packr/build/linux64
           zip -m -r linux64 *
           cd ../windows64
           zip -m -r windows64 *
@@ -39,8 +39,8 @@ jobs:
           prerelease: true
           title: "Development Build"
           files: |
-            packr/build/linux64/linux64.zip
-            packr/build/windows64/windows64.zip
+            .github/packr/build/linux64/linux64.zip
+            .github/packr/build/windows64/windows64.zip
 
       - name: Publish to GitHub Packages Apache Maven
         env:

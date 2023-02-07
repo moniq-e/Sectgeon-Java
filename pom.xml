@@ -8,6 +8,9 @@
   <version>1.0.0</version>
 
   <name>sectgeon</name>
+  <description>
+    Sectgeon is a Java version of the card game made by [**Pato de Sapatos**](https://github.com/PatoDeSapatos).
+  </description>
   <url>https://github.com/moniq-e/Sectgeon</url>
 
   <properties>
