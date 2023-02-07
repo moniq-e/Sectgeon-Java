@@ -9,5 +9,5 @@
     "vmargs": [
        "Xmx1G"
     ],
-    "output": "packr/build/linux64"
+    "output": ".github/packr/build/linux64"
 }
