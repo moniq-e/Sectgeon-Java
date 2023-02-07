@@ -42,6 +42,12 @@ jobs:
             .github/packr/build/linux64/linux64.zip
             .github/packr/build/windows64/windows64.zip
 
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: "com.monique.sectgeon"
+          package-type: "maven"
+          min-versions-to-keep: 0
+
       - name: Publish to GitHub Packages Apache Maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
