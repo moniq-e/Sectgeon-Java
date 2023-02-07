@@ -3,7 +3,7 @@ name: Automatic Releases
 on: push
 
 jobs:
-  build:
+  release:
 
     runs-on: "ubuntu-latest"
     permissions:
@@ -23,7 +23,7 @@ jobs:
       - name: Build with Maven
         run: mvn package assembly:single
 
-      - name: Create Release Files
+      - name: Create release files
         run: |
           java -jar .github/packr/packr-all-4.0.0.jar .github/packr/linux.json
           java -jar .github/packr/packr-all-4.0.0.jar .github/packr/win.json
@@ -37,7 +37,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: latest
-          prerelease: true
+          prerelease: false
           title: Development Build
           files: |
             .github/packr/build/linux64/linux64.zip
