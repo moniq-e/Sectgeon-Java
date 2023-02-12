@@ -8,20 +8,20 @@ import java.util.UUID;
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.lair.Lair;
-import com.monique.sectgeon.lair.cards.Card;
 
-public class CardPile {
-    private static BufferedImage image = Util.getImage("lair/baralho.png");
+public class ReadyButton {
+    private static BufferedImage image = Util.getImage("lair/pronto.png");
     public final UUID ID = UUID.randomUUID();
     private final Rectangle rect = new Rectangle(0, 0, getWidth(), getHeight());
     private final Lair LAIR;
 
-    public CardPile(Lair lair) {
+    public ReadyButton(Lair lair) {
         LAIR = lair;
-        
+
         LAIR.defaultListener.addListener(Events.Click, ID, note -> {
             if (Util.collides(getRect(), Util.getMouseRect())) {
-                LAIR.player.hand.add(new Card(LAIR.player.deck.get(Util.random(0, LAIR.player.deck.size() - 1)), LAIR.player));
+                LAIR.ready(LAIR.player);
+                System.out.println('s');
             }
         });
     }
@@ -32,7 +32,7 @@ public class CardPile {
     }
 
     private static int parsedWidth() {
-        return Frame.board.getHeight() / 8;
+        return Frame.board.getHeight() / 5;
     }
 
     public static int getWidth() {
@@ -44,8 +44,7 @@ public class CardPile {
     }
 
     public Rectangle getRect() {
-        var buffer = getHeight() / 10;
-        rect.setLocation(LAIR.getWidth() - getWidth() - buffer, LAIR.getHeight() - getHeight() - buffer);
+        rect.setLocation(LAIR.getWidth() - getWidth(), LAIR.getHeight() / 2 - getHeight() / 2);
         rect.setSize(getWidth(), getHeight());
         return rect;
     }

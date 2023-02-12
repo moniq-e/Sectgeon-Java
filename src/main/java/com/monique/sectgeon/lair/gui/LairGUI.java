@@ -7,7 +7,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.awt.event.MouseEvent;
 
 import com.monique.sectgeon.common.Util;
 import com.monique.sectgeon.common.gui.Drawable;
@@ -26,10 +25,9 @@ public class LairGUI implements Drawable {
         LAIR = lair;
 
         lair.defaultListener.addListener(Events.Move, null, note -> {
-            MouseEvent e = (MouseEvent) note;
             int not = 0;
             for (Card card : LAIR.player.hand) {
-                if (Util.collides(new Rectangle(card.x, card.y, Card.getWidth(), Card.getHeight()), new Rectangle(e.getX(), e.getY(), 1, 1))) {
+                if (Util.collides(new Rectangle(card.x, card.y, Card.getWidth(), Card.getHeight()), Util.getMouseRect())) {
                     cardHovered = card.ID;
                 } else not++;
             }
@@ -37,10 +35,9 @@ public class LairGUI implements Drawable {
         });
 
         lair.defaultListener.addListener(Events.Dragged, null, note -> {
-            MouseEvent e = (MouseEvent) note;
             if (cardDragged == null) {
                 for (Card card : LAIR.player.hand) {
-                    if (Util.collides(new Rectangle(card.x, card.y, Card.getWidth(), Card.getHeight()), new Rectangle(e.getX(), e.getY(), 1, 1))) {
+                    if (Util.collides(new Rectangle(card.x, card.y, Card.getWidth(), Card.getHeight()), Util.getMouseRect())) {
                         cardDragged = card.ID;
                         break;
                     }
@@ -48,7 +45,6 @@ public class LairGUI implements Drawable {
             }
         });
         lair.defaultListener.addListener(Events.Released, null, note -> {
-            MouseEvent e = (MouseEvent) note;
             if (cardDragged != null) {
                 Card card = lair.player.getHandCard(cardDragged);
                 if (card != null) {
@@ -56,7 +52,7 @@ public class LairGUI implements Drawable {
                     cardHovered = null;
                     for (int i = 0; i < PlayerTablePos.length; i++) {
                         Point p = PlayerTablePos[i];
-                        if (Util.collides(new Rectangle(p.x, p.y, Card.getWidth(), Card.getHeight()), new Rectangle(e.getX(), e.getY(), 1, 1))) {
+                        if (Util.collides(new Rectangle(p.x, p.y, Card.getWidth(), Card.getHeight()), Util.getMouseRect())) {
                             lair.placeCard(card, i);
                             break;
                         }
@@ -77,17 +73,22 @@ public class LairGUI implements Drawable {
         setTableCardsPos(wid, hei);
         g.drawImage(Util.getImage("lair/mesa.png"), 0, 0, wid, hei, LAIR);
         drawTableCardsPos(g);
+
+        LAIR.readyButton.draw(g);
         LAIR.pile.draw(g);
-        LAIR.tableCards.values().forEach(c -> c.draw(g));
+        LAIR.tableCards.forEach((id, c) -> c.draw(g));
         drawHand(g, wid, hei);
     }
 
     private void setTableCardsPos(int wid, int hei) {
+        int buffer = Card.getWidth() * 15 / 10;
+        int x = wid / 2 - Card.getWidth() / 2 - buffer;
+        int y = hei / 2 + Card.getHeight() * 25 / 100;
+
         for (int i = 0; i < 3; i++) {
-            PlayerTablePos[i] = new Point(wid / 2 - Card.getWidth() * (i - 1) - Card.getWidth() / 2, hei / 2);
-        }
-        for (int i = 0; i < 3; i++) {
-            EnemyTablePos[i] = new Point(wid / 2 - Card.getWidth() * (i - 1) - Card.getWidth() / 2, hei / 2 - Card.getHeight());
+            PlayerTablePos[i] = new Point(x, y);
+            EnemyTablePos[i] = new Point(x, y - Card.getHeight() * 15 / 10);
+            x += buffer;
         }
     }
 
@@ -112,14 +113,15 @@ public class LairGUI implements Drawable {
 
     private void drawHand(Graphics g, int wid, int hei) {
         ArrayList<Card> hand = LAIR.player.hand;
+        int buffer;
 
-        int buffer = -3 * hand.size();
-        if (hand.size() > 9) buffer = -27;
+        if (hand.size() > 10) buffer = -30;
+        else buffer = -3 * hand.size();
 
         int x = (wid / 2 - Card.getWidth() / 2) - ((Card.getWidth() + buffer) * (hand.size() - 1)) / 2;
 
         for (int i = 0; i < hand.size(); i++) {
-            hand.get(i).drawInHand(g, x, hei / 2 + Card.getHeight());
+            hand.get(i).drawInHand(g, x, hei / 2 + Card.getHeight() * 15 / 10);
             x += Card.getWidth() + buffer + 2;
         }
     }

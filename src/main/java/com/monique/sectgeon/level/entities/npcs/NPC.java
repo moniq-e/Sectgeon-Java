@@ -2,7 +2,6 @@ package com.monique.sectgeon.level.entities.npcs;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.UUID;
 import javax.swing.JMenuItem;
@@ -39,7 +38,7 @@ public class NPC extends NPCRegistry implements Drawable {
     private void setPopupConsumer() {
         Frame.listener.addListener(Events.Click, ID, note -> {
             MouseEvent e = (MouseEvent) note;
-            if (Util.collides(getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {
+            if (Util.collides(getRect(), Util.getMouseRect())) {
                 POP.show(dungeon, e.getX(), e.getY());
             }
         });

@@ -1,5 +1,6 @@
 package com.monique.sectgeon.lair.cards;
 
+import java.awt.image.BufferedImage;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -15,12 +16,13 @@ import com.monique.sectgeon.lair.*;
 import com.monique.sectgeon.lair.gui.LairGUI;
 
 public class Card extends CardRegistry implements Drawable {
+    private static BufferedImage image = Util.getImage("cards/carta_vazia.png");
     public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
-    public final LPlayer PLAYER;
+    public final Player PLAYER;
     public int x, y;
 
-    public Card(CardRegistry card, LPlayer player) {
+    public Card(CardRegistry card, Player player) {
         super(new String(card.NAME), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
         pos = -1;
 
@@ -89,7 +91,7 @@ public class Card extends CardRegistry implements Drawable {
     @Override
     public void draw(Graphics g) {
         Point pos;
-        if (PLAYER instanceof LEnemy) {
+        if (PLAYER instanceof Enemy) {
             pos = LAIR.hud.EnemyTablePos[this.pos];
         } else {
             pos = LAIR.hud.PlayerTablePos[this.pos];
@@ -120,7 +122,7 @@ public class Card extends CardRegistry implements Drawable {
         int fontSize = g.getFont().getSize();
         FontMetrics metrics = g.getFontMetrics();
 
-        g.drawImage(Util.getImage("cards/carta_vazia.png"), x, y, getWidth(), getHeight(), LAIR);
+        g.drawImage(image, x, y, getWidth(), getHeight(), LAIR);
 
         String attkString = String.valueOf(attack);
         g.drawString(attkString, x + getWidth() * 20 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
@@ -133,11 +135,15 @@ public class Card extends CardRegistry implements Drawable {
         return LAIR.tableCards.get(ID) != null;
     }
 
+    private static int parsedWidth() {
+        return Frame.board.getHeight() * 2 / 10;
+    }
+
     public static int getWidth() {
-        return Frame.board.getHeight() * 15 / 100;
+        return image.getWidth() * (getHeight() / image.getHeight());
     }
 
     public static int getHeight() {
-        return Frame.board.getHeight() * 20 / 100;
+        return image.getHeight() * (parsedWidth() / image.getWidth());
     }
 }

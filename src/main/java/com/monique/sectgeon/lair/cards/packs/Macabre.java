@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.*;
-import com.monique.sectgeon.lair.LPlayer;
+import com.monique.sectgeon.lair.Player;
 import com.monique.sectgeon.lair.cards.*;
 
 public class Macabre {
@@ -76,7 +76,7 @@ public class Macabre {
         return array;
     }
 
-    public static Card instanceateCard(String cardName, LPlayer player) {
+    public static Card instanceateCard(String cardName, Player player) {
         return new Card(CARDS.get(cardName), player);
     }
 

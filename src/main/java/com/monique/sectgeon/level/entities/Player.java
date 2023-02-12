@@ -19,9 +19,9 @@ public class Player extends Entity {
         super(dungeon, "player", name, 200, 5, 32, 32);
 
         Frame.listener.addListener(Events.Key, ID, this::move);
-        inventory.add(new Sword());
-        inventory.add(new Bow());
-        setHeldItem(inventory.get(0));
+        //inventory.add(new Sword());
+        //inventory.add(new Bow());
+        //setHeldItem(inventory.get(0));
         initialPos = new Point(dungeon.getWidth() / 2, dungeon.getHeight() - HEIGHT);
         setPos(initialPos);
     }
@@ -58,7 +58,7 @@ public class Player extends Entity {
     public void draw(Graphics g) {
         g.setColor(Color.red);
         g.fillOval(getPos().x, getPos().y, WIDTH, HEIGHT);
-        getHeldItem().display(g, getPos().x, getPos().y);
+        //getHeldItem().display(g, getPos().x, getPos().y);
     }
 
     @Override

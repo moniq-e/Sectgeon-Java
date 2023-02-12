@@ -5,21 +5,20 @@ import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.UUID;
 
-import com.monique.sectgeon.common.events.*;
-import com.monique.sectgeon.common.events.lair.PlaceCardEvent;
+import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.common.gui.*;
 import com.monique.sectgeon.common.listeners.*;
 import com.monique.sectgeon.lair.cards.*;
-import com.monique.sectgeon.lair.gui.CardPile;
-import com.monique.sectgeon.lair.gui.LairGUI;
+import com.monique.sectgeon.lair.gui.*;
 import com.monique.sectgeon.level.dungeons.Dungeon;
 
 public class Lair extends Board {
     public Listener defaultListener = new Listener();
     public CardPile pile = new CardPile(this);
+    public ReadyButton readyButton = new ReadyButton(this);
     public CustomListener<Card> listener = new CustomListener<Card>();
-    public LPlayer player = new LPlayer(this, "player", 20);
-    public LEnemy enemy = new LEnemy(this, "enemy", 20);
+    public Player player = new Player(this, "player", 20);
+    public Enemy enemy = new Enemy(this, "enemy", 20);
     public HashMap<UUID, Card> tableCards = new HashMap<UUID, Card>();
     public LairGUI hud = new LairGUI(this);
     private Dungeon dungeon;
@@ -58,7 +57,7 @@ public class Lair extends Board {
     }
 
     public void summon(Card source, Card summoned, int pos) {
-        SummonEvent<Card> e = (SummonEvent<Card>) listener.dispatch(new SummonEvent<Card>(source, summoned, pos));
+        SummonEvent e = (SummonEvent) listener.dispatch(new SummonEvent(source, summoned, pos));
 
         if (e.getSummoned() != null) {
             tableCards.put(e.getSummoned().ID, e.getSummoned());
@@ -76,7 +75,7 @@ public class Lair extends Board {
         return turn;
     }
 
-    public void ready(LPlayer player) {
+    public void ready(Player player) {
         player.ready = true;
         if (this.player.ready && enemy.ready) {
             turn++;

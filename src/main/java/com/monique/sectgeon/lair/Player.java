@@ -7,7 +7,7 @@ import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.lair.cards.*;
 import com.monique.sectgeon.lair.cards.packs.Macabre;
 
-public class LPlayer {
+public class Player {
     public final String NAME;
     public Lair lair;
     public boolean ready;
@@ -16,7 +16,7 @@ public class LPlayer {
     public ArrayList<Card> hand = new ArrayList<Card>();
     private int life;
 
-    public LPlayer(Lair lair, String name, int maxLife) {
+    public Player(Lair lair, String name, int maxLife) {
         this.lair = lair;
         this.NAME = name;
         this.life = maxLife;

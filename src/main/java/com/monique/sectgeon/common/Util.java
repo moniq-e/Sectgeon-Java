@@ -34,4 +34,10 @@ public class Util {
             return null;
         }
     }
+
+    public static Rectangle getMouseRect() {
+        Point pos = Frame.board.getMousePosition();
+        if (pos != null) return new Rectangle(pos.x, pos.y, 1, 1);
+        else return new Rectangle();
+    }
 }

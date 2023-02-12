@@ -9,8 +9,6 @@ import com.monique.sectgeon.level.dungeons.Dungeon;
 import com.monique.sectgeon.level.entities.Entity;
 import com.monique.sectgeon.level.entities.LivingEntity;
 
-import java.awt.Rectangle;
-
 public abstract class Mob extends Entity implements LivingEntity {
     protected JPopupMenu popup = new JPopupMenu();
 
@@ -29,7 +27,7 @@ public abstract class Mob extends Entity implements LivingEntity {
     protected void setPopupConsumer() {
         Frame.listener.addListener(Events.Click, ID, note -> {
             MouseEvent e = (MouseEvent) note;
-            if (Util.collides(this.getRect(), new Rectangle(e.getX(), e.getY(), 1, 1))) {
+            if (Util.collides(this.getRect(), Util.getMouseRect())) {
                 popup.show(dungeon, e.getX(), e.getY());
             }
         });
