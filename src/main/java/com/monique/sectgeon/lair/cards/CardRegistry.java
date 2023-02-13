@@ -9,6 +9,7 @@ import com.monique.sectgeon.common.events.*;
 public class CardRegistry {
     public final CardTypes TYPE;
     public final String NAME;
+    public final String DESC;
     protected JSONObject json;
     protected Triggers[] triggers;
     protected Consumer<CustomEvent<Card>> skill;
@@ -21,15 +22,17 @@ public class CardRegistry {
     public CardRegistry(JSONObject json) {
         TYPE = CardTypes.valueOf(json.getString("type"));
         NAME = json.getString("name");
+        DESC = json.getString("desc");
         this.attack = json.getInt("attack");
         this.life = json.getInt("life");
         this.speed = json.getInt("speed");
         this.sacrifices = json.getInt("sacrifices");
     }
 
-    public CardRegistry(String name, CardTypes type, int attk, int life, int speed, int sacr, Consumer<CustomEvent<Card>> skill, Triggers... triggers) {
+    public CardRegistry(String name, String desc, CardTypes type, int attk, int life, int speed, int sacr, Consumer<CustomEvent<Card>> skill, Triggers... triggers) {
         TYPE = type;
         NAME = name;
+        DESC = desc;
         this.attack = attk;
         this.life = life;
         this.speed = speed;

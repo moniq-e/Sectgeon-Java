@@ -1,5 +1,10 @@
 package com.monique.sectgeon.common;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import com.monique.sectgeon.common.gui.Board;
@@ -7,9 +12,6 @@ import com.monique.sectgeon.common.gui.InitialMenu;
 import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.common.listeners.Listener;
 import com.monique.sectgeon.level.dungeons.*;
-
-import javax.swing.JFrame;
-import java.util.ArrayList;
 
 public class Frame extends JFrame {
     public static Board board;
@@ -35,9 +37,19 @@ public class Frame extends JFrame {
             if (board != null) board.tick(e);
         });
 
+        setFont();
         timer.start();
         setCronologia();
         setBoard(new InitialMenu(this));
+    }
+
+    public void setFont() {
+        try {
+            var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(getClass().getResource("/assets/Minecraftia-Regular.ttf").toURI())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setCronologia() {

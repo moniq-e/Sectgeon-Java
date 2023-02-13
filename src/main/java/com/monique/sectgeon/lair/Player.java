@@ -48,7 +48,7 @@ public class Player {
 
     public Card getHandCard(UUID id) {
         for (Card card : hand) {
-            if (card.ID == id) return card;
+            if (card.ID.equals(id)) return card;
         }
         return null;
     }

@@ -1,15 +1,16 @@
 package com.monique.sectgeon.lair.cards;
 
 import java.awt.image.BufferedImage;
-import java.awt.FontMetrics;
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.UUID;
+import javax.swing.JTextPane;
 
-import com.monique.sectgeon.common.Frame;
-import com.monique.sectgeon.common.Util;
+import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.events.*;
-import com.monique.sectgeon.common.events.Triggers;
 import com.monique.sectgeon.common.events.lair.LPHurtEvent;
 import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.lair.*;
@@ -23,7 +24,7 @@ public class Card extends CardRegistry implements Drawable {
     public int x, y;
 
     public Card(CardRegistry card, Player player) {
-        super(new String(card.NAME), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
+        super(new String(card.NAME), new String(card.DESC), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
         pos = -1;
 
         LAIR = player.lair;
@@ -37,7 +38,7 @@ public class Card extends CardRegistry implements Drawable {
     }
 
     public void attack(Card card) {
-        AttackEvent<Card> e = (AttackEvent<Card>) LAIR.listener.dispatch(new AttackEvent<Card>(this, card, attack));
+        var e = (AttackEvent<Card>) LAIR.listener.dispatch(new AttackEvent<Card>(this, card, attack));
 
         e.getTarget().takeDamage(this, e.getDamage());
     }
@@ -47,7 +48,7 @@ public class Card extends CardRegistry implements Drawable {
      */
     public void takeDamage(Card source, int damage) {
         if (damage > 0) {
-            HurtEvent<Card> e = (HurtEvent<Card>) LAIR.listener.dispatch(new HurtEvent<Card>(source, this, damage));
+            var e = (HurtEvent<Card>) LAIR.listener.dispatch(new HurtEvent<Card>(source, this, damage));
 
             if (e.getTarget() != this) {
                 e.getTarget().takeDamage(source, e.getDamage());   
@@ -63,7 +64,7 @@ public class Card extends CardRegistry implements Drawable {
      */
     public void heal(Card source, int value) {
         if (value > 0) {
-            HealEvent<Card> e = (HealEvent<Card>) LAIR.listener.dispatch(new HealEvent<Card>(source, this, value));
+            var e = (HealEvent<Card>) LAIR.listener.dispatch(new HealEvent<Card>(source, this, value));
 
             if (e.getTarget() != this) {
                 e.getTarget().heal(source, e.getValue());
@@ -75,7 +76,7 @@ public class Card extends CardRegistry implements Drawable {
 
     public void death() {
         if (life < 0) {
-            LPHurtEvent e = (LPHurtEvent) LAIR.listener.dispatch(new LPHurtEvent(this, PLAYER, Math.abs(life)));
+            var e = (LPHurtEvent) LAIR.listener.dispatch(new LPHurtEvent(this, PLAYER, Math.abs(life)));
 
             if (e.getTarget() != PLAYER) {
                 e.getTarget().takeDamage(this, e.getDamage());
@@ -84,7 +85,8 @@ public class Card extends CardRegistry implements Drawable {
             }
         }
 
-        PLAYER.cemetery.add(LAIR.tableCards.remove(ID));
+        LAIR.tableCards.remove(this);
+        PLAYER.cemetery.add(this);
         LAIR.listener.dispatch(new DeathEvent<Card>(this));
     }
 
@@ -103,36 +105,60 @@ public class Card extends CardRegistry implements Drawable {
         this.x = x;
         this.y = y;
 
-        Point mouse = LAIR.getMousePosition();
-
-        if (mouse != null) {
-            if (LairGUI.cardDragged == ID) {
-                x = (int) (mouse.getX()) - getWidth() / 2;
-                y = (int) (mouse.getY()) - getHeight() / 2;
-            } else if (LairGUI.cardHovered == ID && LairGUI.cardDragged == null) {
-                y -= getHeight();
-                g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y - g.getFont().getSize());
-            }
+        if (LairGUI.cardDragged == ID) {
+            var mouse = Util.getMouseRect();
+            x = (int) (mouse.x) - getWidth() / 2;
+            y = (int) (mouse.y) - getHeight() / 2;
+        }
+        if (LairGUI.cardHovered == ID) {
+            drawCard(g, x, y, 0.5f);
+            x = getWidth();
+            y = LAIR.getHeight() / 2 - getHeight() / 2;
+            g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y);
+            drawDesc(g, x, y);
         }
 
         drawCard(g, x, y);
     }
 
-    public void drawCard(Graphics g, int x, int y) {
-        int fontSize = g.getFont().getSize();
-        FontMetrics metrics = g.getFontMetrics();
+    private void drawCard(Graphics g, int x, int y) {
+        int fontSize = g.getFont().getSize() / 5;
+        var metrics = g.getFontMetrics();
 
         g.drawImage(image, x, y, getWidth(), getHeight(), LAIR);
 
         String attkString = String.valueOf(attack);
-        g.drawString(attkString, x + getWidth() * 20 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
+        g.drawString(attkString, x + getWidth() * 22 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
 
         String lifeString = String.valueOf(life);
-        g.drawString(lifeString, x + getWidth() * 80 / 100 - metrics.stringWidth(lifeString) / 2, y + getHeight() - fontSize);
+        g.drawString(lifeString, x + getWidth() * 82 / 100 - metrics.stringWidth(lifeString) / 2, y + getHeight() - fontSize);
+    }
+
+    private void drawCard(Graphics g, int x, int y, float alpha) {
+        var g2d = (Graphics2D) g;
+
+        g2d.setComposite(AlphaComposite.SrcOver.derive(alpha));
+        drawCard(g, x, y);
+        g2d.setComposite(AlphaComposite.SrcOver);
+    }
+
+    private void drawDesc(Graphics g, int x, int y) {
+        var pane = new JTextPane();
+        pane.setText(DESC);
+        pane.setFont(g.getFont().deriveFont(Card.getHeight() * 0.12f));
+        pane.setForeground(g.getColor());
+        pane.setOpaque(false);
+        pane.setBounds(0, 0, getWidth() * 2, LAIR.getHeight());
+
+        pane.paint(g.create(x - getWidth() / 2, y + getHeight() + g.getFont().getSize() * 2, pane.getWidth(), pane.getHeight()));
+    }
+
+    public boolean collidesMouse() {
+        return Util.collides(new Rectangle(this.x, this.y, getWidth(), getHeight()), Util.getMouseRect());
     }
 
     public boolean isOnTable() {
-        return LAIR.tableCards.get(ID) != null;
+        return LAIR.getTableCard(ID) != null;
     }
 
     private static int parsedWidth() {

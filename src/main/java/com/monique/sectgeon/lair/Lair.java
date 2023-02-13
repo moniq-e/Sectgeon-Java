@@ -2,7 +2,7 @@ package com.monique.sectgeon.lair;
 
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.monique.sectgeon.common.events.lair.*;
@@ -19,7 +19,7 @@ public class Lair extends Board {
     public CustomListener<Card> listener = new CustomListener<Card>();
     public Player player = new Player(this, "player", 20);
     public Enemy enemy = new Enemy(this, "enemy", 20);
-    public HashMap<UUID, Card> tableCards = new HashMap<UUID, Card>();
+    public ArrayList<Card> tableCards = new ArrayList<Card>();
     public LairGUI hud = new LairGUI(this);
     private Dungeon dungeon;
     private int turn = 1;
@@ -45,46 +45,94 @@ public class Lair extends Board {
     }
 
     public void placeCard(Card card, int pos) {
-        PlaceCardEvent e = (PlaceCardEvent) listener.dispatch(new PlaceCardEvent(card, pos));
+        var e = (PlaceCardEvent) listener.dispatch(new PlaceCardEvent(card, pos));
+        pos = e.getPos();
+        int emptySlot = getEmptySlot();
 
-        if (checkSlot(e.getPos())) {
-            if (e.getPos() != -1) {
+        if (checkSlot(pos)) {
+            if (pos != -1) {
                 card.PLAYER.hand.remove(card);
-                card.setPos(e.getPos());
-                tableCards.put(card.ID, card);
+                card.setPos(pos);
+                tableCards.add(card);
+            }
+        } else if (emptySlot != -1) {
+            getTableCard(pos).setPos(emptySlot);
+
+            card.PLAYER.hand.remove(card);
+            card.setPos(pos);
+            tableCards.add(card);
+        }
+    }
+
+    public void summon(Card source, Card summon, int pos) {
+        var e = (SummonEvent) listener.dispatch(new SummonEvent(source, summon, pos));
+        summon = e.getSummoned();
+        pos = e.getPos();
+
+        if (summon != null) {
+            if (pos == -1) {
+                summon.PLAYER.hand.add(summon);
+            } else if (checkSlot(pos)) {
+                summon.setPos(pos);
+                tableCards.add(summon);
             }
         }
     }
 
-    public void summon(Card source, Card summoned, int pos) {
-        SummonEvent e = (SummonEvent) listener.dispatch(new SummonEvent(source, summoned, pos));
-
-        if (e.getSummoned() != null) {
-            tableCards.put(e.getSummoned().ID, e.getSummoned());
-        }
-    }
-
     public boolean checkSlot(int pos) {
-        for (Card card : tableCards.values()) {
+        for (Card card : tableCards) {
             if (card.getPos() == pos) return false;
         }
         return true;
     }
 
-    public int getTurn() {
-        return turn;
+    public int getEmptySlot() {
+        int[] poses = {0, 1, 2};
+
+        for (Card card : tableCards) {
+            if (card.getPos() == poses[card.getPos()]) poses[card.getPos()] = -1;
+        }
+        for (int i = 0; i < poses.length; i++) {
+            if (poses[i] != -1) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public Card getTableCard(UUID id) {
+        for (Card card : tableCards) {
+            if (card.ID.equals(id)) return card;
+        }
+        return null;
+    }
+
+    public Card getTableCard(int pos) {
+        for (Card card : tableCards) {
+            if (card.getPos() == pos) return card;
+        }
+        return null;
     }
 
     public void ready(Player player) {
         player.ready = true;
         if (this.player.ready && enemy.ready) {
+            battle();
             turn++;
         }
+    }
+
+    public void battle() {
+        
     }
 
     public void finish(boolean winOrLoss) {
         defaultListener.clear();
         listener.clear();
         frame.finishLair(winOrLoss, dungeon);
+    }
+
+    public int getTurn() {
+        return turn;
     }
 }

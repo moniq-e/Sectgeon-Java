@@ -40,7 +40,7 @@ public class Macabre {
 
             if (de.getSkillID().equals(de.getSource().ID)) {
 
-                Card self = de.getSource().LAIR.tableCards.get(de.getSkillID());
+                Card self = de.getSource().LAIR.getTableCard(de.getSkillID());
                 ArrayList<Card> cm = de.getSource().PLAYER.cemetery;
 
                 Card rn = cm.get(Util.random(0, cm.size() - 1));
@@ -64,7 +64,7 @@ public class Macabre {
             DeathEvent<Card> de = (DeathEvent<Card>) e;
 
             if (!de.getSkillID().equals(de.getSource().ID) && de.getSource().isOnTable()) {
-                Card self = de.getSource().LAIR.tableCards.get(de.getSkillID());
+                Card self = de.getSource().LAIR.getTableCard(de.getSkillID());
                 self.heal(self, 1);
             }
         }, Triggers.PlayerHurt);
