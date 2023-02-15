@@ -23,6 +23,21 @@ jobs:
       - name: Build with Maven
         run: mvn package assembly:single
 
+      - name: Delete Package
+        run: |
+          curl --request DELETE \
+          --url https://api.github.com/user/packages/maven/com.monique.sectgeon \
+          --header 'Accept: application/vnd.github+json' \
+          --header 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'X-GitHub-Api-Version: 2022-11-28'
+
+      - name: Publish to GitHub Packages Apache Maven
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "<settings><servers><server><id>github</id><username>moniq-e</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+          mvn deploy
+
       - uses: actions/checkout@v3
       - name: Set up JDK 19
         uses: oracle-actions/setup-java@v1
@@ -48,18 +63,3 @@ jobs:
           files: |
             .github/packr/build/linux64/linux64.zip
             .github/packr/build/windows64/windows64.zip
-
-      - name: Delete Package
-        run: |
-          curl --request DELETE \
-          --url https://api.github.com/user/packages/maven/com.monique.sectgeon \
-          --header 'Accept: application/vnd.github+json' \
-          --header 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'X-GitHub-Api-Version: 2022-11-28'
-
-      - name: Publish to GitHub Packages Apache Maven
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "<settings><servers><server><id>github</id><username>moniq-e</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-          mvn deploy
