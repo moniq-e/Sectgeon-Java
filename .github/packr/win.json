@@ -1,6 +1,6 @@
 {
     "platform": "windows64",
-    "jdk": "/opt/hostedtoolcache/jdk-19_windows-x64_bin/jdk-19.0.2",
+    "jdk": "/opt/hostedtoolcache/Java_jdkfile_jdk/1782143853/x64",
     "executable": "sectgeon",
     "classpath": [
         "target/sectgeon.jar"
