@@ -45,7 +45,7 @@ jobs:
           uri: https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip
 
       - name: Test
-        run: ls target
+        run: ls
 
       - name: Build with Maven
         run: mvn package assembly:single
