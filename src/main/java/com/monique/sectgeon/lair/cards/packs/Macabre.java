@@ -35,7 +35,7 @@ public class Macabre {
     }
 
     private static void buildings() {
-        CARDS.get("Lapide").setSkill(e -> {
+        CARDS.get("Lápide").setSkill(e -> {
             DeathEvent<Card> de = (DeathEvent<Card>) e;
 
             if (de.getSkillID().equals(de.getSource().ID)) {
