@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.lair.Lair;
+import com.monique.sectgeon.lair.Player;
 import com.monique.sectgeon.lair.cards.Card;
 
 public class CardPile extends Button {
@@ -16,6 +17,10 @@ public class CardPile extends Button {
                 LAIR.player.hand.add(new Card(LAIR.player.deck.get(Util.random(0, LAIR.player.deck.size() - 1)), LAIR.player));
             }
         });
+    }
+
+    public void buyCard(Player player) {
+        player.hand.add(new Card(player.deck.get(Util.random(0, player.deck.size() - 1)), player));
     }
 
     @Override
