@@ -1,6 +1,6 @@
 {
     "platform": "windows64",
-    "jdk": "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/18.0.2-101/x64",
+    "jdk": "/opt/hostedtoolcache/jdk-19_windows-x64_bin/jdk-19.0.2",
     "executable": "sectgeon",
     "classpath": [
         "target/sectgeon.jar"

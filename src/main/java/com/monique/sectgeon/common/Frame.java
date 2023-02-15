@@ -2,7 +2,6 @@ package com.monique.sectgeon.common;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
-import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -37,16 +36,16 @@ public class Frame extends JFrame {
             if (board != null) board.tick(e);
         });
 
-        setFont();
+        registerFont();
         timer.start();
         setCronologia();
         setBoard(new InitialMenu(this));
     }
 
-    public void setFont() {
+    public void registerFont() {
         try {
             var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(getClass().getResource("/assets/Minecraftia-Regular.ttf").toURI())));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/assets/Minecraftia-Regular.ttf")));
         } catch (Exception e) {
             e.printStackTrace();
         }

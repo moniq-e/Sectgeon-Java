@@ -20,6 +20,12 @@ jobs:
           distribution: 'temurin'
           server-id: github
 
+      - uses: actions/checkout@v3
+      - name: Set up JDK 19
+        uses: oracle-actions/setup-java@v1
+        with:
+          uri: https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip
+
       - name: Build with Maven
         run: mvn package assembly:single
 
