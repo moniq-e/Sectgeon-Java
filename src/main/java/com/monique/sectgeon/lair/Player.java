@@ -9,7 +9,7 @@ import com.monique.sectgeon.lair.cards.packs.Macabre;
 
 public class Player {
     public final String NAME;
-    public Lair lair;
+    public final Lair LAIR;
     public boolean ready;
     public ArrayList<Card> cemetery = new ArrayList<Card>();
     public ArrayList<CardRegistry> deck = Macabre.getCards();
@@ -17,7 +17,7 @@ public class Player {
     private int life;
 
     public Player(Lair lair, String name, int maxLife) {
-        this.lair = lair;
+        this.LAIR = lair;
         this.NAME = name;
         this.life = maxLife;
     }
@@ -25,14 +25,11 @@ public class Player {
     /**
      * @param source who attacked
      */
-    public int takeDamage(Card source, int damage) {
-        if (damage > 0) {
-            LPHurtEvent e = (LPHurtEvent) lair.listener.dispatch(new LPHurtEvent(source, this, damage));
+    public void takeDamage(Card source, int damage) {
+        var e = (LPHurtEvent) LAIR.listener.dispatch(new LPHurtEvent(source, this, damage));
 
-            e.getTarget().life -= e.getDamage();
-            if (e.getTarget().life <= 0) e.getTarget().death();
-            return Math.abs(life);
-        } else return 0;
+        e.getTarget().life -= e.getDamage();
+        if (e.getTarget().life <= 0) e.getTarget().death();
     }
 
     /**
@@ -40,9 +37,13 @@ public class Player {
      */
     public void heal(Card source, int value) {
         if (value > 0) {
-            LPHealEvent e = (LPHealEvent) lair.listener.dispatch(new LPHealEvent(source, this, value));
+            var e = (LPHealEvent) LAIR.listener.dispatch(new LPHealEvent(source, this, value));
 
-            life += e.getValue();
+            if (e.getTarget() == this) {
+                life += e.getValue();
+            } else {
+                e.getTarget().heal(source, e.getValue());
+            }
         }
     }
 
@@ -54,7 +55,7 @@ public class Player {
     }
 
     public void death() {
-        lair.finish(false);
+        LAIR.finish(false);
     }
 
     public int getLife() {

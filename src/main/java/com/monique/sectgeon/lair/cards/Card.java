@@ -11,7 +11,6 @@ import javax.swing.JTextPane;
 
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.events.*;
-import com.monique.sectgeon.common.events.lair.LPHurtEvent;
 import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.lair.*;
 import com.monique.sectgeon.lair.gui.LairGUI;
@@ -27,7 +26,7 @@ public class Card extends CardRegistry implements Drawable {
         super(new String(card.NAME), new String(card.DESC), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
         pos = -1;
 
-        LAIR = player.lair;
+        LAIR = player.LAIR;
         PLAYER = player;
 
         if (card.triggers != null && card.skill != null) {
@@ -75,15 +74,7 @@ public class Card extends CardRegistry implements Drawable {
     }
 
     public void death() {
-        if (life < 0) {
-            var e = (LPHurtEvent) LAIR.listener.dispatch(new LPHurtEvent(this, PLAYER, Math.abs(life)));
-
-            if (e.getTarget() != PLAYER) {
-                e.getTarget().takeDamage(this, e.getDamage());
-            } else {
-                PLAYER.takeDamage(this, e.getDamage());
-            }
-        }
+        if (life < 0) PLAYER.takeDamage(this, Math.abs(life));
 
         LAIR.tableCards.remove(this);
         PLAYER.cemetery.add(this);

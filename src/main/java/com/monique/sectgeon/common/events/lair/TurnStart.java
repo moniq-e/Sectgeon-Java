@@ -5,7 +5,14 @@ import com.monique.sectgeon.common.events.Triggers;
 import com.monique.sectgeon.lair.cards.Card;
 
 public class TurnStart extends CustomEvent<Card> {
-    public TurnStart() {
+    private int turn;
+
+    public TurnStart(int turn) {
         super(Triggers.TurnStart, null);
+        this.turn = turn;
+    }
+
+    public int getTurn() {
+        return turn;
     }
 }

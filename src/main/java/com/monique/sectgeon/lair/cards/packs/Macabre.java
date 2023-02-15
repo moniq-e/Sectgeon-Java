@@ -36,7 +36,7 @@ public class Macabre {
 
     private static void buildings() {
         CARDS.get("Lápide").setSkill(e -> {
-            DeathEvent<Card> de = (DeathEvent<Card>) e;
+            var de = (DeathEvent<Card>) e;
 
             if (de.getSkillID().equals(de.getSource().ID)) {
 
@@ -61,13 +61,13 @@ public class Macabre {
 
     private static void troops() {
         CARDS.get("Rainha Zumbi").setSkill(e -> {
-            DeathEvent<Card> de = (DeathEvent<Card>) e;
+            var de = (DeathEvent<Card>) e;
 
             if (!de.getSkillID().equals(de.getSource().ID) && de.getSource().isOnTable()) {
                 Card self = de.getSource().LAIR.getTableCard(de.getSkillID());
                 self.heal(self, 1);
             }
-        }, Triggers.PlayerHurt);
+        }, Triggers.Death);
     }
 
     public static ArrayList<CardRegistry> getCards() {

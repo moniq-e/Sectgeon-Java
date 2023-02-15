@@ -2,6 +2,7 @@ package com.monique.sectgeon.lair;
 
 import java.util.UUID;
 
+import com.monique.sectgeon.common.Util;
 import com.monique.sectgeon.common.events.CustomEvent;
 import com.monique.sectgeon.common.events.Triggers;
 import com.monique.sectgeon.lair.cards.Card;
@@ -16,6 +17,18 @@ public class Enemy extends Player {
     }
 
     private void startOfTurn(CustomEvent<Card> e) {
-        lair.pile.buyCard(this);
+        LAIR.pile.buyCard(this);
+        placeCards();
+        LAIR.ready(this);
+    }
+
+    private void placeCards() {
+        int[] empty = LAIR.getEmptySlots();
+
+        for (int i = 0; i < (empty.length < hand.size() ? empty.length : hand.size()); i++) {
+            if (empty[i] != -1) {
+                LAIR.placeCard(hand.get(Util.random(0, hand.size() - 1)), empty[i]);
+            }
+        }
     }
 }

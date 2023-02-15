@@ -21,6 +21,7 @@ public class LairGUI implements Drawable {
     public final Lair LAIR;
     public final Point[] PlayerTablePos = new Point[3];
     public final Point[] EnemyTablePos = new Point[3];
+    public final Font DefaultFont = new Font("Minecraftia", Font.PLAIN, Card.getHeight() * 15 / 100);
 
     public LairGUI(Lair lair) {
         LAIR = lair;
@@ -70,7 +71,7 @@ public class LairGUI implements Drawable {
         int hei = LAIR.getHeight();
 
         g.setColor(Color.yellow);
-        g.setFont(new Font("Minecraftia", Font.PLAIN, Card.getHeight() * 15 / 100));
+        g.setFont(DefaultFont);
 
         setTableCardsPos(wid, hei);
 

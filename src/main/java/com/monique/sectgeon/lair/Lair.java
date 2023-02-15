@@ -22,7 +22,7 @@ public class Lair extends Board {
     public ArrayList<Card> tableCards = new ArrayList<Card>();
     public LairGUI hud = new LairGUI(this);
     private Dungeon dungeon;
-    private int turn = 1;
+    private int turn = 0;
 
     public Lair(Dungeon dungeon) {
         super(dungeon.frame);
@@ -30,6 +30,7 @@ public class Lair extends Board {
         addKeyListener(defaultListener);
         addMouseListener(defaultListener);
         addMouseMotionListener(defaultListener);
+        passTurn();
     }
 
     public void paintComponent(Graphics g) {
@@ -47,7 +48,7 @@ public class Lair extends Board {
     public void placeCard(Card card, int pos) {
         var e = (PlaceCardEvent) listener.dispatch(new PlaceCardEvent(card, pos));
         pos = e.getPos();
-        int emptySlot = getEmptySlot();
+        int emptySlot = getEmptySlot(card.PLAYER);
 
         if (checkSlot(pos)) {
             if (pos != -1) {
@@ -56,11 +57,13 @@ public class Lair extends Board {
                 tableCards.add(card);
             }
         } else if (emptySlot != -1) {
-            getTableCard(pos).setPos(emptySlot);
-
-            card.PLAYER.hand.remove(card);
-            card.setPos(pos);
-            tableCards.add(card);
+            var friend = getTableCard(card.PLAYER, pos);
+            if (friend != null) {
+                friend.setPos(emptySlot);
+                card.PLAYER.hand.remove(card);
+                card.setPos(pos);
+                tableCards.add(card);
+            }
         }
     }
 
@@ -86,11 +89,11 @@ public class Lair extends Board {
         return true;
     }
 
-    public int getEmptySlot() {
+    public int getEmptySlot(Player player) {
         int[] poses = {0, 1, 2};
 
         for (Card card : tableCards) {
-            if (card.getPos() == poses[card.getPos()]) poses[card.getPos()] = -1;
+            if (card.getPos() == poses[card.getPos()] && card.PLAYER == player) poses[card.getPos()] = -1;
         }
         for (int i = 0; i < poses.length; i++) {
             if (poses[i] != -1) {
@@ -100,6 +103,15 @@ public class Lair extends Board {
         return -1;
     }
 
+    public int[] getEmptySlots() {
+        int[] poses = {0, 1, 2};
+
+        for (Card card : tableCards) {
+            if (card.getPos() == poses[card.getPos()]) poses[card.getPos()] = -1;
+        }
+        return poses;
+    }
+
     public Card getTableCard(UUID id) {
         for (Card card : tableCards) {
             if (card.ID.equals(id)) return card;
@@ -107,23 +119,44 @@ public class Lair extends Board {
         return null;
     }
 
-    public Card getTableCard(int pos) {
+    public Card getTableCard(Player player, int pos) {
         for (Card card : tableCards) {
-            if (card.getPos() == pos) return card;
+            if (card.getPos() == pos && card.PLAYER == player) return card;
         }
         return null;
+    }
+
+    public void passTurn() {
+        turn++;
+        listener.dispatch(new TurnStart(turn));
     }
 
     public void ready(Player player) {
         player.ready = true;
         if (this.player.ready && enemy.ready) {
+            listener.dispatch(new TurnEnd(turn));
             battle();
-            turn++;
+            passTurn();
         }
     }
 
     public void battle() {
-        
+        listener.dispatch(new BattleStart());
+        tableCards.sort(this::compare);
+
+        for (Card card : tableCards) {
+            Player relativeEnemy = card.PLAYER == player ? enemy : player;
+
+            var opponent = getTableCard(relativeEnemy, card.getPos());
+            if (opponent != null) card.attack(opponent);
+            else {
+                relativeEnemy.takeDamage(card, card.getAttack());
+            }
+        }
+    }
+
+    public int compare(Card a, Card b) {
+        return b.getSpeed() - a.getSpeed();
     }
 
     public void finish(boolean winOrLoss) {
