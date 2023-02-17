@@ -44,7 +44,7 @@ public class Macabre {
                 if (self != null) {
                     var filtered = new ArrayList<Card>();
                     filtered.addAll(self.owner.cemetery);
-                    filtered.removeIf(Util.onlyOntType(CardTypes.Troop));
+                    filtered.removeIf(Util.onlyOneType(CardTypes.Troop));
 
                     if (filtered.size() > 0) {
                         Card rn = filtered.get(Util.random(0, filtered.size() - 1));

@@ -17,14 +17,14 @@ public class Enemy extends Player {
     }
 
     private void startOfTurn(CustomEvent<Card> e) {
-        LAIR.pile.buyCard(this);
+        LAIR.pile.buyCards(this);
         placeCards();
         LAIR.ready(this);
     }
 
     private void placeCards() {
         int[] empty = LAIR.getEmptySlots(this);
-
+        Util.shuffleArray(empty);
         for (int i = 0; i < (empty.length < hand.size() ? empty.length : hand.size()); i++) {
             if (empty[i] != -1) {
                 LAIR.placeCard(hand.get(Util.random(0, hand.size() - 1)), empty[i]);

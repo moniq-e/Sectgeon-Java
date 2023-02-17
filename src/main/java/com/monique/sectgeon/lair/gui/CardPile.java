@@ -26,6 +26,13 @@ public class CardPile extends Button {
         }
     }
 
+    public void buyCards(Player player) {
+        while (player.getBuyAmount() >= 1) {
+            player.hand.add(new Card(player.deck.get(Util.random(0, player.deck.size() - 1)), player));
+            player.setBuyAmount(player.getBuyAmount() - 1);
+        }
+    }
+
     @Override
     public Rectangle getRect() {
         var buffer = getHeight() / 10;

@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.function.Predicate;
 import javax.imageio.ImageIO;
 
@@ -26,11 +27,24 @@ public class Util {
         return (int) (Math.random() * (max + 1)) + min;
     }
 
+    public static <T> Object randomElement(ArrayList<T> array) {
+        return array.get(random(0, array.size() - 1));
+    }
+
+    public static void shuffleArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            var r = random(0, array.length - 1);
+            var temp = array[r];
+            array[r] = array[i];
+            array[i] = temp;
+        }
+    }
+
     public static int d(int dice) {
         return random(1, dice);
     }
 
-    public static Predicate<Card> onlyOntType(CardTypes type) {
+    public static Predicate<Card> onlyOneType(CardTypes type) {
         return c -> c.TYPE != type;
     }
 
