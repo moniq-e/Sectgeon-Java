@@ -23,7 +23,7 @@ public class Enemy extends Player {
     }
 
     private void placeCards() {
-        int[] empty = LAIR.getEmptySlots();
+        int[] empty = LAIR.getEmptySlots(this);
 
         for (int i = 0; i < (empty.length < hand.size() ? empty.length : hand.size()); i++) {
             if (empty[i] != -1) {

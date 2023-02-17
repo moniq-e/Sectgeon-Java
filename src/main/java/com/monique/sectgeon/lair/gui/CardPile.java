@@ -14,13 +14,16 @@ public class CardPile extends Button {
 
         setListener(note -> {
             if (Util.collides(getRect(), Util.getMouseRect())) {
-                LAIR.player.hand.add(new Card(LAIR.player.deck.get(Util.random(0, LAIR.player.deck.size() - 1)), LAIR.player));
+                buyCard(LAIR.player);
             }
         });
     }
 
     public void buyCard(Player player) {
-        player.hand.add(new Card(player.deck.get(Util.random(0, player.deck.size() - 1)), player));
+        if (player.getBuyAmount() >= 1) {
+            player.hand.add(new Card(player.deck.get(Util.random(0, player.deck.size() - 1)), player));
+            player.setBuyAmount(player.getBuyAmount() - 1);
+        }
     }
 
     @Override

@@ -15,6 +15,7 @@ public class Player {
     public ArrayList<CardRegistry> deck = Macabre.getCards();
     public ArrayList<Card> hand = new ArrayList<Card>();
     private int life;
+    private int buyAmount = 0;
 
     public Player(Lair lair, String name, int maxLife) {
         this.LAIR = lair;
@@ -60,5 +61,13 @@ public class Player {
 
     public int getLife() {
         return life;
+    }
+
+    public int getBuyAmount() {
+        return buyAmount;
+    }
+
+    public void setBuyAmount(int value) {
+        buyAmount = value < 0 ? 0 : value;
     }
 }

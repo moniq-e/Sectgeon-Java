@@ -19,7 +19,7 @@ public class Card extends CardRegistry implements Drawable {
     private static BufferedImage image = Util.getImage("cards/carta_vazia.png");
     public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
-    public final Player PLAYER;
+    public Player owner;
     public int x, y;
 
     public Card(CardRegistry card, Player player) {
@@ -27,7 +27,7 @@ public class Card extends CardRegistry implements Drawable {
         pos = -1;
 
         LAIR = player.LAIR;
-        PLAYER = player;
+        owner = player;
 
         if (card.triggers != null && card.skill != null) {
             for (Triggers trigger : triggers) {
@@ -74,17 +74,17 @@ public class Card extends CardRegistry implements Drawable {
     }
 
     public void death() {
-        if (life < 0) PLAYER.takeDamage(this, Math.abs(life));
+        if (life < 0) owner.takeDamage(this, Math.abs(life));
 
         LAIR.tableCards.remove(this);
-        PLAYER.cemetery.add(this);
+        owner.cemetery.add(this);
         LAIR.listener.dispatch(new DeathEvent<Card>(this));
     }
 
     @Override
     public void draw(Graphics g) {
         Point pos;
-        if (PLAYER instanceof Enemy) {
+        if (owner instanceof Enemy) {
             pos = LAIR.hud.EnemyTablePos[this.pos];
         } else {
             pos = LAIR.hud.PlayerTablePos[this.pos];

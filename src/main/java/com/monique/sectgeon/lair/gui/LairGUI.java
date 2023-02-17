@@ -83,11 +83,19 @@ public class LairGUI implements Drawable {
         }
 
         drawTableCardsPos(g);
-
+        drawLifes(g);
         LAIR.readyButton.draw(g);
         LAIR.pile.draw(g);
         LAIR.tableCards.forEach(c -> c.draw(g));
         drawHand(g, wid, hei);
+    }
+
+    private void drawLifes(Graphics g) {
+        var enemyLife = String.valueOf(LAIR.enemy.getLife());
+        var y = g.getFontMetrics().getHeight() + 2;
+
+        g.drawString(String.valueOf(LAIR.player.getLife()), 0, y);
+        g.drawString(enemyLife, LAIR.getWidth() - g.getFontMetrics().stringWidth(enemyLife), y);
     }
 
     private void setTableCardsPos(int wid, int hei) {

@@ -40,13 +40,19 @@ public class Macabre {
 
             if (de.getSkillID().equals(de.getSource().ID)) {
 
-                Card self = de.getSource().LAIR.getTableCard(de.getSkillID());
-                ArrayList<Card> cm = de.getSource().PLAYER.cemetery;
+                Card self = de.getSource().LAIR.getCemeterysCard(de.getSkillID());
+                if (self != null) {
+                    var filtered = new ArrayList<Card>();
+                    filtered.addAll(self.owner.cemetery);
+                    filtered.removeIf(Util.onlyOntType(CardTypes.Troop));
 
-                Card rn = cm.get(Util.random(0, cm.size() - 1));
-                Card newCard = instanceateCard(rn.NAME, self.PLAYER);
-
-                self.LAIR.summon(self, newCard, self.getPos());
+                    if (filtered.size() > 0) {
+                        Card rn = filtered.get(Util.random(0, filtered.size() - 1));
+                        Card newCard = instanceateCard(rn.NAME, self.owner);
+        
+                        self.LAIR.summon(self, newCard, self.getPos());
+                    }
+                }
             }
         }, Triggers.Death);
     }
@@ -54,8 +60,9 @@ public class Macabre {
     private static void spells() {
         CARDS.get("Livro Sagrado").setSkill(e -> {
             LPHurtEvent he = (LPHurtEvent) e;
-
             he.setDamage(0);
+
+            he.getSource().LAIR.listener.removeListener(Triggers.PlayerHurt, he.getSkillID());
         }, Triggers.PlayerHurt);
     }
 
@@ -63,9 +70,11 @@ public class Macabre {
         CARDS.get("Rainha Zumbi").setSkill(e -> {
             var de = (DeathEvent<Card>) e;
 
-            if (!de.getSkillID().equals(de.getSource().ID) && de.getSource().isOnTable()) {
-                Card self = de.getSource().LAIR.getTableCard(de.getSkillID());
-                self.heal(self, 1);
+            Card self = de.getSource().LAIR.getTableCard(de.getSkillID());
+            if (self != null) {
+                if (!de.getSkillID().equals(de.getSource().ID)) {
+                    self.heal(self, 1);
+                }
             }
         }, Triggers.Death);
     }

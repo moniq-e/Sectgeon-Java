@@ -4,7 +4,10 @@ import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.util.function.Predicate;
 import javax.imageio.ImageIO;
+
+import com.monique.sectgeon.lair.cards.*;
 
 public class Util {
     public static double distance(Point a, Point b) {
@@ -25,6 +28,10 @@ public class Util {
 
     public static int d(int dice) {
         return random(1, dice);
+    }
+
+    public static Predicate<Card> onlyOntType(CardTypes type) {
+        return c -> c.TYPE != type;
     }
 
     public static BufferedImage getImage(String location) {

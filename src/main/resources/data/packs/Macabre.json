@@ -22,11 +22,27 @@
     "troops": [
         {
             "name": "Rainha Zumbi",
-            "desc": "Qualquer morte -> ganha +1❤️",
+            "desc": "Qualquer morte -> ganha +1❤️.",
             "attack": 3,
             "life": 2,
             "speed": 3,
             "sacrifices": 2
+        },
+        {
+            "name": "Kobold",
+            "desc": "Não é muito forte, mas pelo menos se comporta bem.",
+            "attack": 2,
+            "life": 1,
+            "speed": 1,
+            "sacrifices": 0
+        },
+        {
+            "name": "Gelatina",
+            "desc": "Come quase qualquer coisa que você jogar para ela.",
+            "attack": 1,
+            "life": 3,
+            "speed": 1,
+            "sacrifices": 0
         }
     ]
 }
