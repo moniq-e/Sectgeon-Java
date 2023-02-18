@@ -136,20 +136,17 @@ public class Lair extends Board {
         return null;
     }
 
-
-    public void passTurn() {
-        player.setBuyAmount(player.getBuyAmount() + 1);
-        enemy.setBuyAmount(enemy.getBuyAmount() + 1);
-        turn++;
-        listener.dispatch(new TurnStart(turn));
-    }
-
     public void ready(Player p) {
         p.ready = true;
         if (player.ready && enemy.ready) {
             listener.dispatch(new TurnEnd(turn));
             player.ready = false;
             enemy.ready = false;
+
+            for (int i = 0; i < tableCards.size(); i++) {
+                tableCards.get(i).setAttacked(false);
+            }
+
             battle();
             passTurn();
         }
@@ -161,16 +158,25 @@ public class Lair extends Board {
 
         for (int i = 0; i < tableCards.size(); i++) {
             var card = tableCards.get(i);
-            Player relativeEnemy = card.owner == player ? enemy : player;
+            if (!card.getAttacked()) {
+                Player relativeEnemy = card.owner == player ? enemy : player;
+                var opponent = getTableCard(relativeEnemy, card.getPos());
 
-            var opponent = getTableCard(relativeEnemy, card.getPos());
-            if (opponent != null) {
-                card.attack(opponent);
-                opponent.attack(card);
-            } else {
-                relativeEnemy.takeDamage(card, card.getAttack());
+                if (opponent != null) {
+                    card.attack(opponent);
+                    if (!opponent.getAttacked()) opponent.attack(card);
+                } else {
+                    relativeEnemy.takeDamage(card, card.getAttack());
+                }
             }
         }
+    }
+
+    public void passTurn() {
+        player.setBuyAmount(player.getBuyAmount() + 1);
+        enemy.setBuyAmount(enemy.getBuyAmount() + 1);
+        turn++;
+        listener.dispatch(new TurnStart(turn));
     }
 
     public int compare(Card a, Card b) {

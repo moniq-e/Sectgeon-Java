@@ -33,7 +33,12 @@ public class LairGUI implements Drawable {
                     cardHovered = card.ID;
                 } else not++;
             }
-            if (not == LAIR.player.hand.size()) cardHovered = null;
+            for (Card card : LAIR.tableCards) {
+                if (card.collidesMouse()) {
+                    cardHovered = card.ID;
+                } else not++;
+            }
+            if (not == LAIR.player.hand.size() + LAIR.tableCards.size()) cardHovered = null;
         });
 
         lair.defaultListener.addListener(Events.Dragged, null, note -> {
@@ -91,11 +96,11 @@ public class LairGUI implements Drawable {
     }
 
     private void drawLifes(Graphics g) {
-        var enemyLife = String.valueOf(LAIR.enemy.getLife());
-        var y = g.getFontMetrics().getHeight() + 2;
+        var enemyInfo = LAIR.enemy.NAME.concat(" " + String.valueOf(LAIR.enemy.getLife()));
+        var y = g.getFontMetrics().getHeight() * 2;
 
-        g.drawString(String.valueOf(LAIR.player.getLife()), 0, y);
-        g.drawString(enemyLife, LAIR.getWidth() - g.getFontMetrics().stringWidth(enemyLife), y);
+        g.drawString(String.valueOf(LAIR.player.getLife()).concat(" " + LAIR.player.NAME), y, y);
+        g.drawString(enemyInfo, LAIR.getWidth() - g.getFontMetrics().stringWidth(enemyInfo) - y, y);
     }
 
     private void setTableCardsPos(int wid, int hei) {

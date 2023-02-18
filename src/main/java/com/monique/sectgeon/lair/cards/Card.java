@@ -2,12 +2,18 @@ package com.monique.sectgeon.lair.cards;
 
 import java.awt.image.BufferedImage;
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.UUID;
+
+import javax.swing.BorderFactory;
 import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.Utilities;
 
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.events.*;
@@ -21,6 +27,7 @@ public class Card extends CardRegistry implements Drawable {
     public final Lair LAIR;
     public Player owner;
     public int x, y;
+    private boolean attacked = false;
 
     public Card(CardRegistry card, Player player) {
         super(new String(card.NAME), new String(card.DESC), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
@@ -40,6 +47,7 @@ public class Card extends CardRegistry implements Drawable {
         var e = (AttackEvent<Card>) LAIR.listener.dispatch(new AttackEvent<Card>(this, card, attack));
 
         e.getTarget().takeDamage(this, e.getDamage());
+        setAttacked(true);
     }
 
     /**
@@ -89,7 +97,7 @@ public class Card extends CardRegistry implements Drawable {
         } else {
             pos = LAIR.hud.PlayerTablePos[this.pos];
         }
-        drawCard(g, pos.x, pos.y);
+        drawInTable(g, pos.x, pos.y);
     }
 
     public void drawInHand(Graphics g, int x, int y) {
@@ -103,6 +111,21 @@ public class Card extends CardRegistry implements Drawable {
         }
         if (LairGUI.cardHovered == ID) {
             drawCard(g, x, y, 0.5f);
+            x = getWidth();
+            y = LAIR.getHeight() / 2 - getHeight() / 2;
+            g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y);
+            drawDesc(g, x, y);
+        }
+
+        drawCard(g, x, y);
+    }
+
+    public void drawInTable(Graphics g, int x, int y) {
+        this.x = x;
+        this.y = y;
+
+        if (LairGUI.cardHovered == ID) {
+            drawCard(g, x, y);
             x = getWidth();
             y = LAIR.getHeight() / 2 - getHeight() / 2;
             g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y);
@@ -138,8 +161,26 @@ public class Card extends CardRegistry implements Drawable {
         pane.setText(DESC);
         pane.setFont(g.getFont().deriveFont(Card.getHeight() * 0.12f));
         pane.setForeground(g.getColor());
-        pane.setOpaque(false);
+        pane.setAlignmentX(JTextPane.CENTER_ALIGNMENT);
+        pane.setBackground(Color.black);
+        pane.setBorder(BorderFactory.createLineBorder(g.getColor(), 1, true));
         pane.setBounds(0, 0, getWidth() * 2, LAIR.getHeight());
+
+        //align vertical
+        var doc = pane.getStyledDocument();
+        var center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+        int lineCount = (DESC.length() == 0) ? 1 : 0;
+        try {
+            int offset = DESC.length(); 
+            while (offset > 0) {
+                offset = Utilities.getRowStart(pane, offset) - 1;
+                lineCount++;
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        pane.setBounds(0, 0, pane.getWidth(), lineCount * g.getFontMetrics().getHeight());
 
         pane.paint(g.create(x - getWidth() / 2, y + getHeight() + g.getFont().getSize() * 2, pane.getWidth(), pane.getHeight()));
     }
@@ -162,5 +203,13 @@ public class Card extends CardRegistry implements Drawable {
 
     public static int getHeight() {
         return image.getHeight() * (parsedWidth() / image.getWidth());
+    }
+
+    public boolean getAttacked() {
+        return attacked;
+    }
+
+    public void setAttacked(boolean attacked) {
+        this.attacked = attacked;
     }
 }
