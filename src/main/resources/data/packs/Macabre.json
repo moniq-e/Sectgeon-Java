@@ -22,10 +22,18 @@
     "troops": [
         {
             "name": "Rainha Zumbi",
-            "desc": "Qualquer morte -> ganha +1❤️.",
+            "desc": "Qualquer morte -> Ganha +1❤️.",
             "attack": 3,
             "life": 2,
             "speed": 3,
+            "sacrifices": 2
+        },
+        {
+            "name": "Ciclope",
+            "desc": "Começo da Batalha -> Se for sua a única tropa na mesa, ganha +3👊 e +3❤️",
+            "attack": 2,
+            "life": 3,
+            "speed": 1,
             "sacrifices": 2
         },
         {
@@ -41,6 +49,14 @@
             "desc": "Come quase qualquer coisa que você jogar para ela.",
             "attack": 1,
             "life": 3,
+            "speed": 1,
+            "sacrifices": 0
+        },
+        {
+            "name": "Zumbi",
+            "desc": "Atacar -> Reduz o ataque do alvo em -1👊",
+            "attack": 1,
+            "life": 2,
             "speed": 1,
             "sacrifices": 0
         }

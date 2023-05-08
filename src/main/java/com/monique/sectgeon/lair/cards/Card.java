@@ -21,12 +21,15 @@ import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.lair.*;
 import com.monique.sectgeon.lair.gui.LairGUI;
 
+import org.json.JSONObject;
+
 public class Card extends CardRegistry implements Drawable {
     private static BufferedImage image = Util.getImage("cards/carta_vazia.png");
     public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
     public Player owner;
     public int x, y;
+    public JSONObject infos = new JSONObject();
     private boolean attacked = false;
 
     public Card(CardRegistry card, Player player) {

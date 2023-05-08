@@ -18,8 +18,8 @@ public class Macabre {
 
     static {
         try {
-            Scanner file = new Scanner(Macabre.class.getResourceAsStream("/data/packs/Macabre.json"));
-            String txt = "";
+            var file = new Scanner(Macabre.class.getResourceAsStream("/data/packs/Macabre.json"), "UTF-8");
+            var txt = "";
 
             while (file.hasNextLine()) {
                 txt += file.nextLine();
@@ -40,7 +40,7 @@ public class Macabre {
 
             if (de.getSkillID().equals(de.getSource().ID)) {
 
-                Card self = de.getSource().LAIR.getCemeterysCard(de.getSkillID());
+                var self = de.getSource().LAIR.getCemeterysCard(de.getSkillID());
                 if (self != null) {
                     var filtered = new ArrayList<Card>();
                     filtered.addAll(self.owner.cemetery);
@@ -49,7 +49,7 @@ public class Macabre {
                     if (filtered.size() > 0) {
                         Card rn = filtered.get(Util.random(0, filtered.size() - 1));
                         Card newCard = instanceateCard(rn.NAME, self.owner);
-        
+
                         self.LAIR.summon(self, newCard, self.getPos());
                     }
                 }
@@ -59,7 +59,7 @@ public class Macabre {
 
     private static void spells() {
         CARDS.get("Livro Sagrado").setSkill(e -> {
-            LPHurtEvent he = (LPHurtEvent) e;
+            var he = (LPHurtEvent) e;
             he.setDamage(0);
 
             he.getSource().LAIR.listener.removeListener(Triggers.PlayerHurt, he.getSkillID());
@@ -70,17 +70,44 @@ public class Macabre {
         CARDS.get("Rainha Zumbi").setSkill(e -> {
             var de = (DeathEvent<Card>) e;
 
-            Card self = de.getSource().LAIR.getTableCard(de.getSkillID());
+            var self = de.getSource().LAIR.getTableCard(de.getSkillID());
             if (self != null) {
                 if (!de.getSkillID().equals(de.getSource().ID)) {
                     self.heal(self, 1);
                 }
             }
         }, Triggers.Death);
+
+        CARDS.get("Zumbi").setSkill(e -> {
+            var ae = (AttackEvent<Card>) e;
+
+            var tar = ae.getTarget();
+            if (ae.getSkillID().equals(ae.getSource().ID)) {
+                if (tar.getAttack() > 0) {
+                    tar.setAttack(tar.getAttack() - 1);
+                }
+            }
+        }, Triggers.Attack);
+
+        CARDS.get("Ciclope").setSkill(e -> {
+            var bs = (BattleStart) e;
+            var self = bs.getLair().getTableCard(bs.getSkillID());
+
+            if (self != null) {
+                for (Card c : bs.getLair().tableCards)  {
+                    if (c.TYPE == CardTypes.Troop && c.owner.equals(self.owner) && !c.ID.equals(self.ID)) return;
+                }
+                if (!self.infos.has("buff")) {
+                    self.setAttack(self.getAttack() + 3);
+                    self.setLife(self.getLife() + 3);
+                    self.infos.put("buff", true);
+                }
+            }
+        }, Triggers.BattleStart);
     }
 
     public static ArrayList<CardRegistry> getCards() {
-        ArrayList<CardRegistry> array = new ArrayList<CardRegistry>();
+        var array = new ArrayList<CardRegistry>();
         array.addAll(CARDS.values());
         return array;
     }
@@ -90,10 +117,10 @@ public class Macabre {
     }
 
     private static void setUpCardInfos(JSONObject json) {
-        JSONArray array = new JSONArray();
-        JSONArray buildings = json.getJSONArray("buildings");
-        JSONArray spells = json.getJSONArray("spells");
-        JSONArray troops = json.getJSONArray("troops");
+        var array = new JSONArray();
+        var buildings = json.getJSONArray("buildings");
+        var spells = json.getJSONArray("spells");
+        var troops = json.getJSONArray("troops");
 
         for (int i = 0; i < buildings.length(); i++) {
             buildings.getJSONObject(i).put("type", "Building");
@@ -110,7 +137,7 @@ public class Macabre {
         array.putAll(troops);
 
         for (int i = 0; i < array.length(); i++) {
-            JSONObject obj = array.getJSONObject(i);
+            var obj = array.getJSONObject(i);
             CARDS.put(obj.getString("name"), new CardRegistry(obj));
         }
     }
