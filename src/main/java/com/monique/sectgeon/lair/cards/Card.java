@@ -53,6 +53,12 @@ public class Card extends CardRegistry implements Drawable {
         setAttacked(true);
     }
 
+    public void attack(Player player) {
+        var e = (AttackEvent<Card>) LAIR.listener.dispatch(new AttackEvent<Card>(this, player, attack));
+
+        e.getPlayer().takeDamage(this, e.getDamage());
+    }
+
     /**
      * @param source who attacked
      */
@@ -64,7 +70,7 @@ public class Card extends CardRegistry implements Drawable {
                 e.getTarget().takeDamage(source, e.getDamage());   
             } else {
                 life -= e.getDamage();
-                if (life <= 0) death();
+                if (life <= 0) death(source);
             }
         }
     }
@@ -84,12 +90,16 @@ public class Card extends CardRegistry implements Drawable {
         }
     }
 
-    public void death() {
-        if (life < 0) owner.takeDamage(this, Math.abs(life));
+    public void death(Card killer) {
+        if (TYPE != CardTypes.Spell) {
+            if (life < 0) owner.takeDamage(this, Math.abs(life));
 
-        LAIR.tableCards.remove(this);
-        owner.cemetery.add(this);
-        LAIR.listener.dispatch(new DeathEvent<Card>(this));
+            LAIR.tableCards.remove(this);
+            owner.cemetery.add(this);
+            LAIR.listener.dispatch(new DeathEvent<Card>(this, killer));
+        } else {
+            owner.cemetery.add(this);
+        }
     }
 
     @Override

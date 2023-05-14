@@ -27,7 +27,7 @@ public class Util {
         return (int) (Math.random() * (max + 1)) + min;
     }
 
-    public static <T> Object randomElement(ArrayList<T> array) {
+    public static <T> T randomElement(ArrayList<T> array) {
         return array.get(random(0, array.size() - 1));
     }
 

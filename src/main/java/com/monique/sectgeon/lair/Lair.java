@@ -47,23 +47,29 @@ public class Lair extends Board {
 
     public void placeCard(Card card, int pos) {
         var e = (PlaceCardEvent) listener.dispatch(new PlaceCardEvent(card, pos));
-        pos = e.getPos();
-        int emptySlot = getEmptySlot(card.owner);
 
-        if (checkSlot(card.owner, pos)) {
-            if (pos != -1) {
-                card.owner.hand.remove(card);
-                card.setPos(pos);
-                tableCards.add(card);
+        if (card.TYPE != CardTypes.Spell) {
+            pos = e.getPos();
+            int emptySlot = getEmptySlot(card.owner);
+    
+            if (checkSlot(card.owner, pos)) {
+                if (pos != -1) {
+                    card.owner.hand.remove(card);
+                    card.setPos(pos);
+                    tableCards.add(card);
+                }
+            } else if (emptySlot != -1) {
+                var friend = getTableCard(card.owner, pos);
+                if (friend != null) {
+                    friend.setPos(emptySlot);
+                    card.owner.hand.remove(card);
+                    card.setPos(pos);
+                    tableCards.add(card);
+                }
             }
-        } else if (emptySlot != -1) {
-            var friend = getTableCard(card.owner, pos);
-            if (friend != null) {
-                friend.setPos(emptySlot);
-                card.owner.hand.remove(card);
-                card.setPos(pos);
-                tableCards.add(card);
-            }
+        } else {
+            card.owner.hand.remove(card);
+            card.death(card);
         }
     }
 
@@ -166,7 +172,7 @@ public class Lair extends Board {
                     card.attack(opponent);
                     if (!opponent.getAttacked()) opponent.attack(card);
                 } else {
-                    relativeEnemy.takeDamage(card, card.getAttack());
+                    card.attack(relativeEnemy);
                 }
             }
         }
