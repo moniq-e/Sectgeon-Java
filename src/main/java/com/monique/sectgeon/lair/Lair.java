@@ -47,29 +47,29 @@ public class Lair extends Board {
 
     public void placeCard(Card card, int pos) {
         var e = (PlaceCardEvent) listener.dispatch(new PlaceCardEvent(card, pos));
+        pos = e.getPos();
 
-        if (card.TYPE != CardTypes.Spell) {
-            pos = e.getPos();
-            int emptySlot = getEmptySlot(card.owner);
-    
-            if (checkSlot(card.owner, pos)) {
-                if (pos != -1) {
+        if (pos != -1) {
+            if (card.TYPE != CardTypes.Spell) {
+                int emptySlot = getEmptySlot(card.owner);
+        
+                if (checkSlot(card.owner, pos)) {
                     card.owner.hand.remove(card);
                     card.setPos(pos);
                     tableCards.add(card);
+                } else if (emptySlot != -1) {
+                    var friend = getTableCard(card.owner, pos);
+                    if (friend != null) {
+                        friend.setPos(emptySlot);
+                        card.owner.hand.remove(card);
+                        card.setPos(pos);
+                        tableCards.add(card);
+                    }
                 }
-            } else if (emptySlot != -1) {
-                var friend = getTableCard(card.owner, pos);
-                if (friend != null) {
-                    friend.setPos(emptySlot);
-                    card.owner.hand.remove(card);
-                    card.setPos(pos);
-                    tableCards.add(card);
-                }
+            } else {
+                card.owner.hand.remove(card);
+                card.death(card);
             }
-        } else {
-            card.owner.hand.remove(card);
-            card.death(card);
         }
     }
 

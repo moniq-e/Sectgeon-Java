@@ -27,7 +27,11 @@ public class Enemy extends Player {
         Util.shuffleArray(empty);
         for (int i = 0; i < (empty.length < hand.size() ? empty.length : hand.size()); i++) {
             if (empty[i] != -1) {
-                LAIR.placeCard(hand.get(Util.random(0, hand.size() - 1)), empty[i]);
+                var toPlaceCard = hand.get(Util.random(0, hand.size() - 1));
+                if (toPlaceCard.getSacrifices() > 0) {
+                    //inimigo sacrificar da mesa (se n tiver na mesa, jogar uma da mão pra sacrificar)
+                }
+                LAIR.placeCard(toPlaceCard, empty[i]);
             }
         }
     }

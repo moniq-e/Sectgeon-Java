@@ -92,11 +92,16 @@ public class Card extends CardRegistry implements Drawable {
 
     public void death(Card killer) {
         if (TYPE != CardTypes.Spell) {
-            if (life < 0) owner.takeDamage(this, Math.abs(life));
+            if (killer != null) {
+                if (life < 0) owner.takeDamage(this, Math.abs(life));
 
-            LAIR.tableCards.remove(this);
-            owner.cemetery.add(this);
-            LAIR.listener.dispatch(new DeathEvent<Card>(this, killer));
+                LAIR.tableCards.remove(this);
+                owner.cemetery.add(this);
+                LAIR.listener.dispatch(new DeathEvent<Card>(this, killer));
+            } else {
+                LAIR.tableCards.remove(this);
+                owner.cemetery.add(this);
+            }
         } else {
             owner.cemetery.add(this);
         }
@@ -137,6 +142,12 @@ public class Card extends CardRegistry implements Drawable {
         this.x = x;
         this.y = y;
 
+        if (LairGUI.toSacrifice.contains(ID)) {
+            var old = g.getColor();
+            g.setColor(Color.RED);
+            g.fillRoundRect(x - 1, y - 1, getWidth() + 2, getHeight() + 2, 10, 10);
+            g.setColor(old);
+        }
         if (LairGUI.cardHovered == ID) {
             drawCard(g, x, y);
             x = getWidth();

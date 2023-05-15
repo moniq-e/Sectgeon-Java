@@ -23,6 +23,7 @@ public class LairGUI implements Drawable {
     public static UUID cardHovered;
     public static UUID cardDragged;
     public static ArrayList<UUID> toSacrifice = new ArrayList<UUID>();
+    public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
     public final Point[] PlayerTablePos = new Point[3];
     public final Point[] EnemyTablePos = new Point[3];
@@ -31,7 +32,7 @@ public class LairGUI implements Drawable {
     public LairGUI(Lair lair) {
         LAIR = lair;
 
-        lair.defaultListener.addListener(Events.Move, null, note -> {
+        lair.defaultListener.addListener(Events.Move, ID, note -> {
             int not = 0;
             for (Card card : LAIR.player.hand) {
                 if (card.collidesMouse()) {
@@ -46,7 +47,7 @@ public class LairGUI implements Drawable {
             if (not == LAIR.player.hand.size() + LAIR.tableCards.size()) cardHovered = null;
         });
 
-        lair.defaultListener.addListener(Events.Dragged, null, note -> {
+        lair.defaultListener.addListener(Events.Dragged, ID, note -> {
             if (cardDragged == null) {
                 for (Card card : LAIR.player.hand) {
                     if (card.collidesMouse()) {
@@ -56,7 +57,7 @@ public class LairGUI implements Drawable {
                 }
             }
         });
-        lair.defaultListener.addListener(Events.Released, null, note -> {
+        lair.defaultListener.addListener(Events.Released, ID, note -> {
             if (cardDragged != null) {
                 Card card = lair.player.getHandCard(cardDragged);
                 if (card != null) {
@@ -74,19 +75,26 @@ public class LairGUI implements Drawable {
             } else {
                 for (Card card : LAIR.tableCards) {
                     if (card.owner == lair.player && card.collidesMouse()) {
-                        toSacrifice.add(card.ID);
+                        if (!toSacrifice.contains(card.ID)) toSacrifice.add(card.ID);
+                        else toSacrifice.remove(card.ID);
                     }
                 }
             }
         });
 
-        lair.listener.addListener(Triggers.PlaceCard, null, e -> {
+        lair.listener.addListener(Triggers.PlaceCard, ID, e -> {
             var pe = (PlaceCardEvent) e;
-            //consumir...
+            if (pe.getSource().getSacrifices() <= toSacrifice.size()) {
+                for (int i = 0; i < pe.getSource().getSacrifices(); i++) {
+                    LAIR.getTableCard(toSacrifice.remove(0)).death(null);
+                }
+            } else {
+                pe.setPos(-1);
+            }
         });
         Consumer<CustomEvent<Card>> clearSacrifices = e -> toSacrifice.clear();
-        lair.listener.addListener(Triggers.BattleStart, null, clearSacrifices);
-        lair.listener.addListener(Triggers.TurnStart, null, clearSacrifices);
+        lair.listener.addListener(Triggers.BattleStart, ID, clearSacrifices);
+        lair.listener.addListener(Triggers.TurnStart, ID, clearSacrifices);
     }
 
     @Override
