@@ -8,8 +8,12 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import com.monique.sectgeon.common.Util;
+import com.monique.sectgeon.common.events.CustomEvent;
+import com.monique.sectgeon.common.events.Triggers;
+import com.monique.sectgeon.common.events.lair.PlaceCardEvent;
 import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.common.listeners.Events;
 import com.monique.sectgeon.lair.Lair;
@@ -18,6 +22,7 @@ import com.monique.sectgeon.lair.cards.Card;
 public class LairGUI implements Drawable {
     public static UUID cardHovered;
     public static UUID cardDragged;
+    public static ArrayList<UUID> toSacrifice = new ArrayList<UUID>();
     public final Lair LAIR;
     public final Point[] PlayerTablePos = new Point[3];
     public final Point[] EnemyTablePos = new Point[3];
@@ -66,8 +71,22 @@ public class LairGUI implements Drawable {
                         }
                     }
                 }
+            } else {
+                for (Card card : LAIR.tableCards) {
+                    if (card.owner == lair.player && card.collidesMouse()) {
+                        toSacrifice.add(card.ID);
+                    }
+                }
             }
         });
+
+        lair.listener.addListener(Triggers.PlaceCard, null, e -> {
+            var pe = (PlaceCardEvent) e;
+            //consumir...
+        });
+        Consumer<CustomEvent<Card>> clearSacrifices = e -> toSacrifice.clear();
+        lair.listener.addListener(Triggers.BattleStart, null, clearSacrifices);
+        lair.listener.addListener(Triggers.TurnStart, null, clearSacrifices);
     }
 
     @Override

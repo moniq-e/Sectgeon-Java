@@ -1,5 +1,7 @@
 package com.monique.sectgeon.lair.gui;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.monique.sectgeon.common.*;
@@ -20,7 +22,7 @@ public class CardPile extends Button {
     }
 
     public void buyCard(Player player) {
-        if (player.getBuyAmount() >= 1) {
+        if (player.getBuyAmount() > 0) {
             player.hand.add(new Card(player.deck.get(Util.random(0, player.deck.size() - 1)), player));
             player.setBuyAmount(player.getBuyAmount() - 1);
         }
@@ -31,6 +33,25 @@ public class CardPile extends Button {
             player.hand.add(new Card(player.deck.get(Util.random(0, player.deck.size() - 1)), player));
             player.setBuyAmount(player.getBuyAmount() - 1);
         }
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        var old = g.getColor();
+        if (LAIR.player.getBuyAmount() > 0) {
+            g.setColor(Color.CYAN);
+            g.fillRoundRect(getRect().x - 2, getRect().y - 2, getWidth() + 4, getHeight() + 4, 10, 10);
+            g.setColor(old);
+        }
+        super.draw(g);
+    }
+
+    @Override
+    public int getHeight() {
+        if (LAIR.player.getBuyAmount() > 0) {
+            return (int) (super.getHeight() * 1.3);
+        }
+        return super.getHeight();
     }
 
     @Override
