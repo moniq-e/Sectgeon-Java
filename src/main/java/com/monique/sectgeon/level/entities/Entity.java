@@ -1,5 +1,7 @@
 package com.monique.sectgeon.level.entities;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,9 +11,6 @@ import com.monique.sectgeon.common.gui.Drawable;
 import com.monique.sectgeon.level.dungeons.Dungeon;
 import com.monique.sectgeon.level.items.Item;
 import com.monique.sectgeon.level.items.Tool;
-
-import java.awt.Point;
-import java.awt.Rectangle;
 
 public abstract class Entity implements Drawable {
     public Dungeon dungeon;
@@ -31,21 +30,6 @@ public abstract class Entity implements Drawable {
     private Item heldItem;
 
     /**
-     * Default entitiy constructor, name is type
-     */
-    public Entity(Dungeon dungeon, String type, float maxLife, int walkDistance, int width, int height) {
-        TYPE = type;
-        NAME = type;
-        MAXLIFE = maxLife;
-        WALKDISTANCE = walkDistance;
-        WIDTH = width;
-        HEIGHT = height;
-        this.dungeon = dungeon;
-        this.rect = new Rectangle(0, 0, width, height);
-        this.life = maxLife;
-    }
-
-    /**
      * Entity constructor with name
      */
     public Entity(Dungeon dungeon, String type, String name, float maxLife, int walkDistance, int width, int height) {
@@ -58,6 +42,13 @@ public abstract class Entity implements Drawable {
         this.HEIGHT = height;
         this.rect = new Rectangle(0, 0, width, height);
         this.life = maxLife;
+    }
+
+    /**
+     * Default entitiy constructor, name is type
+     */
+    public Entity(Dungeon dungeon, String type, float maxLife, int walkDistance, int width, int height) {
+        this(dungeon, type, type, maxLife, walkDistance, width, height);
     }
 
     public void attack(Entity target, Tool item) {
