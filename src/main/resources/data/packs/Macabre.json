@@ -7,6 +7,22 @@
             "life": 3,
             "speed": 0,
             "sacrifices": 0
+        },
+        {
+            "name": "Cerca Viva",
+            "desc": "Recebe Dano -> Devolve metade do dano recebido a quem causou.",
+            "attack": 0,
+            "life": 7,
+            "speed": 0,
+            "sacrifices": 1
+        },
+        {
+            "name": "Coração da Floresta",
+            "desc": "Fim da Batalha -> Cura o jogador com metade da vida desta carta.",
+            "attack": 0,
+            "life": 8,
+            "speed": 0,
+            "sacrifices": 0
         }
     ],
     "spells": [

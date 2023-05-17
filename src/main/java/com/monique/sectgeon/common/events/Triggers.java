@@ -4,6 +4,7 @@ public enum Triggers {
     PlaceCard,
     TurnStart,
     BattleStart,
+    BattleEnd,
     TurnEnd,
     SkillAttack,
     BeforeAttack,

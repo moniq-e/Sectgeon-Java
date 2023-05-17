@@ -176,6 +176,7 @@ public class Lair extends Board {
                 }
             }
         }
+        listener.dispatch(new BattleEnd());
     }
 
     public void passTurn() {

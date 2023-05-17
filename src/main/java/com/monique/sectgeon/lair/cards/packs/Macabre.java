@@ -53,6 +53,28 @@ public class Macabre {
                 }
             }
         }, Triggers.Death);
+
+        CARDS.get("Cerca Viva").setSkill(e -> {
+            var he = (HurtEvent<Card>) e;
+            var self = he.getTarget();
+            var tar = he.getSource();
+
+            if (he.getSkillID().equals(self.ID) && tar.LAIR.getTableCard(self.ID) != null) {
+                int damage = (he.getDamage() / 2) < 1 ? 1 : he.getDamage() / 2;
+                var sae = (SkillAttackEvent<Card>) self.LAIR.listener.dispatch(new SkillAttackEvent<Card>(self, tar, damage));
+                tar.takeDamage(self, sae.getDamage());
+            }
+        }, Triggers.Hurt);
+
+        CARDS.get("Coração da Floresta").setSkill(e -> {
+            var be = (BattleEnd) e;
+            var self = be.getLair().getTableCard(be.getSkillID());
+
+            if (self != null) {
+                //já manda evento no heal
+                self.owner.heal(self, self.getLife() / 2);
+            }
+        }, Triggers.BattleEnd);
     }
 
     private static void spells() {
