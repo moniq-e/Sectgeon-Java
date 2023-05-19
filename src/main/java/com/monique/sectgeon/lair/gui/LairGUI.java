@@ -22,8 +22,7 @@ import com.monique.sectgeon.lair.cards.Card;
 public class LairGUI implements Drawable {
     public static UUID cardHovered;
     public static UUID cardDragged;
-    public static ArrayList<UUID> toSacrifice = new ArrayList<UUID>();
-    public static ArrayList<UUID> handSacrifice = new ArrayList<UUID>();
+    public static ArrayList<UUID> evidence = new ArrayList<UUID>();
     public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
     public final Point[] PlayerTablePos = new Point[3];
@@ -76,14 +75,14 @@ public class LairGUI implements Drawable {
             } else {
                 for (var card : LAIR.getTableCards(lair.player)) {
                     if (card.collidesMouse()) {
-                        if (!toSacrifice.contains(card.ID)) toSacrifice.add(card.ID);
-                        else toSacrifice.remove(card.ID);
+                        if (!card.owner.toSacrifice.contains(card.ID)) card.owner.toSacrifice.add(card.ID);
+                        else card.owner.toSacrifice.remove(card.ID);
                     }
                 }
                 for (var card : LAIR.player.hand) {
                     if (card.collidesMouse()) {
-                        if (!handSacrifice.contains(card.ID)) handSacrifice.add(card.ID);
-                        else handSacrifice.remove(card.ID);
+                        if (!card.owner.handSacrifice.contains(card.ID)) card.owner.handSacrifice.add(card.ID);
+                        else card.owner.handSacrifice.remove(card.ID);
                     }
                 }
             }
@@ -91,15 +90,19 @@ public class LairGUI implements Drawable {
 
         lair.listener.addListener(Triggers.PlaceCard, ID, e -> {
             var pe = (PlaceCardEvent) e;
-            if (pe.getSource().getSacrifices() <= toSacrifice.size()) {
+            var owner = pe.getSource().owner;
+            if (pe.getSource().getSacrifices() <= owner.toSacrifice.size()) {
                 for (int i = 0; i < pe.getSource().getSacrifices(); i++) {
-                    LAIR.getTableCard(toSacrifice.remove(0)).death(null);
+                    LAIR.getTableCard(owner.toSacrifice.remove(0)).death(null);
                 }
             } else {
                 pe.setPos(-1);
             }
         });
-        Consumer<CustomEvent<Card>> clearSacrifices = e -> toSacrifice.clear();
+        Consumer<CustomEvent<Card>> clearSacrifices = e -> {
+            lair.player.toSacrifice.clear();
+            lair.enemy.toSacrifice.clear();
+        };
         lair.listener.addListener(Triggers.BattleStart, ID, clearSacrifices);
         lair.listener.addListener(Triggers.TurnStart, ID, clearSacrifices);
     }
@@ -125,6 +128,7 @@ public class LairGUI implements Drawable {
         drawLifes(g);
         LAIR.readyButton.draw(g);
         LAIR.pile.draw(g);
+        LAIR.cemetery.draw(g);
         LAIR.tableCards.forEach(c -> c.draw(g));
         drawHand(g, wid, hei);
     }

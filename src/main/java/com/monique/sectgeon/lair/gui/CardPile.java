@@ -13,12 +13,13 @@ public class CardPile extends Button {
 
     public CardPile(Lair lair) {
         super(lair, "lair/baralho.png", 8);
+    }
 
-        setListener(note -> {
-            if (Util.collides(getRect(), Util.getMouseRect())) {
-                buyCard(LAIR.player);
-            }
-        });
+    @Override
+    public void onClick(Object o) {
+        if (Util.collides(getRect(), Util.getMouseRect())) {
+            buyCard(LAIR.player);
+        }
     }
 
     public void buyCard(Player player) {
@@ -37,8 +38,8 @@ public class CardPile extends Button {
 
     @Override
     public void draw(Graphics g) {
-        var old = g.getColor();
         if (LAIR.player.getBuyAmount() > 0) {
+            var old = g.getColor();
             g.setColor(Color.CYAN);
             g.fillRoundRect(getRect().x - 2, getRect().y - 2, getWidth() + 4, getHeight() + 4, 10, 10);
             g.setColor(old);

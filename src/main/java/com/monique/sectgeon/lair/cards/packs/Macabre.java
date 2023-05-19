@@ -12,7 +12,6 @@ import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.lair.Player;
 import com.monique.sectgeon.lair.cards.*;
-import com.monique.sectgeon.lair.gui.LairGUI;
 
 public class Macabre {
     protected static final HashMap<String, CardRegistry> CARDS = new HashMap<String, CardRegistry>();
@@ -41,6 +40,7 @@ public class Macabre {
 
             if (de.getSkillID().equals(de.getSource().ID)) {
                 var self = de.getSource();
+                self.LAIR.cemetery.evidenceate();
 
                 var filtered = new ArrayList<Card>();
                 filtered.addAll(self.owner.cemetery);
@@ -72,7 +72,6 @@ public class Macabre {
             var self = be.getLair().getTableCard(be.getSkillID());
 
             if (self != null) {
-                // já manda evento no heal
                 self.owner.heal(self, 3);
             }
         }, Triggers.BattleEnd);
@@ -85,6 +84,7 @@ public class Macabre {
 
             if (self != null) {
                 if (self.owner == he.getTarget()) {
+                    self.LAIR.cemetery.evidenceate();
                     he.setDamage(0);
                     self.LAIR.listener.removeListener(Triggers.PlayerHurt, he.getSkillID());
                 }
@@ -96,8 +96,8 @@ public class Macabre {
             var self = pe.getSource();
 
             if (pe.getSkillID().equals(self.ID)) {
-                if (!LairGUI.handSacrifice.contains(self.ID) && LairGUI.handSacrifice.size() > 0) {
-                    self.owner.getHandCard(LairGUI.handSacrifice.remove(0)).death(null);
+                if (!self.owner.handSacrifice.contains(self.ID) && self.owner.handSacrifice.size() > 0) {
+                    self.owner.getHandCard(self.owner.handSacrifice.remove(0)).death(null);
                     self.owner.setBuyAmount(self.owner.getBuyAmount() + 2);
                 } else {
                     pe.setPos(-1);
@@ -132,6 +132,7 @@ public class Macabre {
 
             var self = de.getSource().LAIR.getTableCard(de.getSkillID());
             if (self != null) {
+                self.evidenceate();
                 self.heal(self, 1);
             }
         }, Triggers.Death);
@@ -204,6 +205,7 @@ public class Macabre {
             if (self == null) self = se.getSource().LAIR.enemy.getHandCard(se.getSkillID());
 
             if (self != null) {
+                self.evidenceate();
                 if (Util.random(0, 1) == 0) {
                     self.addLife(1);
                 } else {
@@ -230,6 +232,7 @@ public class Macabre {
                 if (self != null) {
                     if (self.infos.has("turn")) {
                         if (self.LAIR.getTurn() == self.infos.getInt("turn")) {
+                            if (self.isDead()) self.LAIR.cemetery.evidenceate();
                             ae.setDamage(0);
                         }
                     }

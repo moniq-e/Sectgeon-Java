@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import com.monique.sectgeon.common.*;
 import com.monique.sectgeon.common.listeners.Events;
@@ -21,15 +20,15 @@ public abstract class Button {
         LAIR = lair;
         image = Util.getImage(location);
         divider = heightDivider;
+
+        LAIR.defaultListener.addListener(Events.Click, ID, this::onClick);
     }
+
+    public abstract void onClick(Object o);
 
     public void draw(Graphics g) {
         var rect = getRect();
         g.drawImage(image, rect.x, rect.y, rect.width, rect.height, LAIR);
-    }
-
-    protected void setListener(Consumer<Object> listener) {
-        LAIR.defaultListener.addListener(Events.Click, ID, listener);
     }
 
     private int parsedWidth() {
