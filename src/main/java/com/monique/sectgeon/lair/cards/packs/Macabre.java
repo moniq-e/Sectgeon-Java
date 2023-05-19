@@ -61,9 +61,8 @@ public class Macabre {
             var tar = he.getSource();
 
             if (he.getSkillID().equals(self.ID) && tar.LAIR.getTableCard(self.ID) != null) {
-                int damage = (he.getDamage() / 2) < 1 ? 1 : he.getDamage() / 2;
-                var sae = (SkillAttackEvent<Card>) self.LAIR.listener
-                        .dispatch(new SkillAttackEvent<Card>(self, tar, damage));
+                int damage = Math.max(he.getDamage() / 2, 1);
+                var sae = (SkillAttackEvent<Card>) self.LAIR.listener.dispatch(new SkillAttackEvent<Card>(self, tar, damage));
                 tar.takeDamage(self, sae.getDamage());
             }
         }, Triggers.Hurt);
@@ -143,7 +142,7 @@ public class Macabre {
             var tar = ae.getTarget();
             if (ae.getSkillID().equals(ae.getSource().ID) && tar != null) {
                 if (tar.getAttack() > 0) {
-                    tar.setAttack(tar.getAttack() - 1);
+                    tar.addAttack(-1);
                 }
             }
         }, Triggers.Attack);
@@ -154,12 +153,11 @@ public class Macabre {
 
             if (self != null) {
                 for (Card c : bs.getLair().getTableCards(self.owner)) {
-                    if (c.TYPE == CardTypes.Troop && !c.ID.equals(self.ID))
-                        return;
+                    if (c.TYPE == CardTypes.Troop && !c.ID.equals(self.ID)) return;
                 }
                 if (!self.infos.has("buff")) {
-                    self.setAttack(self.getAttack() + 3);
-                    self.setLife(self.getLife() + 3);
+                    self.addAttack(3);
+                    self.addLife(3);
                     self.infos.put("buff", true);
                 }
             }
@@ -207,12 +205,37 @@ public class Macabre {
 
             if (self != null) {
                 if (Util.random(0, 1) == 0) {
-                    self.heal(self, 1);
+                    self.addLife(1);
                 } else {
-                    self.setAttack(self.getAttack() + 1);
+                    self.addAttack(1);
                 }
             }
         }, Triggers.Summon);
+
+        CARDS.get("Anansi").setSkill(e -> {
+            if (e instanceof DeathEvent<Card>) {
+                var de = (DeathEvent<Card>) e;
+                var self = de.getSource().LAIR.getTableCard(de.getSkillID());
+
+                if (self != null) {
+                    if (self.owner != de.getSource().owner) {
+                        self.infos.put("turn", de.getSource().LAIR.getTurn() + 1);
+                    }
+                }
+            } else if (e instanceof AttackEvent<Card>) {
+                var ae = (AttackEvent<Card>) e;
+                var self = ae.getSource().LAIR.getTableCard(ae.getSkillID());
+                if (self == null) self = ae.getSource().LAIR.getCemeterysCard(ae.getSkillID());
+
+                if (self != null) {
+                    if (self.infos.has("turn")) {
+                        if (self.LAIR.getTurn() == self.infos.getInt("turn")) {
+                            ae.setDamage(0);
+                        }
+                    }
+                }
+            }
+        }, Triggers.Death, Triggers.Attack);
     }
 
     public static ArrayList<CardRegistry> getCards() {

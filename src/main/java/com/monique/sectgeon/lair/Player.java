@@ -68,6 +68,6 @@ public class Player {
     }
 
     public void setBuyAmount(int value) {
-        buyAmount = value < 0 ? 0 : value;
+        buyAmount = Math.max(value, 0);
     }
 }

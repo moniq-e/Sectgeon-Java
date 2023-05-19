@@ -26,6 +26,7 @@ import org.json.JSONObject;
 public class Card extends CardRegistry implements Drawable {
     private static BufferedImage image = Util.getImage("cards/carta_vazia.png");
     public final UUID ID = UUID.randomUUID();
+    public final UUID TEMP_STATS_ID = UUID.randomUUID();
     public final Lair LAIR;
     public Player owner;
     public int x, y;
@@ -43,6 +44,15 @@ public class Card extends CardRegistry implements Drawable {
             for (Triggers trigger : triggers) {
                 LAIR.listener.addListener(trigger, ID, card.skill);
             }
+        }
+        if (TYPE != CardTypes.Spell) {
+            LAIR.listener.addListener(Triggers.BattleEnd, TEMP_STATS_ID, e -> {
+                int bufferLife = tempLife, bufferAtk = tempAttack;
+                tempLife = 0;
+                tempAttack = 0;
+                addLife(bufferLife);
+                addAttack(bufferAtk);
+            });
         }
     }
 
@@ -102,6 +112,7 @@ public class Card extends CardRegistry implements Drawable {
                 LAIR.tableCards.remove(this);
                 owner.cemetery.add(this);
             }
+            LAIR.listener.removeListener(Triggers.BattleEnd, TEMP_STATS_ID);
         } else {
             owner.cemetery.add(this);
         }

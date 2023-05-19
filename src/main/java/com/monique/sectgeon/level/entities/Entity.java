@@ -68,7 +68,7 @@ public abstract class Entity implements Drawable {
     }
 
     public void takeDamage(float damage) {
-        life -= (damage - armor <= 0 ? 0 : damage - armor);
+        life -= Math.max(damage - armor, 0);
         if (life <= 0) kill();
     }
 

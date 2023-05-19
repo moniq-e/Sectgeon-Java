@@ -110,10 +110,18 @@
         },
         {
             "name": "Sapo Cururu",
-            "desc": "Qualquer summon -> se estiver na sua mão, ganha +1❤️ ou +1👊.",
+            "desc": "Qualquer summon -> Se estiver na sua mão, ganha +1❤️ ou +1👊.",
             "attack": 2,
             "life": 2,
             "speed": 3,
+            "sacrifices": 1
+        },
+        {
+            "name": "Anansi",
+            "desc": "Inimigo Morto -> Faz com que nenhuma carta em campo cause dano ao atacar no próximo turno.",
+            "attack": 2,
+            "life": 5,
+            "speed": 1,
             "sacrifices": 1
         }
     ]

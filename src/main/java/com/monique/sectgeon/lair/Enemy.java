@@ -25,7 +25,7 @@ public class Enemy extends Player {
     private void placeCards() {
         int[] empty = LAIR.getEmptySlots(this);
         Util.shuffleArray(empty);
-        for (int i = 0; i < (empty.length < hand.size() ? empty.length : hand.size()); i++) {
+        for (int i = 0; i < Math.min(empty.length, hand.size()); i++) {
             if (empty[i] != -1) {
                 var toPlaceCard = hand.get(Util.random(0, hand.size() - 1));
                 if (toPlaceCard.getSacrifices() > 0) {
