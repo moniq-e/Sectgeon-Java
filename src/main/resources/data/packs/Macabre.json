@@ -18,9 +18,9 @@
         },
         {
             "name": "Coração da Floresta",
-            "desc": "Fim da Batalha -> Cura o jogador com metade da vida desta carta.",
+            "desc": "Fim da Batalha -> Cura o jogador em +3❤️.",
             "attack": 0,
-            "life": 8,
+            "life": 6,
             "speed": 0,
             "sacrifices": 0
         }
@@ -29,6 +29,22 @@
         {
             "name": "Livro Sagrado",
             "desc": "Todo o próximo dano ao seu jogador é ignorado.",
+            "attack": 0,
+            "life": 0,
+            "speed": 0,
+            "sacrifices": 0
+        },
+        {
+            "name": "Barganha Justa",
+            "desc": "Descarte uma carta da mão e compre duas.",
+            "attack": 0,
+            "life": 0,
+            "speed": 0,
+            "sacrifices": 0
+        },
+        {
+            "name": "Injeção Letal",
+            "desc": "Mata sua carta com mais vida e converte o valor em cura para o jogador.",
             "attack": 0,
             "life": 0,
             "speed": 0,
@@ -91,6 +107,14 @@
             "life": 2,
             "speed": 3,
             "sacrifices": 0
+        },
+        {
+            "name": "Sapo Cururu",
+            "desc": "Qualquer summon -> se estiver na sua mão, ganha +1❤️ ou +1👊.",
+            "attack": 2,
+            "life": 2,
+            "speed": 3,
+            "sacrifices": 1
         }
     ]
 }

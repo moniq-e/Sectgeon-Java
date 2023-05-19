@@ -122,6 +122,12 @@ public class Card extends CardRegistry implements Drawable {
         this.x = x;
         this.y = y;
 
+        if (LairGUI.handSacrifice.contains(ID)) {
+            var old = g.getColor();
+            g.setColor(Color.RED);
+            g.fillRoundRect(x - 1, y - 1, getWidth() + 2, getHeight() + 2, 10, 10);
+            g.setColor(old);
+        }
         if (LairGUI.cardDragged == ID) {
             var mouse = Util.getMouseRect();
             x = (int) (mouse.x) - getWidth() / 2;

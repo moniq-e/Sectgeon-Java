@@ -132,6 +132,14 @@ public class Lair extends Board {
         return null;
     }
 
+    public ArrayList<Card> getTableCards(Player player) {
+        var array = new ArrayList<Card>();
+        for (Card card : tableCards) {
+            if (card.owner == player) array.add(card);
+        }
+        return array;
+    }
+
     public Card getCemeterysCard(UUID id) {
         for (Card card : player.cemetery) {
             if (card.ID.equals(id)) return card;

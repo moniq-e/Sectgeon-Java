@@ -23,6 +23,7 @@ public class LairGUI implements Drawable {
     public static UUID cardHovered;
     public static UUID cardDragged;
     public static ArrayList<UUID> toSacrifice = new ArrayList<UUID>();
+    public static ArrayList<UUID> handSacrifice = new ArrayList<UUID>();
     public final UUID ID = UUID.randomUUID();
     public final Lair LAIR;
     public final Point[] PlayerTablePos = new Point[3];
@@ -59,7 +60,7 @@ public class LairGUI implements Drawable {
         });
         lair.defaultListener.addListener(Events.Released, ID, note -> {
             if (cardDragged != null) {
-                Card card = lair.player.getHandCard(cardDragged);
+                var card = lair.player.getHandCard(cardDragged);
                 if (card != null) {
                     if (cardDragged != cardHovered) cardHovered = null;
                     cardDragged = null;
@@ -73,10 +74,16 @@ public class LairGUI implements Drawable {
                     }
                 }
             } else {
-                for (Card card : LAIR.tableCards) {
-                    if (card.owner == lair.player && card.collidesMouse()) {
+                for (var card : LAIR.getTableCards(lair.player)) {
+                    if (card.collidesMouse()) {
                         if (!toSacrifice.contains(card.ID)) toSacrifice.add(card.ID);
                         else toSacrifice.remove(card.ID);
+                    }
+                }
+                for (var card : LAIR.player.hand) {
+                    if (card.collidesMouse()) {
+                        if (!handSacrifice.contains(card.ID)) handSacrifice.add(card.ID);
+                        else handSacrifice.remove(card.ID);
                     }
                 }
             }

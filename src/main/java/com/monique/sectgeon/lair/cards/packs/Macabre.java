@@ -12,6 +12,7 @@ import com.monique.sectgeon.common.events.*;
 import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.lair.Player;
 import com.monique.sectgeon.lair.cards.*;
+import com.monique.sectgeon.lair.gui.LairGUI;
 
 public class Macabre {
     protected static final HashMap<String, CardRegistry> CARDS = new HashMap<String, CardRegistry>();
@@ -61,7 +62,8 @@ public class Macabre {
 
             if (he.getSkillID().equals(self.ID) && tar.LAIR.getTableCard(self.ID) != null) {
                 int damage = (he.getDamage() / 2) < 1 ? 1 : he.getDamage() / 2;
-                var sae = (SkillAttackEvent<Card>) self.LAIR.listener.dispatch(new SkillAttackEvent<Card>(self, tar, damage));
+                var sae = (SkillAttackEvent<Card>) self.LAIR.listener
+                        .dispatch(new SkillAttackEvent<Card>(self, tar, damage));
                 tar.takeDamage(self, sae.getDamage());
             }
         }, Triggers.Hurt);
@@ -71,8 +73,8 @@ public class Macabre {
             var self = be.getLair().getTableCard(be.getSkillID());
 
             if (self != null) {
-                //já manda evento no heal
-                self.owner.heal(self, self.getLife() / 2);
+                // já manda evento no heal
+                self.owner.heal(self, 3);
             }
         }, Triggers.BattleEnd);
     }
@@ -89,6 +91,40 @@ public class Macabre {
                 }
             }
         }, Triggers.PlayerHurt);
+
+        CARDS.get("Barganha Justa").setSkill(e -> {
+            var pe = (PlaceCardEvent) e;
+            var self = pe.getSource();
+
+            if (pe.getSkillID().equals(self.ID)) {
+                if (!LairGUI.handSacrifice.contains(self.ID) && LairGUI.handSacrifice.size() > 0) {
+                    self.owner.getHandCard(LairGUI.handSacrifice.remove(0)).death(null);
+                    self.owner.setBuyAmount(self.owner.getBuyAmount() + 2);
+                } else {
+                    pe.setPos(-1);
+                }
+            }
+        }, Triggers.PlaceCard);
+
+        CARDS.get("Injeção Letal").setSkill(e -> {
+            var pe = (PlaceCardEvent) e;
+            var self = pe.getSource();
+
+            if (pe.getSkillID().equals(self.ID)) {
+                var playerCards = self.LAIR.getTableCards(self.owner);
+                if (playerCards.size() > 0) {
+                    playerCards.sort((a, b) -> {
+                        var life = b.getLife() - a.getLife();
+                        return life == 0 ? a.getAttack() - b.getAttack() : life;
+                    });
+
+                    self.owner.heal(self, playerCards.get(0).getLife());
+                    playerCards.get(0).death(null);
+                } else {
+                    pe.setPos(-1);
+                }
+            }
+        }, Triggers.PlaceCard);
     }
 
     private static void troops() {
@@ -117,8 +153,9 @@ public class Macabre {
             var self = bs.getLair().getTableCard(bs.getSkillID());
 
             if (self != null) {
-                for (Card c : bs.getLair().tableCards)  {
-                    if (c.TYPE == CardTypes.Troop && c.owner.equals(self.owner) && !c.ID.equals(self.ID)) return;
+                for (Card c : bs.getLair().getTableCards(self.owner)) {
+                    if (c.TYPE == CardTypes.Troop && !c.ID.equals(self.ID))
+                        return;
                 }
                 if (!self.infos.has("buff")) {
                     self.setAttack(self.getAttack() + 3);
@@ -162,6 +199,20 @@ public class Macabre {
                 }
             }
         }, Triggers.Attack);
+
+        CARDS.get("Sapo Cururu").setSkill(e -> {
+            var se = (SummonEvent) e;
+            var self = se.getSource().LAIR.player.getHandCard(se.getSkillID());
+            if (self == null) self = se.getSource().LAIR.enemy.getHandCard(se.getSkillID());
+
+            if (self != null) {
+                if (Util.random(0, 1) == 0) {
+                    self.heal(self, 1);
+                } else {
+                    self.setAttack(self.getAttack() + 1);
+                }
+            }
+        }, Triggers.Summon);
     }
 
     public static ArrayList<CardRegistry> getCards() {
