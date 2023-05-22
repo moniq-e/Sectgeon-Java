@@ -9,9 +9,10 @@ import com.monique.sectgeon.common.Frame;
 import com.monique.sectgeon.common.gui.*;
 import com.monique.sectgeon.common.listeners.CustomListener;
 import com.monique.sectgeon.level.entities.*;
+import com.monique.sectgeon.level.entities.npcs.NPCs;
 import com.monique.sectgeon.level.gui.DungeonGUI;
 
-public abstract class Dungeon extends Board {
+public class Dungeon extends Board {
     private boolean started = false;
     private DungeonGUI hud = new DungeonGUI(this);
     public CustomListener<Entity> listener = new CustomListener<Entity>();
@@ -19,7 +20,7 @@ public abstract class Dungeon extends Board {
     public ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
     public ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 
-    Dungeon(Frame frame) {
+    public Dungeon(Frame frame) {
         super(frame);
         drawables.add(player);
         drawables.add(hud);
@@ -68,5 +69,7 @@ public abstract class Dungeon extends Board {
         g.drawString(lifeString, getWidth()/2 - lifeString.length(), 30);
     }
 
-    protected abstract void start();
+    private void start() {
+        NPCs.instanceateNPC("John", this);
+    }
 }

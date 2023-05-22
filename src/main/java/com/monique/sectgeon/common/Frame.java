@@ -38,7 +38,6 @@ public class Frame extends JFrame {
 
         registerFont();
         timer.start();
-        setCronologia();
         setBoard(new InitialMenu(this));
     }
 
@@ -49,10 +48,6 @@ public class Frame extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setCronologia() {
-        phasis.add(new Dungeon1(this));
     }
 
     public void setBoard(Board board) {
@@ -68,7 +63,8 @@ public class Frame extends JFrame {
         if (winOrLos) {
             Board nextBoard;
             try {
-                nextBoard = phasis.get(phasis.indexOf(Frame.board) + 1);
+                nextBoard = new Dungeon(this);
+                phasis.add(nextBoard);
                 setBoard(nextBoard);
             } catch (IndexOutOfBoundsException e) {
                 finish();
