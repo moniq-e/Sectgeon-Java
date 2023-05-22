@@ -3,7 +3,9 @@ package com.monique.sectgeon.lair;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import com.monique.sectgeon.common.events.lair.*;
 import com.monique.sectgeon.common.gui.*;
@@ -15,12 +17,14 @@ import com.monique.sectgeon.level.dungeons.Dungeon;
 public class Lair extends Board {
     public Listener defaultListener = new Listener();
     public CardPile pile = new CardPile(this);
+    public Cemetery cemetery = new Cemetery(this);
     public ReadyButton readyButton = new ReadyButton(this);
     public CustomListener<Card> listener = new CustomListener<Card>();
     public Player player = new Player(this, "player", 20);
     public Enemy enemy = new Enemy(this, "enemy", 20);
     public ArrayList<Card> tableCards = new ArrayList<Card>();
     public LairGUI hud = new LairGUI(this);
+    private final ArrayList<TickedFor<?>> TICKED_FORS = new ArrayList<TickedFor<?>>();
     private Dungeon dungeon;
     private int turn = 0;
 
@@ -41,6 +45,12 @@ public class Lair extends Board {
 
     @Override
     public void tick(Object e) {
+        var delete = new ArrayList<TickedFor<?>>();
+        for (int i = 0; i < TICKED_FORS.size(); i++) {
+            if (TICKED_FORS.get(i).tick()) delete.add(TICKED_FORS.get(i));
+        }
+        TICKED_FORS.removeAll(delete);
+
         revalidate();
         repaint();
     }
@@ -67,7 +77,6 @@ public class Lair extends Board {
                     }
                 }
             } else {
-                card.owner.hand.remove(card);
                 card.death(card);
             }
         }
@@ -85,6 +94,7 @@ public class Lair extends Board {
                 summon.setPos(pos);
                 tableCards.add(summon);
             }
+            summon.evidenceate();
         }
     }
 
@@ -132,6 +142,14 @@ public class Lair extends Board {
         return null;
     }
 
+    public ArrayList<Card> getTableCards(Player player) {
+        var array = new ArrayList<Card>();
+        for (Card card : tableCards) {
+            if (card.owner == player) array.add(card);
+        }
+        return array;
+    }
+
     public Card getCemeterysCard(UUID id) {
         for (Card card : player.cemetery) {
             if (card.ID.equals(id)) return card;
@@ -154,28 +172,32 @@ public class Lair extends Board {
             }
 
             battle();
-            passTurn();
         }
     }
 
     public void battle() {
         listener.dispatch(new BattleStart());
-        tableCards.sort(this::compare);
+        Collections.sort(tableCards);
 
-        for (int i = 0; i < tableCards.size(); i++) {
-            var card = tableCards.get(i);
+        tickedFor(tableCards, 30, card -> {
             if (!card.getAttacked()) {
+                LairGUI.evidence.add(card.ID);
                 Player relativeEnemy = card.owner == player ? enemy : player;
                 var opponent = getTableCard(relativeEnemy, card.getPos());
 
                 if (opponent != null) {
                     card.attack(opponent);
-                    if (!opponent.getAttacked()) opponent.attack(card);
                 } else {
                     card.attack(relativeEnemy);
                 }
             }
-        }
+        }, card -> {
+            LairGUI.evidence.remove(card.ID);
+        }, cards -> {
+            LairGUI.evidence.clear();
+            listener.dispatch(new BattleEnd());
+            passTurn();
+        });
     }
 
     public void passTurn() {
@@ -185,8 +207,14 @@ public class Lair extends Board {
         listener.dispatch(new TurnStart(turn));
     }
 
-    public int compare(Card a, Card b) {
-        return b.getSpeed() - a.getSpeed();
+    public <T> void tickedFor(ArrayList<T> array, int delay, Consumer<T> consumer, Consumer<T> postEach, Consumer<ArrayList<T>> post) {
+        TICKED_FORS.add(new TickedFor<T>(delay, array, consumer, postEach, post));
+    }
+
+    public <T> void tickedElement(T element, int delay, Consumer<T> consumer, Consumer<T> postEach, Consumer<ArrayList<T>> post) {
+        var array = new ArrayList<T>();
+        array.add(element);
+        TICKED_FORS.add(new TickedFor<T>(delay, array, consumer, postEach, post));
     }
 
     public void finish(boolean winOrLoss) {

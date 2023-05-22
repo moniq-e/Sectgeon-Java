@@ -7,12 +7,44 @@
             "life": 3,
             "speed": 0,
             "sacrifices": 0
+        },
+        {
+            "name": "Cerca Viva",
+            "desc": "Recebe Dano -> Devolve metade do dano recebido a quem causou.",
+            "attack": 0,
+            "life": 7,
+            "speed": 0,
+            "sacrifices": 1
+        },
+        {
+            "name": "Coração da Floresta",
+            "desc": "Fim da Batalha -> Cura o jogador em +3❤️.",
+            "attack": 0,
+            "life": 6,
+            "speed": 0,
+            "sacrifices": 0
         }
     ],
     "spells": [
         {
             "name": "Livro Sagrado",
             "desc": "Todo o próximo dano ao seu jogador é ignorado.",
+            "attack": 0,
+            "life": 0,
+            "speed": 0,
+            "sacrifices": 0
+        },
+        {
+            "name": "Barganha Justa",
+            "desc": "Descarte uma carta da mão e compre duas.",
+            "attack": 0,
+            "life": 0,
+            "speed": 0,
+            "sacrifices": 0
+        },
+        {
+            "name": "Injeção Letal",
+            "desc": "Mata sua carta com mais vida e converte o valor em cura para o jogador.",
             "attack": 0,
             "life": 0,
             "speed": 0,
@@ -75,6 +107,22 @@
             "life": 2,
             "speed": 3,
             "sacrifices": 0
+        },
+        {
+            "name": "Sapo Cururu",
+            "desc": "Qualquer summon -> Se estiver na sua mão, ganha +1❤️ ou +1👊.",
+            "attack": 2,
+            "life": 2,
+            "speed": 3,
+            "sacrifices": 1
+        },
+        {
+            "name": "Anansi",
+            "desc": "Inimigo Morto -> Faz com que nenhuma carta em campo cause dano ao atacar no próximo turno.",
+            "attack": 2,
+            "life": 5,
+            "speed": 1,
+            "sacrifices": 1
         }
     ]
 }

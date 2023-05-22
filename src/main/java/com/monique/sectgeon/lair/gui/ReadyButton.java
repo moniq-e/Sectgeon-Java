@@ -9,12 +9,13 @@ public class ReadyButton extends Button {
 
     public ReadyButton(Lair lair) {
         super(lair, "lair/pronto.png", 5);
-        
-        setListener(note -> {
-            if (Util.collides(getRect(), Util.getMouseRect())) {
-                LAIR.ready(LAIR.player);
-            }
-        });
+    }
+
+    @Override
+    public void onClick(Object o) {
+        if (Util.collides(getRect(), Util.getMouseRect())) {
+            LAIR.ready(LAIR.player);
+        }
     }
 
     @Override

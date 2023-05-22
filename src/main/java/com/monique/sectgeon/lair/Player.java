@@ -14,6 +14,8 @@ public class Player {
     public ArrayList<Card> cemetery = new ArrayList<Card>();
     public ArrayList<CardRegistry> deck = Macabre.getCards();
     public ArrayList<Card> hand = new ArrayList<Card>();
+    public ArrayList<UUID> toSacrifice = new ArrayList<UUID>();
+    public ArrayList<UUID> handSacrifice = new ArrayList<UUID>();
     private int life;
     private int buyAmount = 0;
 
@@ -68,6 +70,6 @@ public class Player {
     }
 
     public void setBuyAmount(int value) {
-        buyAmount = value < 0 ? 0 : value;
+        buyAmount = Math.max(value, 0);
     }
 }

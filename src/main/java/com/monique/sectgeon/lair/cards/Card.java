@@ -23,14 +23,16 @@ import com.monique.sectgeon.lair.gui.LairGUI;
 
 import org.json.JSONObject;
 
-public class Card extends CardRegistry implements Drawable {
+public class Card extends CardRegistry implements Drawable, Comparable<Card> {
     private static BufferedImage image = Util.getImage("cards/carta_vazia.png");
     public final UUID ID = UUID.randomUUID();
+    public final UUID TEMP_STATS_ID = UUID.randomUUID();
     public final Lair LAIR;
     public Player owner;
     public int x, y;
     public JSONObject infos = new JSONObject();
     private boolean attacked = false;
+    private boolean dead = false;
 
     public Card(CardRegistry card, Player player) {
         super(new String(card.NAME), new String(card.DESC), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
@@ -43,6 +45,15 @@ public class Card extends CardRegistry implements Drawable {
             for (Triggers trigger : triggers) {
                 LAIR.listener.addListener(trigger, ID, card.skill);
             }
+        }
+        if (TYPE != CardTypes.Spell) {
+            LAIR.listener.addListener(Triggers.BattleEnd, TEMP_STATS_ID, e -> {
+                int bufferLife = tempLife, bufferAtk = tempAttack;
+                tempLife = 0;
+                tempAttack = 0;
+                addLife(bufferLife);
+                addAttack(bufferAtk);
+            });
         }
     }
 
@@ -95,16 +106,19 @@ public class Card extends CardRegistry implements Drawable {
             if (killer != null) {
                 if (life < 0) owner.takeDamage(this, Math.abs(life));
 
-                LAIR.tableCards.remove(this);
+                if (!LAIR.tableCards.remove(this)) owner.hand.remove(this);
                 owner.cemetery.add(this);
                 LAIR.listener.dispatch(new DeathEvent<Card>(this, killer));
             } else {
-                LAIR.tableCards.remove(this);
+                if (!LAIR.tableCards.remove(this)) owner.hand.remove(this);
                 owner.cemetery.add(this);
             }
+            LAIR.listener.removeListener(Triggers.BattleEnd, TEMP_STATS_ID);
         } else {
+            owner.hand.remove(this);
             owner.cemetery.add(this);
         }
+        dead = true;
     }
 
     @Override
@@ -122,6 +136,11 @@ public class Card extends CardRegistry implements Drawable {
         this.x = x;
         this.y = y;
 
+        if (LairGUI.evidence.contains(ID)) {
+            drawSelection(g, Color.CYAN);
+        } else if (owner.handSacrifice.contains(ID)) {
+            drawSelection(g, Color.RED);
+        }
         if (LairGUI.cardDragged == ID) {
             var mouse = Util.getMouseRect();
             x = (int) (mouse.x) - getWidth() / 2;
@@ -129,7 +148,7 @@ public class Card extends CardRegistry implements Drawable {
         }
         if (LairGUI.cardHovered == ID) {
             drawCard(g, x, y, 0.5f);
-            x = getWidth();
+            x = LAIR.hud.PlayerTablePos[0].x / 2 - getWidth() / 2;
             y = LAIR.getHeight() / 2 - getHeight() / 2;
             g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y);
             drawDesc(g, x, y);
@@ -142,15 +161,14 @@ public class Card extends CardRegistry implements Drawable {
         this.x = x;
         this.y = y;
 
-        if (LairGUI.toSacrifice.contains(ID)) {
-            var old = g.getColor();
-            g.setColor(Color.RED);
-            g.fillRoundRect(x - 1, y - 1, getWidth() + 2, getHeight() + 2, 10, 10);
-            g.setColor(old);
+        if (LairGUI.evidence.contains(ID)) {
+            drawSelection(g, Color.CYAN);
+        } else if (owner.toSacrifice.contains(ID)) {
+            drawSelection(g, Color.RED);
         }
         if (LairGUI.cardHovered == ID) {
             drawCard(g, x, y);
-            x = getWidth();
+            x = LAIR.hud.PlayerTablePos[0].x / 2 - getWidth() / 2;
             y = LAIR.getHeight() / 2 - getHeight() / 2;
             g.drawString(NAME, x + getWidth() / 2 - g.getFontMetrics().stringWidth(NAME) / 2, y);
             drawDesc(g, x, y);
@@ -209,6 +227,22 @@ public class Card extends CardRegistry implements Drawable {
         pane.paint(g.create(x - getWidth() / 2, y + getHeight() + g.getFont().getSize() * 2, pane.getWidth(), pane.getHeight()));
     }
 
+    public void drawSelection(Graphics g, Color color) {
+        var old = g.getColor();
+        g.setColor(color);
+        g.fillRoundRect(x - 1, y - 1, getWidth() + 2, getHeight() + 2, 10, 10);
+        g.setColor(old);
+    }
+
+    public void evidenceate() {
+        if (!dead) LAIR.tickedElement(ID, 30, ID -> LairGUI.evidence.add(ID), ID -> LairGUI.evidence.remove(ID), null);
+    }
+
+    @Override
+    public int compareTo(Card b) {
+        return b.getSpeed() - getSpeed();
+    }
+
     public boolean collidesMouse() {
         return Util.collides(new Rectangle(this.x, this.y, getWidth(), getHeight()), Util.getMouseRect());
     }
@@ -235,5 +269,9 @@ public class Card extends CardRegistry implements Drawable {
 
     public void setAttacked(boolean attacked) {
         this.attacked = attacked;
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 }

@@ -40,6 +40,7 @@ public class Macabre {
 
             if (de.getSkillID().equals(de.getSource().ID)) {
                 var self = de.getSource();
+                self.LAIR.cemetery.evidenceate();
 
                 var filtered = new ArrayList<Card>();
                 filtered.addAll(self.owner.cemetery);
@@ -53,6 +54,27 @@ public class Macabre {
                 }
             }
         }, Triggers.Death);
+
+        CARDS.get("Cerca Viva").setSkill(e -> {
+            var he = (HurtEvent<Card>) e;
+            var self = he.getTarget();
+            var tar = he.getSource();
+
+            if (he.getSkillID().equals(self.ID) && tar.LAIR.getTableCard(self.ID) != null) {
+                int damage = Math.max(he.getDamage() / 2, 1);
+                var sae = (SkillAttackEvent<Card>) self.LAIR.listener.dispatch(new SkillAttackEvent<Card>(self, tar, damage));
+                tar.takeDamage(self, sae.getDamage());
+            }
+        }, Triggers.Hurt);
+
+        CARDS.get("Coração da Floresta").setSkill(e -> {
+            var be = (BattleEnd) e;
+            var self = be.getLair().getTableCard(be.getSkillID());
+
+            if (self != null) {
+                self.owner.heal(self, 3);
+            }
+        }, Triggers.BattleEnd);
     }
 
     private static void spells() {
@@ -62,11 +84,46 @@ public class Macabre {
 
             if (self != null) {
                 if (self.owner == he.getTarget()) {
+                    self.LAIR.cemetery.evidenceate();
                     he.setDamage(0);
                     self.LAIR.listener.removeListener(Triggers.PlayerHurt, he.getSkillID());
                 }
             }
         }, Triggers.PlayerHurt);
+
+        CARDS.get("Barganha Justa").setSkill(e -> {
+            var pe = (PlaceCardEvent) e;
+            var self = pe.getSource();
+
+            if (pe.getSkillID().equals(self.ID)) {
+                if (!self.owner.handSacrifice.contains(self.ID) && self.owner.handSacrifice.size() > 0) {
+                    self.owner.getHandCard(self.owner.handSacrifice.remove(0)).death(null);
+                    self.owner.setBuyAmount(self.owner.getBuyAmount() + 2);
+                } else {
+                    pe.setPos(-1);
+                }
+            }
+        }, Triggers.PlaceCard);
+
+        CARDS.get("Injeção Letal").setSkill(e -> {
+            var pe = (PlaceCardEvent) e;
+            var self = pe.getSource();
+
+            if (pe.getSkillID().equals(self.ID)) {
+                var playerCards = self.LAIR.getTableCards(self.owner);
+                if (playerCards.size() > 0) {
+                    playerCards.sort((a, b) -> {
+                        var life = b.getLife() - a.getLife();
+                        return life == 0 ? a.getAttack() - b.getAttack() : life;
+                    });
+
+                    self.owner.heal(self, playerCards.get(0).getLife());
+                    playerCards.get(0).death(null);
+                } else {
+                    pe.setPos(-1);
+                }
+            }
+        }, Triggers.PlaceCard);
     }
 
     private static void troops() {
@@ -75,6 +132,7 @@ public class Macabre {
 
             var self = de.getSource().LAIR.getTableCard(de.getSkillID());
             if (self != null) {
+                self.evidenceate();
                 self.heal(self, 1);
             }
         }, Triggers.Death);
@@ -85,7 +143,7 @@ public class Macabre {
             var tar = ae.getTarget();
             if (ae.getSkillID().equals(ae.getSource().ID) && tar != null) {
                 if (tar.getAttack() > 0) {
-                    tar.setAttack(tar.getAttack() - 1);
+                    tar.addAttack(-1);
                 }
             }
         }, Triggers.Attack);
@@ -95,12 +153,12 @@ public class Macabre {
             var self = bs.getLair().getTableCard(bs.getSkillID());
 
             if (self != null) {
-                for (Card c : bs.getLair().tableCards)  {
-                    if (c.TYPE == CardTypes.Troop && c.owner.equals(self.owner) && !c.ID.equals(self.ID)) return;
+                for (Card c : bs.getLair().getTableCards(self.owner)) {
+                    if (c.TYPE == CardTypes.Troop && !c.ID.equals(self.ID)) return;
                 }
                 if (!self.infos.has("buff")) {
-                    self.setAttack(self.getAttack() + 3);
-                    self.setLife(self.getLife() + 3);
+                    self.addAttack(3);
+                    self.addLife(3);
                     self.infos.put("buff", true);
                 }
             }
@@ -140,6 +198,47 @@ public class Macabre {
                 }
             }
         }, Triggers.Attack);
+
+        CARDS.get("Sapo Cururu").setSkill(e -> {
+            var se = (SummonEvent) e;
+            var self = se.getSource().LAIR.player.getHandCard(se.getSkillID());
+            if (self == null) self = se.getSource().LAIR.enemy.getHandCard(se.getSkillID());
+
+            if (self != null) {
+                self.evidenceate();
+                if (Util.random(0, 1) == 0) {
+                    self.addLife(1);
+                } else {
+                    self.addAttack(1);
+                }
+            }
+        }, Triggers.Summon);
+
+        CARDS.get("Anansi").setSkill(e -> {
+            if (e instanceof DeathEvent<Card>) {
+                var de = (DeathEvent<Card>) e;
+                var self = de.getSource().LAIR.getTableCard(de.getSkillID());
+
+                if (self != null) {
+                    if (self.owner != de.getSource().owner) {
+                        self.infos.put("turn", de.getSource().LAIR.getTurn() + 1);
+                    }
+                }
+            } else if (e instanceof AttackEvent<Card>) {
+                var ae = (AttackEvent<Card>) e;
+                var self = ae.getSource().LAIR.getTableCard(ae.getSkillID());
+                if (self == null) self = ae.getSource().LAIR.getCemeterysCard(ae.getSkillID());
+
+                if (self != null) {
+                    if (self.infos.has("turn")) {
+                        if (self.LAIR.getTurn() == self.infos.getInt("turn")) {
+                            if (self.isDead()) self.LAIR.cemetery.evidenceate();
+                            ae.setDamage(0);
+                        }
+                    }
+                }
+            }
+        }, Triggers.Death, Triggers.Attack);
     }
 
     public static ArrayList<CardRegistry> getCards() {

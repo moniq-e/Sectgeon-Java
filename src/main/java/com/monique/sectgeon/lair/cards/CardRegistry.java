@@ -15,6 +15,8 @@ public class CardRegistry {
     protected Consumer<CustomEvent<Card>> skill;
     protected int life;
     protected int attack;
+    protected int tempLife;
+    protected int tempAttack;
     protected int speed;
     protected int sacrifices;
     protected int pos;
@@ -47,19 +49,43 @@ public class CardRegistry {
     }
 
     public int getAttack() {
-        return attack;
+        return attack + tempAttack;
     }
 
     public void setAttack(int attack) {
         this.attack = attack;
     }
 
+    public void addAttack(int attack) {
+        if (this.attack == 0 && attack < 0) {
+            tempAttack += attack;
+        } else {
+            this.attack = Math.max(this.attack + attack, 0);
+        }
+    }
+
+    public void addTempAttack(int attack) {
+        this.tempAttack += attack;
+    }
+
     public int getLife() {
-        return life;
+        return life + tempLife;
     }
 
     public void setLife(int life) {
         this.life = life;
+    }
+
+    public void addLife(int life) {
+        if (this.life == 0 && life < 0) {
+            tempLife += life;
+        } else {
+            this.life = Math.max(this.life + life, 0);
+        }
+    }
+
+    public void addTempLife(int life) {
+        this.tempLife += life;
     }
 
     public int getSpeed() {
