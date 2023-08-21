@@ -3,7 +3,6 @@ package com.monique.sectgeon.common;
 import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 import javax.imageio.ImageIO;
@@ -51,7 +50,7 @@ public class Util {
     public static BufferedImage getImage(String location) {
         try {
             return ImageIO.read(Util.class.getResourceAsStream("/assets/" + location));
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         }
     }

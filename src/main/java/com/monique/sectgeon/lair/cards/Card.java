@@ -24,7 +24,8 @@ import com.monique.sectgeon.lair.gui.LairGUI;
 import org.json.JSONObject;
 
 public class Card extends CardRegistry implements Drawable, Comparable<Card> {
-    private static BufferedImage image = Util.getImage("cards/carta_vazia.png");
+    private static final BufferedImage DEFAULT_IMG = Util.getImage("cards/carta_vazia.png");
+    private final BufferedImage IMG;
     public final UUID ID = UUID.randomUUID();
     public final UUID TEMP_STATS_ID = UUID.randomUUID();
     public final Lair LAIR;
@@ -38,6 +39,7 @@ public class Card extends CardRegistry implements Drawable, Comparable<Card> {
         super(new String(card.NAME), new String(card.DESC), card.TYPE, card.attack, card.life, card.speed, card.sacrifices, card.skill, card.triggers);
         pos = -1;
 
+        IMG = Util.getImage("cards/" + NAME + ".png");
         LAIR = player.LAIR;
         owner = player;
 
@@ -70,31 +72,25 @@ public class Card extends CardRegistry implements Drawable, Comparable<Card> {
         e.getPlayer().takeDamage(this, e.getDamage());
     }
 
-    /**
-     * @param source who attacked
-     */
-    public void takeDamage(Card source, int damage) {
+    public void takeDamage(Card whoAttacked, int damage) {
         if (damage > 0) {
-            var e = (HurtEvent<Card>) LAIR.listener.dispatch(new HurtEvent<Card>(source, this, damage));
+            var e = (HurtEvent<Card>) LAIR.listener.dispatch(new HurtEvent<Card>(whoAttacked, this, damage));
 
             if (e.getTarget() != this) {
-                e.getTarget().takeDamage(source, e.getDamage());   
+                e.getTarget().takeDamage(whoAttacked, e.getDamage());   
             } else {
                 life -= e.getDamage();
-                if (life <= 0) death(source);
+                if (life <= 0) death(whoAttacked);
             }
         }
     }
 
-    /**
-     * @param source who healed
-     */
-    public void heal(Card source, int value) {
+    public void heal(Card whoHealed, int value) {
         if (value > 0) {
-            var e = (HealEvent<Card>) LAIR.listener.dispatch(new HealEvent<Card>(source, this, value));
+            var e = (HealEvent<Card>) LAIR.listener.dispatch(new HealEvent<Card>(whoHealed, this, value));
 
             if (e.getTarget() != this) {
-                e.getTarget().heal(source, e.getValue());
+                e.getTarget().heal(whoHealed, e.getValue());
             } else {
                 life += e.getValue();
             }
@@ -181,7 +177,9 @@ public class Card extends CardRegistry implements Drawable, Comparable<Card> {
         int fontSize = g.getFont().getSize() / 5;
         var metrics = g.getFontMetrics();
 
-        g.drawImage(image, x, y, getWidth(), getHeight(), LAIR);
+        g.drawImage(DEFAULT_IMG, x, y, getWidth(), getHeight(), LAIR);
+        //trabalhar no dimensionamento
+        if (IMG != null) g.drawImage(IMG, x + getWidth() / 7, y - 20, (int) (getWidth() * 0.75), (int) (getHeight() * 0.75), LAIR);
 
         String attkString = String.valueOf(attack);
         g.drawString(attkString, x + getWidth() * 22 / 100 - metrics.stringWidth(attkString) / 2, y + getHeight() - fontSize);
@@ -256,11 +254,11 @@ public class Card extends CardRegistry implements Drawable, Comparable<Card> {
     }
 
     public static int getWidth() {
-        return image.getWidth() * (getHeight() / image.getHeight());
+        return DEFAULT_IMG.getWidth() * (getHeight() / DEFAULT_IMG.getHeight());
     }
 
     public static int getHeight() {
-        return image.getHeight() * (parsedWidth() / image.getWidth());
+        return DEFAULT_IMG.getHeight() * (parsedWidth() / DEFAULT_IMG.getWidth());
     }
 
     public boolean getAttacked() {
