@@ -24,6 +24,7 @@ public class Macabre {
             while (file.hasNextLine()) {
                 txt += file.nextLine();
             }
+            file.close();
             setUpCardInfos(new JSONObject(txt));
 
             buildings();
