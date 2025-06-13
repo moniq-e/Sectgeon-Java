@@ -1,11 +1,11 @@
 {
     "platform": "windows64",
-    "jdk": "/opt/hostedtoolcache/Java_jdkfile_jdk/1360840177/x64",
+    "jdk": "/opt/hostedtoolcache/Java_jdkfile_jdk/184685183/x64",
     "executable": "sectgeon",
     "classpath": [
-        "target/sectgeon.jar"
+        "target/sectgeon-mocha.jar"
     ],
-    "mainclass": "com.monique.sectgeon.common.Frame",
+    "mainclass": "com.monique.sectgeon.mocha.App",
     "vmargs": [
        "Xmx1G"
     ],

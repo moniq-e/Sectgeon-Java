@@ -1,11 +1,11 @@
 {
     "platform": "linux64",
-    "jdk": "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.10-7/x64",
+    "jdk": "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.7/x64",
     "executable": "sectgeon",
     "classpath": [
-        "target/sectgeon.jar"
+        "target/sectgeon-mocha.jar"
     ],
-    "mainclass": "com.monique.sectgeon.common.Frame",
+    "mainclass": "com.monique.sectgeon.mocha.App",
     "vmargs": [
        "Xmx1G"
     ],

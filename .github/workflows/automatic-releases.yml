@@ -1,6 +1,9 @@
 name: Automatic Releases
 
-on: push
+on:
+  push:
+    branches:
+      - mocha-remake
 
 jobs:
   release:
@@ -13,16 +16,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up WIN JDK 17
+      - name: Set up WIN JDK 21
         uses: oracle-actions/setup-java@v1
         with:
-          uri: https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.zip
+          uri: https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip 
     
       - uses: actions/checkout@v3
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           server-id: github
 
@@ -32,7 +35,7 @@ jobs:
       - name: Delete Package
         run: |
           curl --request DELETE \
-          --url https://api.github.com/user/packages/maven/com.monique.sectgeon \
+          --url https://api.github.com/user/packages/maven/com.monique.sectgeon-mocha \
           --header 'Accept: application/vnd.github+json' \
           --header 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'X-GitHub-Api-Version: 2022-11-28'
@@ -57,7 +60,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: latest
+          automatic_release_tag: latest-mocha
           prerelease: false
           title: Development Build
           files: |
